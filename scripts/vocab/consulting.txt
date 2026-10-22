@@ -1,0 +1,300 @@
+leverage|活用する・てこ入れする|動
+synergy|相乗効果|名
+deliverable|成果物|名
+hypothesis|仮説|名
+benchmark|基準・指標|名
+stakeholder|利害関係者|名
+streamline|効率化する・簡素化する|動
+bottleneck|ボトルネック・障害点|名
+mitigate|軽減する|動
+scalable|拡張可能な|形
+actionable|実行可能な|形
+cadence|定例の頻度・リズム|名
+alignment|認識合わせ・整合|名
+workstream|作業部会・ワークストリーム|名
+go-to-market|市場投入戦略|名
+value proposition|提供価値|名
+KPI|重要業績評価指標|名
+ROI|投資利益率|名
+MECE|漏れなくダブりなく|形
+SWOT|強み・弱み・機会・脅威分析|名
+OKR|目標と主要成果|名
+CAGR|年平均成長率|名
+EBITDA|利払い前・税引前・償却前利益|名
+TAM|獲得可能な最大市場規模|名
+SLA|サービス品質合意|名
+MVP|実用最小限の製品|名
+B2B|企業間取引|形
+B2C|企業対消費者取引|形
+PMO|プロジェクト管理室|名
+CRM|顧客関係管理|名
+ERP|基幹業務システム|名
+M&A|合併・買収|名
+due diligence|買収前の精査|名
+roadmap|ロードマップ・工程表|名
+framework|枠組み|名
+methodology|方法論|名
+paradigm|パラダイム・考え方の枠組み|名
+holistic|全体的な|形
+granular|詳細な・粒度の細かい|形
+robust|堅牢な・頑健な|形
+agile|機敏な・アジャイルの|形
+lean|無駄のない|形
+nimble|俊敏な|形
+disruptive|破壊的な|形
+incremental|漸進的な|形
+iterative|反復的な|形
+sustainable|持続可能な|形
+viable|実現可能な|形
+feasible|実行可能な|形
+tangible|具体的な・有形の|形
+intangible|無形の|形
+quantifiable|定量化できる|形
+measurable|測定可能な|形
+actionable insight|実行につながる洞察|名
+insight|洞察|名
+foresight|先見性|名
+rationale|根拠・論拠|名
+premise|前提|名
+assumption|仮定・前提条件|名
+constraint|制約|名
+dependency|依存関係|名
+prerequisite|前提条件|名
+milestone|マイルストーン・節目|名
+timeline|工程・時系列|名
+scope|範囲|名
+scope creep|要件の際限ない拡大|名
+baseline|基準値|名
+threshold|閾値|名
+metric|指標|名
+variance|差異|名
+trajectory|軌道・推移|名
+trend|傾向|名
+outlier|外れ値|名
+correlation|相関|名
+causation|因果関係|名
+segmentation|市場細分化|名
+persona|典型的顧客像|名
+cohort|同一属性集団|名
+churn|解約・顧客離反|名
+retention|定着・維持|名
+acquisition|獲得・買収|名
+onboarding|新規受け入れ・導入支援|名
+funnel|購買段階の漏斗|名
+pipeline|案件の見込み一覧|名
+touchpoint|顧客接点|名
+upsell|上位商品を売る|動
+cross-sell|関連商品を売る|動
+monetize|収益化する|動
+commoditize|汎用品化する|動
+differentiate|差別化する|動
+positioning|位置づけ|名
+niche|隙間市場|名
+incumbent|既存の大手・現職者|名
+disruptor|破壊的革新者|名
+competitor|競合|名
+moat|参入障壁・堅い守り|名
+barrier to entry|参入障壁|名
+market share|市場占有率|名
+addressable market|獲得可能な市場|名
+white space|未開拓領域|名
+pain point|課題・悩みの種|名
+use case|利用事例|名
+buy-in|賛同・合意|名
+consensus|合意|名
+escalate|上位へ報告する|動
+delegate|委任する|動
+empower|権限を与える|動
+accountability|説明責任|名
+ownership|当事者意識・主導権|名
+governance|統治・管理体制|名
+oversight|監督|名
+fiduciary|受託者の|形
+remit|担当範囲|名
+mandate|権限・委任|名
+charter|憲章・設立趣意書|名
+steering committee|運営委員会|名
+champion|推進役|名
+facilitator|進行役|名
+brainstorm|ブレインストーミングする|動
+ideate|発想する|動
+prioritize|優先順位をつける|動
+triage|優先度選別|名
+deprioritize|優先度を下げる|動
+descope|範囲から外す|動
+table|棚上げする|動
+circle back|後で改めて検討する|熟
+deep dive|詳細分析|名
+drill down|掘り下げる|熟
+take away|要点・持ち帰り事項|名
+rollout|展開・導入|名
+roll out|展開する|熟
+kick off|開始する|熟
+kickoff|キックオフ・開始会議|名
+wrap up|締めくくる|熟
+sign off|承認する|熟
+sign-off|承認|名
+follow-up|事後対応|名
+recap|要約・振り返り|名
+minutes|議事録|名
+offsite|社外会議|名
+retrospective|振り返り会|名
+postmortem|事後検証|名
+debrief|報告聴取・振り返り|名
+readout|結果報告|名
+executive summary|要旨・経営層向け概要|名
+storyline|筋書き|名
+slide deck|スライド資料|名
+one-pager|1枚資料|名
+appendix|付録|名
+exhibit|図表・展示物|名
+pitch|売り込む・提案|名
+RFP|提案依頼書|名
+SOW|作業範囲記述書|名
+engagement|案件・契約業務|名
+retainer|顧問契約料|名
+billable|請求可能な|形
+utilization|稼働率|名
+headcount|人員数|名
+bandwidth|対応余力|名
+capacity|能力・容量|名
+resourcing|人員配置|名
+staffing|人員配置|名
+attrition|自然減・離職|名
+turnover|離職率・売上高|名
+talent|人材|名
+upskill|技能向上させる|動
+reskill|再教育する|動
+succession|後継|名
+org chart|組織図|名
+reporting line|指揮系統|名
+span of control|管理範囲|名
+silo|縦割り組織|名
+cross-functional|部門横断の|形
+matrix|マトリクス型組織|名
+flatten|フラット化する|動
+restructure|再編する|動
+reorganize|再編成する|動
+divest|売却する|動
+divestiture|事業売却|名
+spin off|分離独立させる|熟
+carve-out|事業切り出し|名
+consolidate|統合する|動
+consolidation|統合・集約|名
+integrate|統合する|動
+post-merger|合併後の|形
+turnaround|立て直し|名
+restructuring|再構築|名
+rightsizing|適正規模化|名
+downsize|縮小する|動
+outsource|外部委託する|動
+insource|内製化する|動
+offshore|海外へ移管する|動
+procurement|調達|名
+sourcing|調達先選定|名
+supply chain|供給網|名
+logistics|物流|名
+throughput|処理量|名
+cycle time|所要時間|名
+lead time|リードタイム・調達期間|名
+backlog|積み残し|名
+overhead|間接費|名
+margin|利益率|名
+profitability|収益性|名
+unit economics|単位あたり収益性|名
+cash flow|資金繰り・現金収支|名
+working capital|運転資本|名
+capex|設備投資|名
+opex|運営費|名
+runway|資金が尽きるまでの期間|名
+burn rate|資金消費速度|名
+valuation|企業価値評価|名
+payback|回収|名
+breakeven|損益分岐|名
+hurdle rate|最低要求収益率|名
+NPV|正味現在価値|名
+IRR|内部収益率|名
+forecast|予測する|動
+projection|予測値|名
+scenario|シナリオ|名
+sensitivity|感度|名
+contingency|不測の事態への備え|名
+downside|悪い面・下振れ|名
+upside|好材料・上振れ|名
+tradeoff|トレードオフ|名
+risk appetite|リスク許容度|名
+exposure|リスクにさらされる額|名
+hedge|リスクを回避する|動
+diversify|多角化する|動
+diversification|多角化|名
+synergize|相乗効果を生む|動
+vertical integration|垂直統合|名
+horizontal|水平の|形
+adjacency|隣接領域|名
+expansion|拡大|名
+penetration|浸透|名
+traction|手応え・勢い|名
+momentum|勢い|名
+inflection point|転換点|名
+tipping point|臨界点|名
+catalyst|触媒・きっかけ|名
+tailwind|追い風|名
+headwind|逆風|名
+disruption|創造的破壊・混乱|名
+innovation|革新|名
+ideation|着想|名
+prototype|試作品|名
+pilot|試験導入|名
+proof of concept|概念実証|名
+validate|検証する|動
+validation|検証|名
+iterate|反復改善する|動
+pivot|方向転換する|動
+sunset|終了させる|動
+decommission|運用停止する|動
+migrate|移行する|動
+migration|移行|名
+digitize|デジタル化する|動
+automate|自動化する|動
+optimize|最適化する|動
+optimization|最適化|名
+standardize|標準化する|動
+harmonize|調和させる|動
+codify|成文化する|動
+institutionalize|制度として定着させる|動
+embed|組み込む・定着させる|動
+cascade|段階的に伝達する|動
+socialize|事前に周知する|動
+evangelize|熱心に広める|動
+amplify|増幅する|動
+accelerate|加速する|動
+unlock|解放する・引き出す|動
+harness|活用する|動
+capitalize|活かす・資本化する|動
+operationalize|実務に落とし込む|動
+formalize|正式化する|動
+articulate|明確に述べる|動
+elaborate|詳しく述べる|動
+reconcile|調整する・突き合わせる|動
+corroborate|裏付ける|動
+substantiate|実証する|動
+extrapolate|推定する・外挿する|動
+triangulate|複数視点で検証する|動
+distill|要点を抽出する|動
+synthesize|統合する・総合する|動
+synthesis|統合・総合|名
+diagnostic|診断の|形
+root cause|根本原因|名
+pareto|パレートの法則|名
+fishbone|特性要因図|名
+heuristic|経験則|名
+rule of thumb|経験則|名
+back-of-the-envelope|概算の|形
+ballpark|おおよその|形
+order of magnitude|桁|名
+whiteboard|ホワイトボードに書く|動
+landscape|競争環境・全体像|名
+lever|打ち手・梃子|名
+enabler|実現要因|名
+imperative|急務・必須事項|名
+north star|最重要指標・指針|名

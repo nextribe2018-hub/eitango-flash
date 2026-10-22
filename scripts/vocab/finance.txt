@@ -1,0 +1,300 @@
+collateral|担保|名
+amortization|償却・分割返済|名
+amortize|償却する・分割返済する|動
+liquidity|流動性|名
+underwriting|引受け・保険引受|名
+underwrite|引き受ける|動
+yield curve|利回り曲線|名
+due diligence|デューデリジェンス・資産査定|名
+covenant|財務制限条項・契約条項|名
+hedge|ヘッジ・リスク回避策|名
+leverage|レバレッジ・借入による梃子|名
+accrual|発生主義・未収計上|名
+accrue|発生する・見越計上する|動
+equity|株式・自己資本|名
+debenture|無担保社債|名
+bond|債券|名
+coupon|利札・クーポン利率|名
+maturity|満期|名
+default|債務不履行|名
+creditor|債権者|名
+debtor|債務者|名
+lender|貸し手|名
+borrower|借り手|名
+mortgage|抵当・住宅ローン|名
+lien|先取特権・担保権|名
+pledge|担保に入れる・質権|動
+guarantor|保証人|名
+indemnity|補償・損害賠償|名
+insolvency|支払不能|名
+bankruptcy|破産|名
+receivership|管財人管理|名
+liquidation|清算|名
+restructuring|再編・債務再編|名
+refinance|借り換える|動
+securitization|証券化|名
+derivative|デリバティブ・金融派生商品|名
+futures|先物|名
+option|オプション・選択権|名
+swap|スワップ|名
+forward|先渡し|名
+warrant|新株予約権・ワラント|名
+convertible|転換社債|名
+dividend|配当|名
+equities|株式|名
+portfolio|ポートフォリオ・保有資産構成|名
+asset|資産|名
+liability|負債|名
+balance sheet|貸借対照表|名
+income statement|損益計算書|名
+cash flow|キャッシュフロー|名
+ledger|元帳|名
+audit|監査|名
+auditor|監査人|名
+depreciation|減価償却|名
+impairment|減損|名
+goodwill|のれん|名
+provision|引当金|名
+write-off|償却処理・帳消し|名
+write down|評価減する|動
+revenue|収益・売上高|名
+margin|利益率・証拠金|名
+overhead|間接費|名
+expenditure|支出|名
+capex|設備投資|名
+turnover|売上高・回転率|名
+valuation|評価・企業価値算定|名
+appraisal|鑑定・査定|名
+benchmark|基準・ベンチマーク|名
+arbitrage|裁定取引|名
+speculation|投機|名
+volatility|変動率・価格変動性|名
+bullish|強気の|形
+bearish|弱気の|形
+rally|急反発・上昇局面|名
+correction|調整局面|名
+bubble|バブル|名
+recession|景気後退|名
+inflation|インフレ|名
+deflation|デフレ|名
+stagflation|スタグフレーション|名
+monetary policy|金融政策|名
+fiscal policy|財政政策|名
+central bank|中央銀行|名
+interest rate|金利|名
+basis point|ベーシスポイント|名
+spread|スプレッド・利回り格差|名
+premium|プレミアム・保険料|名
+discount|割引・ディスカウント|名
+principal|元本|名
+compound|複利計算する|動
+annuity|年金・年金保険|名
+pension|年金|名
+actuary|保険数理士|名
+insurer|保険会社|名
+insured|被保険者|名
+policyholder|保険契約者|名
+beneficiary|受益者・保険金受取人|名
+claim|保険金請求|名
+reinsurance|再保険|名
+deductible|免責額・控除可能な|名
+rider|特約|名
+surrender|解約|名
+endorsement|裏書・保険特約|名
+broker|ブローカー・仲立人|名
+dealer|ディーラー・証券業者|名
+custodian|カストディアン・保管機関|名
+clearing|清算・決済|名
+settlement|決済・和解|名
+remittance|送金|名
+wire transfer|電信送金|名
+overdraft|当座貸越|名
+deposit|預金|名
+withdrawal|引き出し|名
+checking account|当座預金口座|名
+savings|貯蓄|名
+credit rating|信用格付け|名
+creditworthiness|信用力|名
+credit risk|信用リスク|名
+market risk|市場リスク|名
+counterparty|取引相手|名
+exposure|エクスポージャー・リスク量|名
+diversification|分散投資|名
+allocation|配分・割当|名
+rebalance|リバランスする|動
+redemption|償還|名
+issuance|発行|名
+issuer|発行体|名
+tranche|トランシェ・分割発行分|名
+prospectus|目論見書|名
+registration|登録|名
+disclosure|開示|名
+compliance|法令遵守・コンプライアンス|名
+regulator|規制当局|名
+regulation|規制|名
+supervision|監督|名
+sanction|制裁|名
+embargo|禁輸|名
+laundering|資金洗浄|名
+fraud|不正・詐欺|名
+embezzlement|横領|名
+insider trading|インサイダー取引|名
+fiduciary|受託者|名
+trustee|受託者・管財人|名
+custody|保管・カストディ|名
+escrow|エスクロー・第三者預託|名
+underwriter|引受業者|名
+syndicate|シンジケート団|名
+syndication|協調融資・組成|名
+merger|合併|名
+acquisition|買収|名
+takeover|企業買収・乗っ取り|名
+divestiture|事業売却|名
+spin-off|スピンオフ・分社化|名
+carve-out|カーブアウト・事業切り出し|名
+buyout|買収|名
+tender offer|公開買付け|名
+hostile|敵対的な|形
+synergy|シナジー・相乗効果|名
+bidder|入札者|名
+bid|入札・買い気配|名
+earnout|アーンアウト・成果連動型対価|名
+stake|持分・出資比率|名
+shareholder|株主|名
+stockholder|株主|名
+stakeholder|利害関係者|名
+dilution|希薄化|名
+valuation multiple|評価倍率|名
+public offering|公募|名
+private placement|私募|名
+secondary offering|売出し|名
+roadshow|ロードショー・投資家説明会|名
+bookbuilding|ブックビルディング|名
+lock-up|ロックアップ・売却制限|名
+float|浮動株・流通株|名
+delisting|上場廃止|名
+listing|上場|名
+bourse|証券取引所|名
+exchange|取引所・交換|名
+bid-ask spread|売買スプレッド|名
+order book|板・注文台帳|名
+limit order|指値注文|名
+margin call|追証・追加証拠金請求|名
+short selling|空売り|名
+long position|買い持ちポジション|名
+short position|売り持ちポジション|名
+unwind|ポジションを解消する|動
+liquidate|清算する・換金する|動
+mark-to-market|時価評価|名
+fair value|公正価値|名
+book value|簿価|名
+market capitalization|時価総額|名
+earnings|収益・利益|名
+profitability|収益性|名
+solvency|支払能力|名
+gearing|負債比率|名
+dividend yield|配当利回り|名
+payout|配当支払・支払額|名
+buyback|自社株買い|名
+retained earnings|内部留保|名
+working capital|運転資本|名
+receivable|売掛金・債権|名
+payable|買掛金・債務|名
+inventory|棚卸資産・在庫|名
+invoice|請求書|名
+reconciliation|照合・突合|名
+journal entry|仕訳|名
+consolidation|連結|名
+subsidiary|子会社|名
+affiliate|関連会社|名
+holding company|持株会社|名
+intercompany|会社間の|形
+tax shield|節税効果|名
+deferred tax|繰延税金|名
+withholding tax|源泉徴収税|名
+capital gain|資本利得・譲渡益|名
+capital loss|譲渡損|名
+levy|課税する・賦課金|動
+tariff|関税|名
+subsidy|補助金|名
+stimulus|景気刺激策|名
+austerity|緊縮|名
+sovereign|ソブリン・国家の|形
+municipal bond|地方債|名
+treasury|国債・財務省|名
+gilt|英国債|名
+repo|レポ取引・現先|名
+commercial paper|コマーシャルペーパー|名
+certificate of deposit|譲渡性預金|名
+money market|短期金融市場|名
+capital market|資本市場|名
+bond market|債券市場|名
+secondary market|流通市場|名
+primary market|発行市場|名
+over-the-counter|店頭取引の|形
+exchange rate|為替レート|名
+currency|通貨|名
+devaluation|平価切下げ|名
+peg|固定相場にする・連動させる|動
+forex|外国為替|名
+remit|送金する|動
+fintech|フィンテック|名
+blockchain|ブロックチェーン|名
+cryptocurrency|暗号資産|名
+robo-advisor|ロボアドバイザー|名
+crowdfunding|クラウドファンディング|名
+peer-to-peer|個人間の|形
+neobank|ネオバンク|名
+open banking|オープンバンキング|名
+tokenization|トークン化|名
+stablecoin|ステーブルコイン|名
+ledger technology|台帳技術|名
+venture capital|ベンチャーキャピタル|名
+private equity|プライベートエクイティ|名
+hedge fund|ヘッジファンド|名
+mutual fund|投資信託|名
+index fund|インデックスファンド|名
+pension fund|年金基金|名
+endowment|基金・寄付基金|名
+sovereign wealth fund|政府系ファンド|名
+asset management|資産運用|名
+wealth management|富裕層向け資産管理|名
+fund manager|ファンドマネージャー|名
+alpha|アルファ・超過収益|名
+beta|ベータ・市場感応度|名
+drawdown|ドローダウン・資金引出|名
+haircut|ヘアカット・担保掛け目|名
+tail risk|テールリスク|名
+stress test|ストレステスト|名
+EBITDA|利払前・税引前・償却前利益|名
+IPO|新規株式公開|名
+M&A|合併・買収|名
+LBO|レバレッジド・バイアウト|名
+ROE|自己資本利益率|名
+ROI|投資収益率|名
+IRR|内部収益率|名
+NPV|正味現在価値|名
+WACC|加重平均資本コスト|名
+CAGR|年平均成長率|名
+ETF|上場投資信託|名
+REIT|不動産投資信託|名
+CDO|債務担保証券|名
+CDS|クレジット・デフォルト・スワップ|名
+AML|資金洗浄対策|名
+KYC|顧客確認|名
+GAAP|会計原則|名
+IFRS|国際財務報告基準|名
+FOMC|連邦公開市場委員会|名
+LIBOR|ロンドン銀行間取引金利|名
+SPAC|特別買収目的会社|名
+SPV|特別目的事業体|名
+NAV|純資産価額|名
+AUM|運用資産残高|名
+novation|債務更改・契約更改|名
+subordinated|劣後の|形
+bailout|公的救済・資金援助|名
+forbearance|返済猶予|名
+sinking fund|減債基金|名
+bridge loan|つなぎ融資|名
+clawback|返還請求・払い戻し条項|名
+accretive|増益効果のある|形

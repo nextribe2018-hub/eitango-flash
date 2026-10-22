@@ -1,0 +1,300 @@
+wafer|ウェハー（半導体の基板）|名
+lithography|リソグラフィ・露光技術|名
+etch|エッチングする・削る|動
+deposition|成膜・堆積|名
+dopant|ドーパント・不純物|名
+yield|歩留まり|名
+fab|半導体工場|名
+foundry|ファウンドリ・受託製造会社|名
+node|ノード（プロセス世代）|名
+substrate|基板|名
+photoresist|フォトレジスト・感光材|名
+die|ダイ（切り出したチップ）|名
+interconnect|配線・相互接続|名
+threshold voltage|しきい値電圧|名
+leakage|リーク・漏れ電流|名
+semiconductor|半導体|名
+transistor|トランジスタ|名
+diode|ダイオード|名
+capacitor|キャパシタ・コンデンサ|名
+resistor|抵抗器|名
+inductor|インダクタ|名
+silicon|シリコン|名
+germanium|ゲルマニウム|名
+gallium arsenide|ガリウムヒ素|名
+silicon carbide|炭化ケイ素|名
+gallium nitride|窒化ガリウム|名
+ingot|インゴット・結晶塊|名
+boule|ブール（単結晶棒）|名
+epitaxy|エピタキシー・結晶成長|名
+epitaxial|エピタキシャルの|形
+oxide|酸化膜・酸化物|名
+oxidation|酸化|名
+nitride|窒化物|名
+polysilicon|ポリシリコン|名
+dielectric|誘電体|名
+insulator|絶縁体|名
+conductor|導体|名
+doping|ドーピング・不純物添加|名
+implantation|イオン注入|名
+diffusion|拡散|名
+annealing|アニール・熱処理|名
+anneal|アニールする|動
+sputtering|スパッタリング|名
+evaporation|蒸着|名
+plating|めっき|名
+polishing|研磨|名
+planarization|平坦化|名
+slurry|スラリー・研磨液|名
+photomask|フォトマスク|名
+reticle|レチクル|名
+pellicle|ペリクル|名
+stepper|ステッパー（露光装置）|名
+scanner|スキャナー（露光装置）|名
+aligner|アライナー・位置合わせ装置|名
+exposure|露光|名
+overlay|オーバーレイ・重ね合わせ|名
+alignment|位置合わせ|名
+resolution|解像度|名
+numerical aperture|開口数|名
+immersion|液浸|名
+developer|現像液|名
+strip|剥離する|動
+ashing|アッシング・灰化|名
+cleanroom|クリーンルーム|名
+contamination|汚染|名
+particle|パーティクル・微粒子|名
+defect|欠陥|名
+inspection|検査|名
+metrology|計測技術|名
+wet etch|ウェットエッチング|名
+dry etch|ドライエッチング|名
+plasma|プラズマ|名
+chamber|チャンバー・反応室|名
+vacuum|真空|名
+reactor|反応炉|名
+furnace|拡散炉・加熱炉|名
+precursor|前駆体|名
+sacrificial layer|犠牲層|名
+passivation|パッシベーション・保護膜形成|名
+cladding|クラッド・被覆|名
+masking|マスキング|名
+patterning|パターニング・パターン形成|名
+feature|フィーチャー・微細構造|名
+linewidth|線幅|名
+pitch|ピッチ・間隔|名
+trench|トレンチ・溝|名
+via|ビア・層間接続孔|名
+contact|コンタクト・接点|名
+gate|ゲート|名
+source|ソース|名
+drain|ドレイン|名
+channel|チャネル|名
+junction|接合|名
+bandgap|バンドギャップ|名
+carrier|キャリア・担体|名
+electron|電子|名
+hole|正孔・ホール|名
+mobility|移動度|名
+bias|バイアス|名
+breakdown|絶縁破壊|名
+saturation|飽和|名
+subthreshold|サブスレッショルドの|形
+parasitic|寄生の|形
+capacitance|静電容量|名
+impedance|インピーダンス|名
+latency|遅延・レイテンシ|名
+throughput|スループット・処理能力|名
+bandwidth|帯域幅|名
+scaling|微細化・スケーリング|名
+shrink|縮小する|動
+miniaturization|微細化|名
+density|密度|名
+integration|集積|名
+integrated circuit|集積回路|名
+microprocessor|マイクロプロセッサ|名
+microcontroller|マイクロコントローラ|名
+flash memory|フラッシュメモリ|名
+volatile|揮発性の|形
+nonvolatile|不揮発性の|形
+logic|ロジック・論理回路|名
+analog|アナログの|形
+mixed-signal|アナログデジタル混載の|形
+power device|パワーデバイス|名
+sensor|センサー|名
+photodiode|フォトダイオード|名
+actuator|アクチュエーター|名
+amplifier|増幅器|名
+oscillator|発振器|名
+regulator|レギュレータ・調整器|名
+converter|変換器|名
+rectifier|整流器|名
+inverter|インバータ|名
+comparator|コンパレータ・比較器|名
+multiplexer|マルチプレクサ|名
+register|レジスタ|名
+latch|ラッチ|名
+flip-flop|フリップフロップ|名
+clock|クロック|名
+timing|タイミング|名
+skew|スキュー・ずれ|名
+jitter|ジッタ|名
+glitch|グリッチ・瞬間的な誤動作|名
+netlist|ネットリスト|名
+schematic|回路図|名
+layout|レイアウト・配置設計|名
+floorplan|フロアプラン・配置計画|名
+placement|配置|名
+routing|配線処理|名
+synthesis|論理合成|名
+simulation|シミュレーション|名
+verification|検証|名
+validation|妥当性確認|名
+testbench|テストベンチ|名
+tapeout|テープアウト・設計完了|名
+mask set|マスクセット|名
+design rule|デザインルール|名
+standard cell|スタンダードセル|名
+macro|マクロ（回路ブロック）|名
+IP core|IPコア|名
+cell library|セルライブラリ|名
+process variation|プロセスばらつき|名
+corner|コーナー（条件の端）|名
+margin|マージン・余裕|名
+guardband|ガードバンド|名
+tolerance|公差・許容差|名
+characterization|特性評価|名
+parametric|パラメトリックの|形
+wafer sort|ウェハーソート・ウェハー選別|名
+probe|プローブ・探針|名
+probe card|プローブカード|名
+burn-in|バーンイン・初期不良選別|名
+binning|ビニング・等級分け|名
+screening|スクリーニング・選別|名
+failure analysis|故障解析|名
+reliability|信頼性|名
+electromigration|エレクトロマイグレーション|名
+stress|応力・ストレス|名
+warpage|反り|名
+delamination|剥離・層間はがれ|名
+crack|亀裂|名
+void|ボイド・空洞|名
+outgassing|アウトガス・脱ガス|名
+thermal budget|熱収支|名
+thermal conductivity|熱伝導率|名
+heat sink|ヒートシンク・放熱板|名
+heat dissipation|放熱|名
+junction temperature|接合温度|名
+packaging|パッケージング・実装|名
+package|パッケージ|名
+encapsulation|封止|名
+molding|モールド成形|名
+underfill|アンダーフィル|名
+leadframe|リードフレーム|名
+bond wire|ボンディングワイヤ|名
+wire bonding|ワイヤボンディング|名
+flip chip|フリップチップ|名
+solder bump|はんだバンプ|名
+bump|バンプ|名
+ball grid array|ボールグリッドアレイ|名
+chiplet|チップレット|名
+interposer|インターポーザ|名
+through-silicon via|シリコン貫通ビア|名
+stacking|積層|名
+dicing|ダイシング・切断|名
+singulation|個片化|名
+die attach|ダイアタッチ|名
+back grinding|裏面研削|名
+thinning|薄化|名
+heterogeneous integration|異種集積|名
+advanced packaging|先端パッケージング|名
+wafer-level|ウェハーレベルの|形
+lead time|納期・リードタイム|名
+supply chain|サプライチェーン|名
+shortage|不足|名
+capacity|生産能力|名
+utilization|稼働率|名
+capex|設備投資|名
+fabless|ファブレスの|形
+idm|垂直統合型半導体メーカー|名
+outsourcing|外部委託|名
+wafer start|ウェハー投入|名
+cycle time|サイクルタイム・工程所要時間|名
+ramp|立ち上げ（量産増強）|名
+volume production|量産|名
+mass production|大量生産|名
+prototype|試作品|名
+engineering sample|エンジニアリングサンプル|名
+qualification|認定・適格性評価|名
+time to market|市場投入までの期間|名
+tool|製造装置|名
+cassette|カセット|名
+pod|ポッド（ウェハー搬送容器）|名
+load port|ロードポート|名
+robot arm|ロボットアーム|名
+end effector|エンドエフェクタ|名
+chuck|チャック（保持台）|名
+susceptor|サセプタ|名
+showerhead|シャワーヘッド（ガス供給部）|名
+gas flow|ガス流量|名
+mass flow controller|マスフローコントローラ|名
+pump|ポンプ|名
+turbopump|ターボポンプ|名
+scrubber|除害装置|名
+abatement|除害|名
+exhaust|排気|名
+target|ターゲット（成膜材料）|名
+cathode|陰極|名
+anode|陽極|名
+electrode|電極|名
+electrolyte|電解液|名
+copper|銅|名
+aluminum|アルミニウム|名
+tungsten|タングステン|名
+cobalt|コバルト|名
+ruthenium|ルテニウム|名
+tantalum|タンタル|名
+titanium|チタン|名
+hafnium|ハフニウム|名
+low-k|低誘電率の|形
+high-k|高誘電率の|形
+barrier|バリア層|名
+liner|ライナー・内張り層|名
+seed layer|シード層|名
+damascene|ダマシン（配線形成法）|名
+metallization|メタライゼーション・金属配線形成|名
+silicide|シリサイド|名
+spacer|スペーサー|名
+FinFET|フィンFET（立体構造トランジスタ）|名
+nanosheet|ナノシート|名
+planar|平面型の|形
+vertical|垂直の|形
+EUV|極端紫外線|名
+DUV|深紫外線|名
+CMP|化学機械研磨|名
+CVD|化学気相成長|名
+PVD|物理気相成長|名
+ALD|原子層堆積|名
+RIE|反応性イオンエッチング|名
+SoC|システムオンチップ|名
+ASIC|特定用途向けIC|名
+FPGA|書き換え可能な論理IC|名
+GPU|画像処理半導体|名
+CPU|中央演算処理装置|名
+DRAM|ダイナミックRAM|名
+SRAM|スタティックRAM|名
+NAND|NAND型フラッシュ|名
+CMOS|相補型MOS|名
+MOSFET|MOS型電界効果トランジスタ|名
+EDA|電子設計自動化|名
+RTL|レジスタ転送レベル|名
+DFT|テスト容易化設計|名
+OSAT|後工程受託企業|名
+PDK|プロセス設計キット|名
+TSV|シリコン貫通ビア|名
+MEMS|微小電気機械システム|名
+LDO|低ドロップアウトレギュレータ|名
+ESD|静電気放電|名
+PMIC|電源管理IC|名
+HBM|広帯域メモリ|名
+SEM|走査型電子顕微鏡|名

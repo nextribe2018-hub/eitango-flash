@@ -27,3 +27,14 @@ export async function loadVocab(): Promise<VocabProgress> {
 export async function saveVocab(p: VocabProgress): Promise<void> {
   try { await AsyncStorage.setItem(VOCAB_KEY, JSON.stringify(p)); } catch {}
 }
+
+// パックの購入記録（パックid または ALL_SKU ごと）。復元・購入のたびに上書きする
+const UNLOCK = 'unlock-v1:';
+export async function loadUnlocked(ids: string[]): Promise<Record<string, boolean>> {
+  const out: Record<string, boolean> = {};
+  await Promise.all(ids.map(async id => { try { out[id] = (await AsyncStorage.getItem(UNLOCK + id)) === '1'; } catch { out[id] = false; } }));
+  return out;
+}
+export async function saveUnlocked(id: string, on: boolean): Promise<void> {
+  try { on ? await AsyncStorage.setItem(UNLOCK + id, '1') : await AsyncStorage.removeItem(UNLOCK + id); } catch {}
+}

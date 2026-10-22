@@ -12,8 +12,8 @@ for L in levels:
     ws = L["words"]
     if len(ws) != 300 or len(ws) % 30:
         errs.append(f"{L['id']}: {len(ws)}語（300語・30の倍数であること）")
-    if not L.get("ref") or not str(L["id"]).startswith("toeic"):
-        errs.append(f"{L['id']}: id は toeic500〜900、ref（参考レベル）が必要")
+    if not L.get("ref") or not L.get("group"):
+        errs.append(f"{L['id']}: ref（参考レベル）と group が必要")
     if len({w["w"] for w in ws}) != len(ws):
         errs.append(f"{L['id']}: 語が重複")
     for w in ws:

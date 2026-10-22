@@ -1,0 +1,300 @@
+intangible|無形の・漠然とした|形
+provoke|挑発する・引き起こす|動
+substantiate|実証する|動
+rebut|反論する|動
+juxtapose|並置する|動
+elucidate|解明する|動
+articulate|明確に述べる|動
+imply|暗示する|動
+postulate|仮定する|動
+hypothesize|仮説を立てる|動
+speculate|推測する・投機する|動
+discriminate|差別する・区別する|動
+differentiate|区別する|動
+encompass|包含する|動
+embody|体現する|動
+epitomize|典型となる|動
+manifest|明らかにする|動
+underscore|強調する|動
+magnify|拡大する|動
+squander|浪費する|動
+discourage|やる気をなくさせる|動
+dissuade|思いとどまらせる|動
+endorse|支持する・承認する|動
+espouse|支持する|動
+champion|擁護する|動
+criticize|批判する|動
+scorn|軽蔑する|動
+despise|軽蔑する|動
+venerate|崇拝する|動
+glorify|美化する・栄光を称える|動
+idealize|理想化する|動
+stigmatize|汚名を着せる|動
+marginalize|周縁に追いやる|動
+ostracize|のけ者にする|動
+permeate|浸透する|動
+pervade|行き渡る|動
+saturate|飽和させる|動
+infiltrate|潜入する・浸透する|動
+erode|侵食する・損なう|動
+dwindle|次第に減る|動
+subside|収まる|動
+converge|収束する|動
+diverge|分岐する・逸れる|動
+deviate|逸脱する|動
+surpass|上回る|動
+outweigh|上回る|動
+predominate|優勢である|動
+persist|持続する・固執する|動
+forfeit|失う・没収される|動
+subjugate|征服する|動
+oppress|抑圧する|動
+confiscate|没収する|動
+legitimize|正当化する|動
+rationalize|合理化する|動
+absolve|免罪する|動
+rectify|是正する|動
+remedy|改善する・治療する|動
+redress|是正する|動
+revamp|刷新する|動
+overhaul|徹底的に見直す|動
+trigger|引き起こす|動
+culminate|頂点に達する・結局〜になる|動
+stem|生じる|動
+originate|起こる・生じる|動
+arise|生じる|動
+ensue|続いて起こる|動
+necessitate|必要とする|動
+warrant|正当化する・保証する|動
+constitute|構成する|動
+comprise|含む・構成する|動
+consist|成り立つ|動
+allot|割り当てる|動
+dispense|分配する・免除する|動
+entrust|委ねる|動
+delegate|委任する|動
+govern|統治する|動
+regulate|規制する|動
+mandate|義務づける|動
+prescribe|処方する・規定する|動
+restrain|抑制する|動
+obstruct|妨害する|動
+foil|くじく|動
+evade|逃れる|動
+sidestep|避ける|動
+disguise|偽装する|動
+camouflage|偽装する|動
+distort|歪める|動
+forge|偽造する・築く|動
+mimic|真似る|動
+imitate|模倣する|動
+replicate|複製する|動
+reproduce|再現する・繁殖する|動
+cling|しがみつく|動
+adhere|固守する・付着する|動
+abide|従う・耐える|動
+conform|従う|動
+avenge|復讐する|動
+reprimand|叱責する|動
+exhort|強く勧める|動
+urge|促す|動
+solicit|懇請する|動
+beckon|手招きする|動
+lure|誘惑する|動
+entice|誘う|動
+allure|魅了する|動
+captivate|魅了する|動
+enthrall|魅了する|動
+bewilder|当惑させる|動
+perplex|当惑させる|動
+baffle|当惑させる|動
+astonish|驚かせる|動
+appall|ぞっとさせる|動
+dismay|狼狽させる|動
+agitate|動揺させる|動
+infuriate|激怒させる|動
+mollify|なだめる|動
+soothe|慰める・和らげる|動
+console|慰める|動
+transient|一時的な|形
+viable|実行可能な・生存可能な|形
+rigorous|厳密な・厳しい|形
+inadvertent|不注意な|形
+paradoxical|逆説的な|形
+skeptical|懐疑的な|形
+overt|公然の|形
+vivid|鮮明な|形
+cryptic|謎めいた|形
+cohesive|結束した|形
+lenient|寛大な|形
+reckless|無謀な|形
+benevolent|慈悲深い|形
+malicious|悪意のある|形
+sinister|不吉な・邪悪な|形
+bleak|荒涼とした・暗い|形
+grim|厳しい・険しい|形
+dire|悲惨な|形
+robust|頑強な|形
+staunch|忠実な・揺るぎない|形
+obstinate|頑固な|形
+apathetic|無感動な|形
+intricate|複雑な|形
+tedious|退屈な|形
+lucrative|儲かる|形
+affluent|裕福な|形
+destitute|極貧の|形
+scarce|乏しい|形
+abundant|豊富な|形
+ample|十分な|形
+akin|類似した|形
+ardent|熱烈な|形
+conducive|助けになる|形
+cumulative|累積的な|形
+dormant|休眠状態の|形
+eloquent|雄弁な|形
+empirical|経験に基づく|形
+equivocal|あいまいな|形
+esoteric|難解な|形
+gullible|だまされやすい|形
+haphazard|でたらめな|形
+heterogeneous|異質の|形
+homogeneous|均質の|形
+idiosyncratic|独特の|形
+immaculate|汚れのない|形
+impartial|公平な|形
+implicit|暗黙の|形
+indigenous|土着の|形
+inept|不器用な・不適切な|形
+innocuous|無害な|形
+irrevocable|取り消せない|形
+lethargic|無気力な|形
+ludicrous|ばかげた|形
+nebulous|漠然とした|形
+oblivious|気づかない|形
+orthodox|正統の|形
+pertinent|関連のある|形
+pious|信心深い|形
+poignant|痛切な|形
+profuse|豊富な|形
+prosaic|散文的な・平凡な|形
+quaint|古風で趣のある|形
+rampant|蔓延する|形
+abrasive|耳障りな・研磨性の|形
+secular|世俗的な|形
+sedentary|座りがちな|形
+shrewd|抜け目のない|形
+squalid|薄汚い|形
+stagnant|停滞した|形
+sublime|崇高な|形
+succinct|簡潔な|形
+superfluous|余計な|形
+tacit|暗黙の|形
+timid|臆病な|形
+untenable|支持できない|形
+verbose|冗長な|形
+whimsical|気まぐれな|形
+zealous|熱心な|形
+accrue|生じる・蓄積する|動
+adjourn|延期する|動
+assuage|和らげる|動
+berate|ひどく叱る|動
+brandish|振りかざす|動
+buttress|支える|動
+cajole|甘言で誘う|動
+chastise|厳しく叱る|動
+coalesce|合体する|動
+conjure|思い起こさせる|動
+curb|抑制する|動
+decree|布告する|動
+defy|公然と逆らう|動
+denote|示す|動
+deride|嘲る|動
+dictate|命じる・口述する|動
+disperse|散らす|動
+dissipate|消散する|動
+divulge|漏らす|動
+embark|乗り出す|動
+enact|制定する|動
+endow|授ける|動
+exert|行使する|動
+fathom|見抜く|動
+flaunt|見せびらかす|動
+hone|磨く|動
+incorporate|組み入れる|動
+inflict|負わせる|動
+intercept|途中で捕らえる|動
+intervene|介入する|動
+invoke|持ち出す・発動する|動
+languish|衰える|動
+loom|ぼんやり現れる・迫る|動
+meddle|干渉する|動
+nurture|育てる|動
+obscure|不明瞭にする|動
+pinpoint|正確に示す|動
+ponder|熟考する|動
+portray|描く|動
+quell|鎮圧する|動
+reiterate|繰り返す|動
+repress|抑圧する|動
+resent|憤る|動
+resonate|共鳴する|動
+reverberate|反響する|動
+reprieve|猶予する|動
+shun|避ける|動
+sway|揺り動かす・左右する|動
+temper|和らげる|動
+thrive|繁栄する|動
+underpin|支える|動
+unveil|明らかにする|動
+usher|案内する・先導する|動
+wield|行使する|動
+withhold|差し控える|動
+wrestle|取り組む|動
+account for|説明する・占める|熟
+allow for|考慮に入れる|熟
+bring about|引き起こす|熟
+carry out|実行する|熟
+come across|偶然出会う・理解される|熟
+come up with|思いつく|熟
+cope with|対処する|熟
+dwell on|くよくよ考える|熟
+fall back on|頼る|熟
+fend off|撃退する|熟
+give rise to|引き起こす|熟
+hinge on|〜次第である|熟
+iron out|解決する|熟
+lay out|配置する・説明する|熟
+leave out|省く|熟
+make up for|埋め合わせる|熟
+pass down|伝える|熟
+phase out|段階的に廃止する|熟
+play down|軽視する|熟
+point out|指摘する|熟
+reckon with|直面する|熟
+resort to|頼る|熟
+rule out|除外する|熟
+settle for|妥協して受け入れる|熟
+shed light on|解明する|熟
+single out|選び出す|熟
+stand for|表す|熟
+stem from|由来する|熟
+step down|辞任する|熟
+take on|引き受ける|熟
+take over|引き継ぐ|熟
+tide over|乗り切らせる|熟
+turn out|結局〜になる|熟
+wear off|次第に消える|熟
+weed out|取り除く|熟
+well off|裕福な|熟
+bear out|裏付ける|熟
+brush aside|無視する|熟
+call for|要求する|熟
+cut back on|削減する|熟
+do away with|廃止する|熟
+draw on|利用する|熟
+dispose of|処分する|熟
+hold true|当てはまる|熟
+in the long run|長い目で見れば|熟
+on the verge of|今にも〜しそうで|熟
+for the sake of|〜のために|熟
+at the expense of|〜を犠牲にして|熟

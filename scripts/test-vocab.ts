@@ -1,19 +1,27 @@
 // 英単語モードのテスト: npx tsx scripts/test-vocab.ts
 import assert from 'node:assert/strict';
 import {
-  LEVELS, ROUND_SIZE, FIX_EVERY, CHOICES, TEST_SEC, BONUS_SEC, REVIEW_MAX, emptyLevel, ensureOrd, nextWords, planRound, statusOf, counts, buildTest, scoreOf, finishRound, fixDue, fixWords, finishFix, skipFix, stats, rng, judge,
+  LEVELS, LEVEL, GROUPS, ALL_SKU, TRIAL_WORDS, ROUND_SIZE, FIX_EVERY, CHOICES, TEST_SEC, BONUS_SEC, REVIEW_MAX, emptyLevel, emptyVocab, ensureOrd, nextWords, planRound, statusOf, counts, buildTest, scoreOf, finishRound, fixDue, fixWords, finishFix, skipFix, stats, rng, judge,
+  canUse, isOwned, mixedFixItems, buildMixedTest, finishMixedFix, levelOf,
 } from '../src/vocab';
 
-// 1) データ：5レベル・各300語・語の重複なし・意味と品詞がある
-assert.equal(LEVELS.length, 5);
-assert.deepEqual(LEVELS.map(l => l.id), ['toeic500', 'toeic600', 'toeic700', 'toeic800', 'toeic900']);
+// 1) データ：13パック・各300語・語の重複なし・意味と品詞がある・グループ／無料／商品ID
+assert.equal(LEVELS.length, 13);
+assert.deepEqual(LEVELS.slice(0, 5).map(l => l.id), ['toeic500', 'toeic600', 'toeic700', 'toeic800', 'toeic900']);
+assert.deepEqual(GROUPS, ['TOEIC', '受験英語', '専門分野']);
+assert.deepEqual(LEVELS.filter(l => l.free).map(l => l.id), ['toeic500'], '無料は TOEIC 500 だけ');
+assert.equal(new Set(LEVELS.map(l => l.id)).size, LEVELS.length, 'パックid が重複');
 for (const L of LEVELS) {
   assert.equal(L.words.length, 300, `${L.id}: ${L.words.length}語`);
-  assert.equal(new Set(L.words.map(w => w.w)).size, 300, `${L.id}: 語が重複`);
+  assert.equal(new Set(L.words.map(w => w.w.toLowerCase())).size, 300, `${L.id}: 語が重複`);
   L.words.forEach(w => assert.ok(w.w && w.m && w.p, `${L.id}: ${w.w} の意味・品詞が空`));
-  assert.ok(/^toeic[5-9]00$/.test(L.id) && L.name.startsWith('TOEIC ') && L.ref, `${L.id}: id は toeic500〜900、ref（参考レベル）が必要`);
+  L.words.forEach(w => assert.ok(['名', '動', '形', '副', '接', '前', '熟'].includes(w.p), `${L.id}: ${w.w} の品詞 ${w.p}`));
+  assert.ok(L.ref && L.group && L.desc, `${L.id}: ref・group・desc が必要`);
+  assert.equal(!!L.sku, !L.free, `${L.id}: 有料なら sku、無料なら空`);
+  if (L.sku) assert.ok(/^jp\.icurate\.eitangoflash\.[a-z0-9_]+$/.test(L.sku), `${L.id}: sku の形 ${L.sku}`);
   assert.equal(300 % ROUND_SIZE, 0);
 }
+assert.ok(LEVELS.every(l => l.sku !== ALL_SKU));
 
 // 2) 1周目：ランダムな出題順（固定）で、復習がなければまだ出ていない語から30語ずつ。300語で全部出る
 const L = LEVELS[0];
@@ -154,3 +162,52 @@ console.log(`OK: 英単語 ${LEVELS.map(l => `${l.name} ${l.words.length}語`).j
   assert.equal(b.next.log.length, 2);
   assert.equal(b.next.hist[ws[0].w].n, 2);
 }
+
+// 12) パックの解放：無料／購入済み／全部入り。未購入でも最初の30語（1回）は試せる
+{
+  const free = LEVEL.toeic500, paid = LEVEL.finance;
+  assert.ok(isOwned(free, {}) && canUse(free, {}, emptyLevel()));
+  assert.ok(!isOwned(paid, {}) && canUse(paid, {}, emptyLevel()), '未購入でも最初は試せる');
+  assert.ok(!canUse(paid, {}, { ...emptyLevel(), learned: TRIAL_WORDS }), '30語試したら止まる');
+  assert.ok(isOwned(paid, { finance: true }) && canUse(paid, { finance: true }, { ...emptyLevel(), learned: 300 }));
+  assert.ok(isOwned(paid, { [ALL_SKU]: true }), '全部入り');
+}
+
+// 13) 総合定着テスト：使えるパックから均等に最大30語。選択肢は語のパックの意味。記録はパックごと、lastFix は進めない
+{
+  let p = emptyVocab();
+  const ids = ['toeic500', 'finance', 'ai'];
+  for (const id of ids) {
+    const Lx = LEVEL[id];
+    let q = ensureOrd(Lx, emptyLevel(), rng(11));
+    const ws = nextWords(Lx, q);
+    q = finishRound(q, Lx, ws.map((w, j) => ({ w, ok: j >= 20, answered: true })), 10).next; // 各パック20語✖
+    p = { ...p, levels: { ...p.levels, [id]: q } };
+  }
+  const items = mixedFixItems(p, ids.map(id => LEVEL[id]));
+  assert.equal(items.length, 30);
+  assert.deepEqual(ids.map(id => items.filter(it => it.lv === id).length), [10, 10, 10], 'パックごとに均等');
+  assert.equal(mixedFixItems(p, [LEVEL.medical]).length, 0, '出題していないパックからは出ない');
+  const qs = buildMixedTest(items, rng(13));
+  assert.equal(qs.length, 30);
+  qs.forEach(q => {
+    assert.ok(q.lv && LEVEL[q.lv].words.some(w => w.w === q.w.w), '語はそのパックのもの');
+    assert.equal(q.choices.length, CHOICES);
+    assert.equal(q.choices[q.a], q.w.m);
+    const pool = new Set(LEVEL[q.lv!].words.map(w => w.m));
+    assert.ok(q.choices.every(ch => pool.has(ch)), '選択肢は同じパックの意味');
+  });
+  const res = qs.map((q, i) => ({ w: q.w, ok: i % 3 !== 0, answered: true }));
+  const out = finishMixedFix(p, qs, res, 25);
+  assert.deepEqual(Object.keys(out.logs).sort(), ids.slice().sort());
+  for (const id of ids) {
+    const before = levelOf(p, id), after = levelOf(out.next, id);
+    assert.equal(after.lastFix, before.lastFix, '周期は進めない');
+    assert.equal(after.learned, before.learned);
+    assert.equal(after.log.length, before.log.length + 1);
+    assert.equal(after.log.at(-1)!.kind, 'fix');
+    assert.equal(after.log.at(-1)!.size, 10);
+    qs.forEach((q, i) => { if (q.lv === id) assert.equal(after.hist[q.w.w].r!.slice(-1), res[i].ok ? '1' : '0'); });
+  }
+}
+console.log(`OK: パック解放と総合定着テストのテストに合格（${LEVELS.length}パック・${LEVELS.reduce((a, l) => a + l.words.length, 0)}語）`);

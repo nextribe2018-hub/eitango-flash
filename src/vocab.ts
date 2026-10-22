@@ -5,11 +5,19 @@
 import vocabRaw from './data/vocab.json';
 
 export type Word = { w: string; m: string; p: string };           // 語・意味・品詞
-export type Level = { id: string; name: string; desc: string; ref: string; words: Word[] };  // ref＝参考レベル（英検・高校・大学）
-// レベルは TOEIC 500〜900 の100点刻み。旧id（2026-10-19 以前の記録）→ 新id
+// パック（レベル）。ref＝参考レベル、group＝一覧での見出し（TOEIC／受験英語／専門分野）、free＝無料パック、sku＝買い切りの商品ID（無料なら空）
+export type Level = { id: string; name: string; desc: string; ref: string; group: string; free: boolean; sku: string; words: Word[] };
+// TOEIC は 500〜900 の100点刻み。旧id（2026-10-19 以前の記録）→ 新id
 export const LEVEL_ALIAS: Record<string, string> = { jhs: 'toeic500', eiken: 'toeic600', toeic: 'toeic700', march: 'toeic800', sokei: 'toeic900' };
 export const LEVELS: Level[] = vocabRaw as Level[];
 export const LEVEL: Record<string, Level> = Object.fromEntries(LEVELS.map(l => [l.id, l]));
+export const GROUPS: string[] = [...new Set(LEVELS.map(l => l.group))];
+export const ALL_SKU = 'jp.icurate.eitangoflash.all';   // 全パック一括の商品ID
+export const TRIAL_WORDS = 30;                           // 未購入パックで試せる語数（最初の1回）
+// パックが使えるか：無料／購入済み／全部入り購入済み。未購入でも最初の30語（1回）は試せる
+export const canUse = (L: Level, unlocked: Record<string, boolean>, lp: LevelProgress): boolean =>
+  L.free || !!unlocked[L.id] || !!unlocked[ALL_SKU] || lp.learned < TRIAL_WORDS;
+export const isOwned = (L: Level, unlocked: Record<string, boolean>): boolean => L.free || !!unlocked[L.id] || !!unlocked[ALL_SKU];
 
 export const ROUND_SIZE = 30;      // 1回に覚える語数
 export const MEMO_SEC = 60;        // 暗記の時間
@@ -116,7 +124,7 @@ export function planRound(level: Level, lp: LevelProgress): { words: Word[]; rev
 // ord を持った lp を渡すこと（ensureOrd 済み）。持っていなければ呼ぶたびに順が変わる
 export const nextWords = (level: Level, lp: LevelProgress): Word[] => planRound(level, lp).words;
 
-export type Question = { w: Word; choices: string[]; a: number };   // a＝正解の choices 番号
+export type Question = { w: Word; choices: string[]; a: number; lv?: string };   // a＝正解の choices 番号、lv＝横断テストでの語のパックid
 
 // テスト問題：語 → 意味の4択。他の選択肢は同じレベルの別の語の意味（同じ意味文は避ける）
 export function buildTest(words: Word[], level: Level, r: () => number = Math.random): Question[] {
@@ -132,6 +140,42 @@ export function buildTest(words: Word[], level: Level, r: () => number = Math.ra
     const choices = shuffle([w.m, ...others], r);
     return { w, choices, a: choices.indexOf(w.m) };
   });
+}
+
+// 全パック横断の定着テスト：使えるパックの 要再習得 → 未回答のみ → ✖を含む習得中 の語を集め、パックごとに均等に最大30語
+export type MixItem = { w: Word; lv: string };
+export function mixedFixItems(p: VocabProgress, levels: Level[]): MixItem[] {
+  const per = levels.map(L => fixWords(L, levelOf(p, L.id)).map(w => ({ w, lv: L.id })));
+  const out: MixItem[] = [];
+  for (let i = 0; out.length < ROUND_SIZE; i++) {
+    let any = false;
+    for (const q of per) { if (i < q.length && out.length < ROUND_SIZE) { out.push(q[i]); any = true; } }
+    if (!any) break;
+  }
+  return out;
+}
+// 横断テストの問題：選択肢は語の属するパックの意味から
+export function buildMixedTest(items: MixItem[], r: () => number = Math.random): Question[] {
+  return shuffle(items, r).map(it => {
+    const q = buildTest([it.w], LEVEL[it.lv], r)[0];
+    return { ...q, lv: it.lv };
+  });
+}
+// 横断テストの記録：語の属するパックごとに履歴と log（kind 'fix'）を残す。各パックの定着テスト周期（lastFix）は進めない
+export function finishMixedFix(p: VocabProgress, qs: Question[], res: Result[], left: number): { next: VocabProgress; logs: Record<string, RoundLog> } {
+  const by: Record<string, Result[]> = {};
+  res.forEach((x, i) => { const lv = qs[i].lv ?? ''; (by[lv] ??= []).push(x); });
+  const levels = { ...p.levels };
+  const logs: Record<string, RoundLog> = {};
+  Object.entries(by).forEach(([lv, rs]) => {
+    const lp = levelOf(p, lv);
+    const next = applyResults(lp, rs);
+    const log = makeLog('fix', rs, left);
+    next.log = [...lp.log, log];
+    levels[lv] = next;
+    logs[lv] = log;
+  });
+  return { next: { ...p, levels }, logs };
 }
 
 // 得点：残り秒は切り捨て。時間切れ（left<=0）なら残り秒0
