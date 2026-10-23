@@ -40,7 +40,7 @@
 | 掲載情報 | `store.config.json`（名前・サブタイトル・説明・キーワード・審査メモ・年齢区分）。`npx eas-cli metadata:push` で送る（版のページの項目は App Store Connect で手入力になることが多い） |
 | プライバシー・サポート | `site/eitango-flash/`（privacy・support・icon）。Xserver の `public_html/apps/eitango-flash/` に本人がアップロード → https://apps.icurate.jp/eitango-flash/privacy/ ・ /support/ 。`site/style.css` は既存の apps のものと同じ（上書き不要）。apps のトップ（index.html）に載せるなら takken-mock-app 側の site/index.html に1件足す |
 | スクリーンショット | `design/store_shots/1〜6.png`（1179×2556、中型ディスプレイ枠）。見本の学習記録で撮影（`design/capture/`） |
-| App Store Connect | **本人が作業**：アプリ新規登録（名前 英単語フラッシュ、バンドルID jp.icurate.eitangoflash、SKU 例 eitangoflash、日本語）→ 作ったアプリの Apple ID を `eas.json` の `submit.production.ios.ascAppId` に入れる |
+| App Store Connect | 2026-10-24 本人が登録済み：英単語フラッシュ、Apple ID **6826432574**、SKU eitangoflash、バンドルID jp.icurate.eitangoflash（Identifier の説明 Eitango Flash）。`eas.json` の ascAppId に設定済み |
 | 課金アイテム | **本人が作業**：下の13件を「非消耗型」で登録（価格は本人が決める。アプリ内の仮表示は1パック600円・全部入り3,000円）。審査に出すときはアプリの版と一緒に選ぶ |
 
 | 参照名（例） | 商品ID | 説明（例） |
@@ -63,7 +63,7 @@
 
 ### 申請の手順
 1. 上の App Store Connect の登録（本人）と、site のアップロード（本人）
-2. `eas.json` に ascAppId を入れる
+2. ~~`eas.json` に ascAppId を入れる~~（済み）
 3. `npx eas-cli build -p ios --profile production --auto-submit`（ビルド番号は自動で増える。提出は本人が「提出してください」と言ってから）
 4. TestFlight で実機確認：暗記・テストのテンポ、ハプティクス、Sandbox アカウントで購入・復元
 5. `npx eas-cli metadata:push`、スクリーンショット6枚、課金アイテムを版に追加 → 審査へ提出（本人）
