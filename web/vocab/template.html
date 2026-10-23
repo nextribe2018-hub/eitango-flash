@@ -113,6 +113,9 @@ h2{font-size:17px;font-weight:700;line-height:1.4;text-wrap:balance}
 .dots{display:grid;grid-template-columns:repeat(30,1fr);gap:2px}
 .dot{height:6px;border-radius:2px;background:var(--line)}
 .dot.ok{background:var(--ok)}.dot.ng{background:var(--ng)}.dot.cur{background:var(--ink)}
+.fcard{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:min(56vh,440px);margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px 16px;text-align:center}
+.fcard .w{font-size:clamp(36px,11vw,52px);line-height:1.1;font-weight:600;overflow-wrap:anywhere}
+.fcard .fm{font-size:22px;font-weight:700;color:var(--accent)}
 .q{display:flex;flex-direction:column;gap:6px;padding-block:6px}
 .q .w{font-size:40px;line-height:1.15;font-weight:600;overflow-wrap:anywhere}
 .choices{display:flex;flex-direction:column;gap:8px}
@@ -135,14 +138,14 @@ h2{font-size:17px;font-weight:700;line-height:1.4;text-wrap:balance}
 @media (prefers-reduced-motion:reduce){.tbar i{transition:none}}
 </style>
 <div class="wrap">
-  <header class="head"><div class="eyebrow">VOCABULARY FLASH · 30 WORDS / 60 SEC</div><h1>英単語フラッシュ</h1><p class="lede">30語を1分で覚え、1分で答える。単語ごとの直近5回で定着を測ります。</p><div id="sync">記録の保存先：この端末のブラウザ</div></header>
+  <header class="head"><div class="eyebrow">VOCABULARY FLASH · 30 WORDS / 60 SEC</div><h1>英単語フラッシュ</h1><p class="lede">30語をフラッシュで見て、1分で覚え、1分で答える。単語ごとの直近5回で定着を測ります。</p><div id="sync">記録の保存先：この端末のブラウザ</div></header>
   <main id="app"></main>
-  <p class="foot">テストは意味の4択。正解するたびに0.5秒延び、得点＝残り秒（切り捨て）＋正解数。30語はパックごとのランダムな順で選び、要再習得・未回答の語を最大9語まで復習として混ぜます。単語ごとに直近5回（◯正解・✖不正解・△時間切れ）を記録し、直近3回連続◯で定着、最新が✖なら要再習得。300語ごとに要再習得の語で定着テストをします。パックはスコア目安・受験英語・専門分野の13種類（各300語）。参考レベルは目安で、公式の語彙表ではありません。「スコア目安」は TOEIC® Listening & Reading のスコアの目安です。TOEIC は ETS の登録商標で、このページは ETS の承認や推奨を受けたものではありません。英検® は公益財団法人 日本英語検定協会の登録商標です。</p>
+  <p class="foot">30語を1語0.3秒でフラッシュ表示し、そのあと一覧で1分じっくり覚えます。テストは意味の4択。正解するたびに0.5秒延び、得点＝残り秒（切り捨て）＋正解数。30語はパックごとのランダムな順で選び、要再習得・未回答の語を最大9語まで復習として混ぜます。単語ごとに直近5回（◯正解・✖不正解・△時間切れ）を記録し、直近3回連続◯で定着、最新が✖なら要再習得。300語ごとに要再習得の語で定着テストをします。パックはスコア目安・受験英語・専門分野の13種類（各300語）。参考レベルは目安で、公式の語彙表ではありません。「スコア目安」は TOEIC® Listening & Reading のスコアの目安です。TOEIC は ETS の登録商標で、このページは ETS の承認や推奨を受けたものではありません。英検® は公益財団法人 日本英語検定協会の登録商標です。</p>
 </div>
 <script>
 var LEVELS=__DATA__;
 var LEVEL={};LEVELS.forEach(function(l){LEVEL[l.id]=l});
-var ROUND=30,MEMO_SEC=60,TEST_SEC=60,BONUS=0.5,FIX_EVERY=300,CHOICES=4,HIST_N=5,REVIEW_MAX=9;
+var ROUND=30,FLASH_MS=300,MEMO_SEC=60,TEST_SEC=60,BONUS=0.5,FIX_EVERY=300,CHOICES=4,HIST_N=5,REVIEW_MAX=9;
 var LS="vocab-progress-v1";
 var ALIAS={jhs:"toeic500",eiken:"toeic600",toeic:"toeic700",march:"toeic800",sokei:"toeic900"}; // 旧レベルid → 新id
 var S={v:1,rev:0,at:0,levels:{}};
@@ -287,7 +290,7 @@ function levelHome(){
   h+='<div class="top"><div><p class="label">'+esc(L.ref)+'</p><h2>'+esc(L.name)+'</h2><p class="note">'+esc(L.desc)+'</p></div></div>';
   if(due)h+='<div class="card now"><h2>定着テストの時間です</h2><p>'+p.learned+'語を学びました。要再習得などの語（'+s.wrongCount+'語）から最大30語を、暗記なしで1分テストします。</p><button class="btn pri big" data-a="fix">定着テストを始める</button></div>';
   h+='<div class="card'+(due?'':' now')+'"><p class="label">次の30語</p><div class="plan">'+(c["new"]?'<div><b>'+plan.fresh+'</b><span>新しい語</span></div>':'')+'<div><b>'+nrev+'</b><span>復習（要再習得・未回答）</span></div></div>'+
-    '<button class="btn pri big" data-a="start"'+(due?' disabled':'')+'>30語を覚える（1分）</button>'+(due?'<p class="note">先に定着テストを済ませてください。</p>':'<p class="note">1分で覚えて、1分でテスト。復習は最大'+REVIEW_MAX+'語まで混ざります。</p>')+'</div>';
+    '<button class="btn pri big" data-a="start"'+(due?' disabled':'')+'>30語をフラッシュで覚える</button>'+(due?'<p class="note">先に定着テストを済ませてください。</p>':'<p class="note">フラッシュ（1語0.3秒）→ 一覧で1分 → 1分テスト。復習は最大'+REVIEW_MAX+'語まで混ざります。</p>')+'</div>';
   h+=wordMap(L,p,c);
   h+='<div class="card"><p class="label">スコア</p><div class="kpis">'+
     '<div class="kpi"><span>最高点</span><b>'+s.best+'</b></div><div class="kpi"><span>平均点</span><b>'+s.avg+'</b></div><div class="kpi"><span>回数</span><b>'+s.rounds+'</b></div>'+
@@ -323,15 +326,30 @@ function wordTable(L,p,c){
 }
 function clockBar(ctx,right,text,extra){return '<div class="clock"><div class="row"><div><p class="ctx">'+ctx+'</p><div class="timer" id="t">'+text+'</div></div>'+right+'</div><div class="tbar" id="tb"><i style="width:100%"></i></div>'+(extra||'')+'</div>'}
 function setClock(text,left,total){var t=document.getElementById("t"),b=document.getElementById("tb");if(t){t.innerHTML=text;t.className="timer"+(left<=10?" low":"")}if(b){b.className="tbar"+(left<=10?" low":"");b.firstChild.style.width=Math.max(0,Math.min(100,left/total*100))+"%"}}
-function memo(){
-  var id=cur.id,L=LEVEL[id],p=lp(id),words=cur.words,start=Date.now(),done=false;
-  var h=clockBar(esc(L.name)+'　覚える <span class="num">'+words.length+'</span>語'+(cur.repeat?'（もう一度）':''),'<button class="btn pri" data-a="totest">テストへ ›</button>','1:00');
-  h+='<div class="card"><div class="entries">';
-  words.forEach(function(w){var x=p.hist[w.w],r=recentOf(x);h+='<div class="en"><span class="w">'+esc(w.w)+(r?'<span class="rv">復習</span>':'')+'</span><span class="side">'+(r?marks(x):'')+'</span><span class="m">'+esc(w.m)+' <span class="pos">'+esc(w.p)+'</span></span><span></span></div>'});
-  h+='</div></div><p class="note">時間になると自動でテストが始まります。「復習」は前に出た語で、右は直近の成績です。</p>';
-  app.innerHTML=h;
+function memo(){  // ①フラッシュ（1語0.3秒で30語）→ ②一覧で1分じっくり → テスト
+  var id=cur.id,L=LEVEL[id],p=lp(id),words=cur.words,done=false,listLeft=MEMO_SEC,phase="flash";
   cur.finish=function(){if(done)return;done=true;go("test",{id:id,words:words,kind:"round",repeat:cur.repeat})};
-  timer=setInterval(function(){var l=MEMO_SEC-(Date.now()-start)/1000;setClock(fmt(Math.ceil(l)),l,MEMO_SEC);if(l<=0){stopTimer();cur.finish()}},250);
+  function flash(then,again){
+    stopTimer();phase="flash";var i=0;
+    app.innerHTML='<div class="clock"><div class="row"><div><p class="ctx">'+esc(L.name)+'　フラッシュ'+(again?'（もう一度）':'')+'　<span class="num" id="fi">1/'+words.length+'</span></p><div class="timer">0.3<span class="unit"> 秒／語</span></div></div><button class="btn ghost" data-a="skip">一覧へ ›</button></div><div class="tbar"><i id="fb" style="width:0%"></i></div></div>'+
+      '<div class="fcard" aria-live="off"><span class="pos" id="fp"></span><div class="w" id="fw"></div><div class="fm" id="fm"></div></div>'+
+      '<p class="note">英単語と意味を1語0.3秒でパッと見せます。終わると一覧で1分じっくり覚え、そのあと1分テストです。</p>';
+    function show(k){var w=words[k];document.getElementById("fw").textContent=w.w;document.getElementById("fm").textContent=w.m;document.getElementById("fp").textContent=w.p;document.getElementById("fi").textContent=(k+1)+"/"+words.length;document.getElementById("fb").style.width=((k+1)/words.length*100)+"%"}
+    show(0);
+    cur.skip=function(){stopTimer();then()};
+    timer=setInterval(function(){i++;if(i>=words.length){stopTimer();then();return}show(i)},FLASH_MS);
+  }
+  function list(){
+    stopTimer();phase="list";var start=Date.now(),from=listLeft;
+    var h=clockBar(esc(L.name)+'　一覧で覚える <span class="num">'+words.length+'</span>語'+(cur.repeat?'（もう一度）':''),'<button class="btn pri" data-a="totest">テストへ ›</button>',fmt(Math.ceil(from)));
+    h+='<div class="btns" style="margin-top:2px"><button class="btn" data-a="reflash">もう一度フラッシュ</button></div><div class="card"><div class="entries">';
+    words.forEach(function(w){var x=p.hist[w.w],r=recentOf(x);h+='<div class="en"><span class="w">'+esc(w.w)+(r?'<span class="rv">復習</span>':'')+'</span><span class="side">'+(r?marks(x):'')+'</span><span class="m">'+esc(w.m)+' <span class="pos">'+esc(w.p)+'</span></span><span></span></div>'});
+    h+='</div></div><p class="note">時間になると自動でテストが始まります。「もう一度フラッシュ」の間は時計が止まります。「復習」は前に出た語で、右は直近の成績です。</p>';
+    app.innerHTML=h;window.scrollTo(0,0);
+    cur.reflash=function(){listLeft=Math.max(0,from-(Date.now()-start)/1000);flash(list,true)};
+    timer=setInterval(function(){var l=from-(Date.now()-start)/1000;listLeft=l;setClock(fmt(Math.ceil(l)),l,MEMO_SEC);if(l<=0){stopTimer();cur.finish()}},250);
+  }
+  flash(list,false);
 }
 function test(){
   var id=cur.id,L=LEVEL[id],words=cur.words,kind=cur.kind,qs=buildTest(words,L),i=0,bonus=0,start=Date.now(),done=false;
@@ -378,6 +396,8 @@ app.addEventListener("click",function(e){
   else if(a==="start")startRound(id);
   else if(a==="fix")startFix(id);
   else if(a==="totest")cur.finish();
+  else if(a==="skip"&&cur.skip)cur.skip();
+  else if(a==="reflash"&&cur.reflash)cur.reflash();
   else if(a==="ans")cur.answer(+b.getAttribute("data-k"));
   else if(a==="again")go("memo",{id:id,words:cur.words,repeat:true});
   else if(a==="askreset"){document.getElementById("reset").innerHTML='<div class="confirm"><p>'+esc(LEVEL[id].name)+'の記録（'+lp(id).log.length+'回分）を消します。元に戻せません。</p><div class="btns"><button class="btn pri" data-a="reset">消す</button><button class="btn" data-a="noreset">やめる</button></div></div>'}

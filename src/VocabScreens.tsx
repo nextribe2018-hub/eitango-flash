@@ -1,5 +1,5 @@
 // 英単語フラッシュの画面。ロジックは src/vocab.ts、記録は src/storage.ts（vocab-progress-v1）、課金は App.tsx の Shop。
-// 流れ：パックを選ぶ → 30語を1分で覚える → 1分テスト（正解で+0.5秒）→ 結果（得点＝残り秒＋正解数）
+// 流れ：パックを選ぶ → 30語を1語0.3秒でフラッシュ → 一覧で1分覚える → 1分テスト（正解で+0.5秒）→ 結果（得点＝残り秒＋正解数）
 //       → 単語ごとに直近5回の◯✖△と状態（定着／習得中／要再習得）。要再習得の語は次の30語に復習として入る
 //       → 300語ごとに要再習得の語で定着テスト。一覧からは全パック横断の定着テスト（総合定着テスト）も
 // パックは無料（スコア500目安）／買い切り。未購入でも最初の30語は試せる
@@ -12,7 +12,7 @@ import type { Colors } from './theme';
 import type { Styles } from './styles';
 import {
   LEVELS, LEVEL, GROUPS, ALL_SKU, TRIAL_WORDS, Level, Word, Question, Result, LevelProgress, VocabProgress, RoundLog,
-  MEMO_SEC, TEST_SEC, BONUS_SEC, FIX_EVERY, REVIEW_MAX, HIST_N, emptyLevel, levelOf, ensureOrd, planRound, buildTest,
+  FLASH_SEC, MEMO_SEC, TEST_SEC, BONUS_SEC, FIX_EVERY, REVIEW_MAX, HIST_N, emptyLevel, levelOf, ensureOrd, planRound, buildTest,
   finishRound, finishFix, fixDue, fixWords, skipFix, stats, judge, recentOf, statusOf, wordRows, STATUS_LABEL, WordHist, WordStatus,
   canUse, isOwned, mixedFixItems, buildMixedTest, finishMixedFix,
 } from './vocab';
@@ -181,9 +181,9 @@ function Stack({ ctx, cnt, n }: { ctx: VCtx; cnt: Record<WordStatus, number>; n:
   );
 }
 // 時計：文脈・残り時間・時間の帯・右側（ボタン）・下に追加（テストの進み具合）
-function Clock({ ctx, label, text, left, total, right, extra }: { ctx: VCtx; label: string; text: React.ReactNode; left: number; total: number; right?: React.ReactNode; extra?: React.ReactNode }) {
+function Clock({ ctx, label, text, left, total, right, extra, warn = true }: { ctx: VCtx; label: string; text: React.ReactNode; left: number; total: number; right?: React.ReactNode; extra?: React.ReactNode; warn?: boolean }) {
   const { c } = ctx;
-  const low = left <= 10;
+  const low = warn && left <= 10;   // 残り10秒で赤に（フラッシュの進み具合では使わない）
   return (
     <View style={{ backgroundColor: c.bg, paddingHorizontal: 16, paddingVertical: 10, gap: 8, borderBottomWidth: 0.5, borderBottomColor: c.line }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
@@ -221,7 +221,7 @@ function Levels({ ctx, go, startMixed }: { ctx: VCtx; go: (s: VScreen) => void; 
       <View style={{ gap: 4 }}>
         <Label ctx={ctx}>VOCABULARY FLASH · 30 WORDS / 60 SEC</Label>
         <Text style={[st.h1, { fontFamily: undefined, fontSize: 24 }]}>英単語フラッシュ</Text>
-        <Text style={st.note}>30語を1分で覚え、1分で答える。単語ごとの直近5回で定着を測ります。スコア500目安は無料、ほかのパックは最初の30語を試せます。</Text>
+        <Text style={st.note}>30語をフラッシュで見て、1分で覚え、1分で答える。単語ごとの直近5回で定着を測ります。スコア500目安は無料、ほかのパックは最初の30語を試せます。</Text>
       </View>
       <View style={[st.card, mixN > 0 && st.cardNow, { borderRadius: 12 }]}>
         <View style={st.rowBetween}>
@@ -273,7 +273,7 @@ function Levels({ ctx, go, startMixed }: { ctx: VCtx; go: (s: VScreen) => void; 
           {shop.msg && <Text style={st.note}>{shop.msg}</Text>}
         </View>
       )}
-      <Text style={st.note}>テストは意味の4択。正解するたびに0.5秒延び、得点＝残り秒（切り捨て）＋正解数。30語はパックごとのランダムな順で選び、要再習得・未回答の語を最大{REVIEW_MAX}語まで復習として混ぜます。直近3回連続◯で定着、最新が✖なら要再習得。300語ごとに定着テストがあります。</Text>
+      <Text style={st.note}>30語を1語{FLASH_SEC}秒でフラッシュ表示し、そのあと一覧で1分じっくり覚えます。テストは意味の4択。正解するたびに0.5秒延び、得点＝残り秒（切り捨て）＋正解数。30語はパックごとのランダムな順で選び、要再習得・未回答の語を最大{REVIEW_MAX}語まで復習として混ぜます。直近3回連続◯で定着、最新が✖なら要再習得。300語ごとに定着テストがあります。</Text>
       <Text style={st.note}>「スコア目安」は TOEIC® Listening & Reading のスコアの目安です。TOEIC は ETS の登録商標です。このアプリは ETS の承認や推奨を受けたものではありません。英検® は公益財団法人 日本英語検定協会の登録商標です。参考レベルは目安で、公式の語彙表ではありません。</Text>
     </>
   );
@@ -335,8 +335,8 @@ function LevelHome({ ctx, level, lp, go, start, startFix, reset }: {
           {s.cnt.new > 0 && <View><Text style={big}>{plan.fresh}</Text><Text style={st.note}>新しい語</Text></View>}
           <View><Text style={big}>{nrev}</Text><Text style={st.note}>復習（要再習得・未回答）</Text></View>
         </View>
-        <Btn ctx={ctx} primary big label={!owned && usable ? '30語を試す（1分）' : '30語を覚える（1分）'} onPress={start} disabled={due || !usable} />
-        <Text style={st.note}>{due ? '先に定着テストを済ませてください。' : !usable ? 'お試しの30語は終わりました。続きは購入後に使えます。' : `1分で覚えて、1分でテスト。復習は最大${REVIEW_MAX}語まで混ざります。`}</Text>
+        <Btn ctx={ctx} primary big label={!owned && usable ? '30語をフラッシュで試す' : '30語をフラッシュで覚える'} onPress={start} disabled={due || !usable} />
+        <Text style={st.note}>{due ? '先に定着テストを済ませてください。' : !usable ? 'お試しの30語は終わりました。続きは購入後に使えます。' : `フラッシュ（1語${FLASH_SEC}秒）→ 一覧で1分 → 1分テスト。復習は最大${REVIEW_MAX}語まで混ざります。`}</Text>
       </View>
       <WordMap ctx={ctx} level={level} lp={lp} cnt={s.cnt} />
       <View style={[st.card, { borderRadius: 12 }]}>
@@ -443,24 +443,57 @@ function WordTable({ ctx, level, lp, cnt }: { ctx: VCtx; level: Level; lp: Level
   );
 }
 
-/* ---------- 暗記（1分） ---------- */
+/* ---------- 暗記：①フラッシュ（1語0.3秒）→ ②一覧で1分 ---------- */
 function Memo({ ctx, level, lp, words, repeat, onDone }: { ctx: VCtx; level: Level; lp: LevelProgress; words: Word[]; repeat: boolean; onDone: () => void }) {
-  const { st } = ctx;
+  const { c, st } = ctx;
+  const [phase, setPhase] = useState<'flash' | 'list'>('flash');
+  const [run, setRun] = useState(0);            // フラッシュの回数（「もう一度フラッシュ」で増える）
+  const [fi, setFi] = useState(0);              // フラッシュ中の語の番号
   const [left, setLeft] = useState(MEMO_SEC);
-  const start = useRef(Date.now());
+  const leftRef = useRef(MEMO_SEC);             // 一覧の残り秒（フラッシュし直す間は止める）
   const done = useRef(false);
   const finish = useCallback(() => { if (done.current) return; done.current = true; onDone(); }, [onDone]);
   useEffect(() => {
+    if (phase !== 'flash') return;
+    let i = 0;
+    setFi(0);
     const id = setInterval(() => {
-      const l = MEMO_SEC - (Date.now() - start.current) / 1000;
-      setLeft(Math.max(0, l));
+      i++;
+      if (i >= words.length) { clearInterval(id); setPhase('list'); } else setFi(i);
+    }, FLASH_SEC * 1000);
+    return () => clearInterval(id);
+  }, [phase, run, words.length]);
+  useEffect(() => {
+    if (phase !== 'list') return;
+    const start = Date.now(), from = leftRef.current;
+    const id = setInterval(() => {
+      const l = Math.max(0, from - (Date.now() - start) / 1000);
+      leftRef.current = l;
+      setLeft(l);
       if (l <= 0) { clearInterval(id); finish(); }
     }, 250);
     return () => clearInterval(id);
-  }, [finish]);
+  }, [phase, finish]);
+
+  if (phase === 'flash') {
+    const w = words[fi];
+    return (
+      <Timed ctx={ctx} clock={<Clock ctx={ctx} warn={false} label={`${level.name}　フラッシュ${run ? '（もう一度）' : ''}　${fi + 1}/${words.length}`}
+          text={<>{FLASH_SEC}<Text style={st.bigUnit}> 秒／語</Text></>} left={fi + 1} total={words.length}
+          right={<Btn ctx={ctx} ghost label="一覧へ ›" onPress={() => setPhase('list')} />} />}>
+        <View style={[st.card, { borderRadius: 16, minHeight: 380, alignItems: 'center', justifyContent: 'center', gap: 10 }]}>
+          <Pos ctx={ctx} p={w.p} />
+          <Text style={{ fontFamily: F.word, fontSize: 46, fontWeight: '600', color: c.ink, textAlign: 'center' }} adjustsFontSizeToFit numberOfLines={1}>{w.w}</Text>
+          <Text style={{ fontSize: 22, fontWeight: '700', color: c.ai, textAlign: 'center' }}>{w.m}</Text>
+        </View>
+        <Text style={st.note}>英単語と意味を1語{FLASH_SEC}秒でパッと見せます。終わると一覧で1分じっくり覚え、そのあと1分テストです。</Text>
+      </Timed>
+    );
+  }
   return (
-    <Timed ctx={ctx} clock={<Clock ctx={ctx} label={`${level.name}　覚える ${words.length}語${repeat ? '（もう一度）' : ''}`} text={fmt(Math.ceil(left))} left={left} total={MEMO_SEC}
+    <Timed ctx={ctx} clock={<Clock ctx={ctx} label={`${level.name}　一覧で覚える ${words.length}語${repeat ? '（もう一度）' : ''}`} text={fmt(Math.ceil(left))} left={left} total={MEMO_SEC}
         right={<Btn ctx={ctx} primary label="テストへ ›" onPress={finish} />} />}>
+      <View style={{ alignSelf: 'flex-start' }}><Btn ctx={ctx} label="もう一度フラッシュ" onPress={() => { setRun(r => r + 1); setPhase('flash'); }} /></View>
       <View style={[st.card, { borderRadius: 12, gap: 0, paddingVertical: 8 }]}>
         {words.map((w, i) => {
           const h = lp.hist[w.w];
@@ -468,7 +501,7 @@ function Memo({ ctx, level, lp, words, repeat, onDone }: { ctx: VCtx; level: Lev
           return <Entry key={w.w} ctx={ctx} w={w} first={i === 0} review={seen} top={seen ? <Marks ctx={ctx} h={h} /> : undefined} />;
         })}
       </View>
-      <Text style={st.note}>時間になると自動でテストが始まります。「復習」は前に出た語で、右は直近の成績です。</Text>
+      <Text style={st.note}>時間になると自動でテストが始まります。「もう一度フラッシュ」の間は時計が止まります。「復習」は前に出た語で、右は直近の成績です。</Text>
     </Timed>
   );
 }
