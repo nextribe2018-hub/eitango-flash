@@ -1,8 +1,8 @@
 // 英単語フラッシュ：30語を1分で覚えて1分でテストする英単語アプリ。
-// 画面は src/VocabScreens.tsx、ロジックは src/vocab.ts、記録は src/storage.ts（端末内）、課金は src/purchase.ts（パックごとの買い切り）。
+// 画面は src/VocabScreens.tsx（スクロールも画面側）、ロジックは src/vocab.ts、記録は src/storage.ts（端末内）、課金は src/purchase.ts（パックごとの買い切り）。
 // 2026-10-22 宅建10分模試アプリ（takken-mock-app）から独立した単独アプリとして切り出し。
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, ScrollView, View } from 'react-native';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { ActivityIndicator, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { Shop, VocabApp } from './src/VocabScreens';
@@ -33,7 +33,6 @@ function Root() {
   const [unlocked, setUnlocked] = useState<Record<string, boolean> | null>(null);
   const [store, setStore] = useState<Record<string, StoreState>>({});
   const [msg, setMsg] = useState<string | null>(null);
-  const scrollRef = useRef<ScrollView>(null);
 
   const unlock = useCallback((id: string, on = true) => {
     setUnlocked(u => ({ ...(u ?? {}), [id]: on }));
@@ -49,7 +48,6 @@ function Root() {
     }).then(setStore);
   }, [unlock]);
 
-  const toTop = useCallback(() => scrollRef.current?.scrollTo({ y: 0, animated: false }), []);
   const update = useCallback((next: VocabProgress) => { setP(next); saveVocab(next); }, []);
 
   if (!p || !unlocked) {
@@ -70,11 +68,8 @@ function Root() {
   return (
     <SafeAreaView style={st.fill} edges={['top', 'left', 'right']}>
       <StatusBar style="auto" />
-      <ScrollView ref={scrollRef}>
-        <View style={st.wrap}>
-          <VocabApp ctx={{ c, st, p, update, toTop, unlocked, shop }} />
-        </View>
-      </ScrollView>
+      {/* スクロールは VocabApp が持つ（計時中は時計を上に固定するため） */}
+      <VocabApp ctx={{ c, st, p, update, unlocked, shop }} />
     </SafeAreaView>
   );
 }

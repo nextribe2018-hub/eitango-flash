@@ -1,104 +1,143 @@
 <title>英単語フラッシュ</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
 <style>
-/* layout: 既存のWeb版（web/exam-template.html）と同じ答案用紙の1カラム。語はゴシック太字、数字はtabular。 */
+/* layout: 辞書の見出し語のように英単語をセリフ体で立て、数字（時計・得点）は等幅。1カラム、計時中は上部に時計を固定。レベルごとに300語の「語彙マップ」で定着度を一目で示す */
 :root{
-  --bg:#f2f1f6; --surface:#ffffff; --ink:#1d1a26; --muted:#676276; --line:#dbd8e4;
-  --accent:#4b2e83; --accent-ink:#ffffff; --accent-soft:#ebe5f6;
-  --ok:#1b7447; --ok-soft:#e1f2e8; --ng:#b3261e; --ng-soft:#fbe8e6; --warn:#7d5200; --warn-soft:#faefd8;
-  --f-exam:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;
+  --bg:#eef2f2; --surface:#ffffff; --ink:#15212a; --muted:#596772; --line:#d6dee1; --rule:#e6ecee;
+  --accent:#1c4d70; --accent-ink:#ffffff; --accent-soft:#e2ecf4;
+  --ok:#1d6b47; --ok-soft:#dcefe4; --ng:#b03a2c; --ng-soft:#f7e3df; --na:#8a5b00; --na-soft:#f5ead0; --mid:#3f74a6; --mid-soft:#dbe7f2; --new:#dfe5e7;
+  --f-word:"Source Serif 4","Iowan Old Style","Georgia",serif;
   --f-ui:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP",sans-serif;
-  --r:10px;
+  --f-num:"IBM Plex Mono","SFMono-Regular","Menlo",monospace;
+  --r:12px;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#15121c; --surface:#1f1b2a; --ink:#ece9f4; --muted:#a49eb5; --line:#352f46;
-    --accent:#bba6ee; --accent-ink:#1a1328; --accent-soft:#2c2442;
-    --ok:#74d6a4; --ok-soft:#163326; --ng:#ff8f85; --ng-soft:#3c1b19; --warn:#f0c46c; --warn-soft:#382c10;
+    --bg:#0f161b; --surface:#162027; --ink:#e4eaed; --muted:#97a6af; --line:#2a3842; --rule:#203039;
+    --accent:#8db8dc; --accent-ink:#0e1820; --accent-soft:#1b2f40;
+    --ok:#74cc9b; --ok-soft:#142e20; --ng:#f08e7f; --ng-soft:#3a1c18; --na:#e3b75c; --na-soft:#33280f; --mid:#7fa9d6; --mid-soft:#1a2c3d; --new:#25323b;
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#15121c; --surface:#1f1b2a; --ink:#ece9f4; --muted:#a49eb5; --line:#352f46;
-  --accent:#bba6ee; --accent-ink:#1a1328; --accent-soft:#2c2442;
-  --ok:#74d6a4; --ok-soft:#163326; --ng:#ff8f85; --ng-soft:#3c1b19; --warn:#f0c46c; --warn-soft:#382c10;
+  --bg:#0f161b; --surface:#162027; --ink:#e4eaed; --muted:#97a6af; --line:#2a3842; --rule:#203039;
+  --accent:#8db8dc; --accent-ink:#0e1820; --accent-soft:#1b2f40;
+  --ok:#74cc9b; --ok-soft:#142e20; --ng:#f08e7f; --ng-soft:#3a1c18; --na:#e3b75c; --na-soft:#33280f; --mid:#7fa9d6; --mid-soft:#1a2c3d; --new:#25323b;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--f-ui);font-size:15px;line-height:1.75;-webkit-text-size-adjust:100%}
-.wrap{max-width:640px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px;display:flex;flex-direction:column;gap:20px}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-ui);font-size:15px;line-height:1.7;-webkit-text-size-adjust:100%}
+.wrap{max-width:620px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px;display:flex;flex-direction:column;gap:18px}
 button{font:inherit;color:inherit;cursor:pointer}
-button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button:focus-visible,.tap:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 h1,h2,h3,p{margin:0}
 .head{display:flex;flex-direction:column;gap:2px}
-.eyebrow{font-size:12px;letter-spacing:.08em;color:var(--muted)}
-.head h1{font-family:var(--f-exam);font-weight:700;font-size:26px;line-height:1.3;text-wrap:balance}
-#app{display:flex;flex-direction:column;gap:16px;min-width:0}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
-.card.now{border-color:var(--accent);border-width:2px}
-.card.tap{cursor:pointer}
-.card.tap:hover{border-color:var(--accent)}
-h2{font-family:var(--f-exam);font-size:18px;font-weight:700}
-h3{font-size:13px;font-weight:700;color:var(--muted)}
+.eyebrow{font-family:var(--f-num);font-size:11px;letter-spacing:.14em;color:var(--muted)}
+.head h1{font-size:24px;font-weight:700;line-height:1.3;letter-spacing:.02em}
+.lede{font-size:13px;color:var(--muted)}
+#sync{font-size:12px;color:var(--muted)}
+body:not([data-v="levels"]) .head,body[data-v="memo"] .foot,body[data-v="test"] .foot{display:none}
+#app{display:flex;flex-direction:column;gap:14px;min-width:0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.card.now{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
+h2{font-size:17px;font-weight:700;line-height:1.4;text-wrap:balance}
+.label{font-family:var(--f-num);font-size:11px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
 .note{font-size:13px;color:var(--muted);line-height:1.6}
-.tag{font-size:12px;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:2px 8px;border-radius:10px;white-space:nowrap}
 .row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .btns{display:flex;gap:8px;flex-wrap:wrap}
-.btn{padding:11px 14px;border-radius:8px;border:1px solid var(--line);background:var(--bg);font-weight:700;min-height:44px}
+.btn{padding:10px 16px;border-radius:10px;border:1px solid var(--line);background:var(--surface);font-weight:700;min-height:44px}
 .btn.pri{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-.btn.big{min-height:56px;font-size:17px;width:100%}
+.btn.big{min-height:54px;font-size:16px;width:100%}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--accent);padding-inline:4px}
 .btn:disabled{opacity:.45;cursor:default}
-.choice{display:block;width:100%;text-align:left;padding:12px 14px;border-radius:8px;border:1px solid var(--line);background:var(--bg);font-weight:500;font-size:16px;min-height:48px}
-.choice:active{background:var(--accent-soft)}
-.timer{font-size:32px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.2}
+.num{font-family:var(--f-num);font-variant-numeric:tabular-nums}
+.w{font-family:var(--f-word);font-weight:600;letter-spacing:.005em}
+.pos{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 4px;border:1px solid var(--line);border-radius:4px;font-size:11px;color:var(--muted);line-height:1;vertical-align:2px}
+
+/* レベル一覧 */
+.lv{display:grid;grid-template-columns:1fr auto;gap:6px 12px;align-items:center;text-align:left;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+.lv:hover{border-color:var(--accent)}
+.lv .name{font-family:var(--f-num);font-weight:600;font-size:17px;letter-spacing:.02em}
+.lv .go{color:var(--accent);font-size:20px;line-height:1}
+.lv .desc,.lv .stat,.lv .stack{grid-column:1/-1}
+.stack{display:flex;height:8px;border-radius:4px;overflow:hidden;background:var(--new)}
+.stack i{display:block;height:100%}
+.s-fixed{background:var(--ok)}.s-mid{background:var(--mid)}.s-redo{background:var(--ng)}.s-na{background:var(--na)}.s-new{background:var(--new)}
+
+/* レベルのホーム */
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.top h2{font-family:var(--f-num);font-size:24px;font-weight:600}
+.plan{display:flex;gap:16px;flex-wrap:wrap}
+.plan div{display:flex;flex-direction:column}
+.plan b{font-family:var(--f-num);font-size:22px;font-weight:600;line-height:1.2}
+.plan span{font-size:12px;color:var(--muted)}
+.map{display:grid;grid-template-columns:repeat(20,1fr);gap:2px}
+.map i{display:block;aspect-ratio:1;border-radius:2px;max-width:100%}
+.legend{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:16px;border:1px solid var(--line);background:var(--surface);font-size:13px;font-weight:700;min-height:34px}
+.chip .sw{width:10px;height:10px;border-radius:2px}
+.chip.on{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink) inset}
+.chip:disabled{opacity:.4;cursor:default}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:10px;overflow:hidden}
+.kpi{background:var(--surface);padding:10px 12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.kpi b{font-family:var(--f-num);font-size:20px;font-weight:600;font-variant-numeric:tabular-nums}
+.kpi span{font-size:12px;color:var(--muted)}
+.unit{font-size:13px;color:var(--muted);font-weight:500;font-family:var(--f-ui)}
+.log{display:flex;flex-direction:column}
+.log div{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-top:1px solid var(--rule);font-size:13px}
+.log .num{color:var(--ink)}
+
+/* 単語の行（辞書の見出し語） */
+.entries{display:flex;flex-direction:column}
+.en{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;padding:9px 0;border-top:1px solid var(--rule)}
+.en:first-child{border-top:0}
+.en .w{font-size:19px;line-height:1.3;overflow-wrap:anywhere}
+.en .m{font-size:14px;color:var(--ink);min-width:0}
+.en .side{justify-self:end;align-self:center;display:flex;align-items:center;gap:6px}
+.mk{font-family:var(--f-num);font-size:13px;font-weight:600;letter-spacing:.08em;white-space:nowrap}
+.mk .o{color:var(--ok)}.mk .n{color:var(--ng)}.mk .t{color:var(--na)}.mk .e{color:var(--line)}
+.st{font-size:11px;font-weight:700;padding:2px 8px;border-radius:9px;white-space:nowrap}
+.st.ok{color:var(--ok);background:var(--ok-soft)}.st.mid{color:var(--mid);background:var(--mid-soft)}.st.ng{color:var(--ng);background:var(--ng-soft)}.st.na{color:var(--na);background:var(--na-soft)}.st.new{color:var(--muted);background:var(--bg)}
+.rv{font-size:11px;font-weight:700;color:var(--accent);border:1px solid var(--accent);border-radius:4px;padding:0 5px;margin-left:6px;vertical-align:3px;font-family:var(--f-ui)}
+
+/* 計時中のバー（暗記・テスト） */
+.clock{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);margin-inline:-16px;padding:10px 16px 10px;display:flex;flex-direction:column;gap:8px;border-bottom:1px solid var(--line)}
+.clock .row{flex-wrap:nowrap}
+.clock .ctx{font-size:12px;color:var(--muted)}
+.timer{font-family:var(--f-num);font-size:30px;font-weight:600;line-height:1.1;font-variant-numeric:tabular-nums}
 .timer.low{color:var(--ng)}
-.unit{font-size:16px;color:var(--muted);font-weight:600}
-.big{font-size:44px;font-weight:800;line-height:1.1}
-.word{font-size:38px;font-weight:800;line-height:1.2;letter-spacing:.01em;overflow-wrap:anywhere}
-.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-@media (max-width:420px){.kpis{grid-template-columns:repeat(2,1fr)}}
-.kpi{border:1px solid var(--line);border-radius:8px;padding:10px;display:flex;flex-direction:column;gap:2px}
-.kpi b{font-size:20px;font-variant-numeric:tabular-nums}
-.kpi span{font-size:12px;color:var(--muted);font-weight:700}
-.list{display:flex;flex-direction:column}
-.li{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
-.li:last-child{border-bottom:0}
-.li .w{font-weight:700;font-size:17px;min-width:0}
-.li .m{color:var(--ink);flex:1.3;min-width:0}
-.li .p{font-size:12px;color:var(--muted);margin-left:6px}
-.li .x{color:var(--ng);font-size:12px;white-space:nowrap}
-.mk{font-size:13px;font-weight:700;letter-spacing:.06em;white-space:nowrap;font-variant-numeric:tabular-nums}
-.mk .o{color:var(--ok)}.mk .n{color:var(--ng)}.mk .t{color:var(--warn)}.mk .e{color:var(--line)}
-.st{font-size:11px;font-weight:700;padding:1px 7px;border-radius:9px;white-space:nowrap;color:var(--muted);background:var(--bg)}
-.st.ok{color:var(--ok);background:var(--ok-soft)}.st.mid{color:var(--warn);background:var(--warn-soft)}.st.ng{color:var(--ng);background:var(--ng-soft)}
-.wr{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:7px 0;border-bottom:1px solid var(--line)}
-.wr:last-child{border-bottom:0}
-.wr .w{font-weight:700;font-size:17px;overflow-wrap:anywhere}
-.wr .m{font-size:13px;color:var(--muted);min-width:0}
-.wr .r{justify-self:end;align-self:center}
-.seg{display:flex;flex-wrap:wrap;gap:6px}
-.seg button{padding:6px 10px;border-radius:16px;border:1px solid var(--line);background:var(--bg);font-size:13px;font-weight:700;min-height:36px}
-.seg button.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-.dots{display:flex;flex-wrap:wrap;gap:4px}
-.dot{width:16px;height:16px;border-radius:8px;border:1px solid var(--line);background:var(--surface)}
-.dot.ok{background:var(--ok-soft);border-color:var(--ok)}
-.dot.ng{background:var(--ng-soft);border-color:var(--ng)}
-.dot.cur{border-color:var(--ink);border-width:2px}
-.judge{display:inline-block;font-weight:700;font-size:14px;padding:4px 10px;border-radius:12px}
-.judge.ok{color:var(--ok);background:var(--ok-soft)}.judge.mid{color:var(--warn);background:var(--warn-soft)}.judge.ng{color:var(--ng);background:var(--ng-soft)}
-.flash{min-width:110px;text-align:right;font-weight:700}
-.flash.ok{color:var(--ok)}.flash.ng{color:var(--ng)}
-.confirm{background:var(--warn-soft);border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:8px}
-.bar{height:8px;border-radius:4px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;background:var(--accent)}
-#sync{font-size:12px;color:var(--muted)}
-.foot{font-size:12px;color:var(--muted);line-height:1.6}
-@media (prefers-reduced-motion:no-preference){.flash{transition:opacity .2s}}
+.tbar{height:4px;border-radius:2px;background:var(--line);overflow:hidden}
+.tbar i{display:block;height:100%;background:var(--accent);transition:width .25s linear}
+.tbar.low i{background:var(--ng)}
+.dots{display:grid;grid-template-columns:repeat(30,1fr);gap:2px}
+.dot{height:6px;border-radius:2px;background:var(--line)}
+.dot.ok{background:var(--ok)}.dot.ng{background:var(--ng)}.dot.cur{background:var(--ink)}
+.q{display:flex;flex-direction:column;gap:6px;padding-block:6px}
+.q .w{font-size:40px;line-height:1.15;font-weight:600;overflow-wrap:anywhere}
+.choices{display:flex;flex-direction:column;gap:8px}
+.choice{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface);font-size:16px;font-weight:500;min-height:52px}
+.choice .k{font-family:var(--f-num);font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:4px;min-width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;flex:none}
+.choice:active{background:var(--accent-soft)}
+.fb{min-height:24px;font-size:14px;font-weight:700}
+.fb.ok{color:var(--ok)}.fb.ng{color:var(--ng)}
+
+/* 結果 */
+.score{display:flex;align-items:baseline;gap:6px}
+.score b{font-family:var(--f-num);font-size:56px;font-weight:600;line-height:1}
+.tally{display:flex;gap:14px;flex-wrap:wrap;font-size:14px}
+.tally span b{font-family:var(--f-num);font-weight:600}
+.judge{display:inline-block;font-weight:700;font-size:13px;padding:4px 10px;border-radius:12px;align-self:flex-start}
+.judge.ok{color:var(--ok);background:var(--ok-soft)}.judge.mid{color:var(--na);background:var(--na-soft)}.judge.ng{color:var(--ng);background:var(--ng-soft)}
+.tag{font-size:11px;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:2px 8px;border-radius:9px;white-space:nowrap}
+.confirm{background:var(--ng-soft);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.foot{font-size:12px;color:var(--muted);line-height:1.7}
+@media (prefers-reduced-motion:reduce){.tbar i{transition:none}}
 </style>
 <div class="wrap">
-  <div class="head"><div class="eyebrow">VOCABULARY FLASH · 30 WORDS / 1 MIN</div><h1>英単語フラッシュ</h1><p class="note" style="margin-top:2px">30語1分で覚えて、1分で答える</p><div id="sync">記録の保存先：この端末のブラウザ</div></div>
-  <div id="app"></div>
-  <p class="foot">30語を1分で覚えて、1分で意味を4択で答えます。正解するたびに0.5秒延び、得点＝残り秒（切り捨て）＋正解数。30語は毎回ランダムな順で選び、直近の成績で「要再習得」になった語を最大9語まで復習として混ぜます。単語ごとに直近5回の成績（◯正解・✖不正解・△時間切れ）を記録し、直近3回連続◯で定着、最新が✖なら要再習得です。300語ごとに、要再習得の語で定着テストをします。レベルは TOEIC のスコア目安で、英検・高校・大学は参考です。</p>
+  <header class="head"><div class="eyebrow">VOCABULARY FLASH · 30 WORDS / 60 SEC</div><h1>英単語フラッシュ</h1><p class="lede">30語を1分で覚え、1分で答える。単語ごとの直近5回で定着を測ります。</p><div id="sync">記録の保存先：この端末のブラウザ</div></header>
+  <main id="app"></main>
+  <p class="foot">テストは意味の4択。正解するたびに0.5秒延び、得点＝残り秒（切り捨て）＋正解数。30語はパックごとのランダムな順で選び、要再習得・未回答の語を最大9語まで復習として混ぜます。単語ごとに直近5回（◯正解・✖不正解・△時間切れ）を記録し、直近3回連続◯で定着、最新が✖なら要再習得。300語ごとに要再習得の語で定着テストをします。パックは TOEIC のスコア目安・受験英語・専門分野の13種類（各300語）。参考レベルは目安です。</p>
 </div>
 <script>
 var LEVELS=__DATA__;
@@ -160,7 +199,7 @@ function statusOf(h){
   if(s.slice(-1)==="0"||x>s.length-x)return "redo";     // 最新が✖、または✖が◯より多い
   return "mid";
 }
-var ST={redo:["要再習得","ng"],na:["未回答のみ","mid"],mid:["習得中","mid"],fixed:["定着","ok"],"new":["未出題",""]};
+var ST={redo:["要再習得","ng"],na:["未回答のみ","na"],mid:["習得中","mid"],fixed:["定着","ok"],"new":["未出題","new"]};
 var ST_RANK={redo:0,na:1,mid:2,fixed:3,"new":4};
 function badness(h){var r=recentOf(h);return (r.match(/0/g)||[]).length*2+(r.match(/2/g)||[]).length+(r.slice(-1)==="0"?3:0)}
 function ensureOrd(L,p){  // レベルごとのランダムな出題順（一度決めたら保存して固定）
@@ -202,7 +241,7 @@ function fixWords(L,p){  // 要再習得 → 未回答のみ → ✖を含む習
     .filter(function(x){return x.s==="redo"||x.s==="na"||(x.s==="mid"&&recentOf(x.h).indexOf("0")>=0)})
     .sort(function(a,b){return ST_RANK[a.s]-ST_RANK[b.s]||badness(b.h)-badness(a.h)}).slice(0,ROUND).map(function(x){return x.w});
 }
-function finishRound(id,res,left,repeat){var p=lp(id),L=LEVEL[id];apply(p,res);if(!repeat){p.cursor=(p.cursor+res.length)%L.words.length;p.learned+=res.length}var log=makeLog("round",res,left);p.log.push(log);save();return {log:log,fixDue:fixDue(p)}}
+function finishRound(id,res,left,repeat){var p=lp(id),L=LEVEL[id];apply(p,res);if(!repeat){p.learned+=res.length}var log=makeLog("round",res,left);p.log.push(log);save();return {log:log,fixDue:fixDue(p)}}
 function finishFix(id,res,left){var p=lp(id);apply(p,res);p.lastFix=p.learned;var log=makeLog("fix",res,left);p.log.push(log);save();return {log:log,fixDue:false}}
 function stats(L,p){
   var rs=p.log.filter(function(l){return l.kind==="round"}),fx=p.log.filter(function(l){return l.kind==="fix"});
@@ -216,6 +255,8 @@ function stats(L,p){
 function counts(L,p){var c={redo:0,na:0,mid:0,fixed:0,"new":0};L.words.forEach(function(w){c[statusOf(p.hist[w.w])]++});return c}
 function marks(h){var r=recentOf(h),s='';for(var i=r.length;i<HIST_N;i++)s+='<span class="e">・</span>';for(var k=0;k<r.length;k++){var ch=r[k];s+=ch==="1"?'<span class="o">◯</span>':ch==="0"?'<span class="n">✖</span>':'<span class="t">△</span>'}return '<span class="mk" aria-label="直近'+r.length+'回の成績">'+s+'</span>'}
 function stTag(s){return '<span class="st '+ST[s][1]+'">'+ST[s][0]+'</span>'}
+var MAP_ORDER=["fixed","mid","na","redo","new"];
+function stack(c,n){var h='<div class="stack" aria-hidden="true">';MAP_ORDER.forEach(function(k){if(k!=="new"&&c[k])h+='<i class="s-'+k+'" style="width:'+(c[k]/n*100)+'%"></i>'});return h+'</div>'}
 function judge(score,correct,size){var r=size?correct/size:0;if(r>=0.95&&score>=70)return ["完璧。次の30語へ","ok"];if(r>=0.8)return ["定着しています","ok"];if(r>=0.6)return ["もう一息。間違えた語をもう一度","mid"];return ["要復習。同じ30語をやり直すのがおすすめ","ng"]}
 
 /* ---- 画面 ---- */
@@ -227,85 +268,107 @@ var timer=null;
 function stopTimer(){if(timer){clearInterval(timer);timer=null}}
 function go(v,c){stopTimer();view=v;cur=c||null;render();window.scrollTo(0,0)}
 function render(){
+  document.body.setAttribute("data-v",view);
   if(view==="levels")levels();else if(view==="level")levelHome();else if(view==="memo")memo();else if(view==="test")test();else if(view==="result")result();
 }
 function levels(){
-  var h='<div class="card"><h2>レベルを選ぶ</h2><p class="note">TOEIC のスコア目安で 500 → 900 の100点刻み。英検・高校・大学は参考です。各300語。</p></div>';
-  LEVELS.forEach(function(L){var p=lp(L.id),s=stats(L,p);
-    h+='<div class="card tap" data-a="level" data-id="'+L.id+'" role="button" tabindex="0"><div class="row"><h2>'+esc(L.name)+'</h2>'+(fixDue(p)?'<span class="tag">定着テスト</span>':'')+'</div><p class="note">'+esc(L.desc)+'　<span style="color:var(--accent)">参考：'+esc(L.ref)+'</span></p>'+
-      '<div class="bar"><i style="width:'+Math.round(s.cnt.fixed/L.words.length*100)+'%"></i></div>'+
-      '<p class="note">定着 '+s.cnt.fixed+'語・出題済み '+(L.words.length-s.cnt["new"])+'/'+L.words.length+'語'+(s.cnt.redo?'・要再習得 '+s.cnt.redo+'語':'')+(s.rounds?'<br>最高 '+s.best+'点・平均 '+s.avg+'点・'+s.rounds+'回':'<br>まだ始めていません')+'</p></div>'});
+  var h='',g0=null;
+  LEVELS.forEach(function(L){var p=lp(L.id),s=stats(L,p),c=s.cnt,n=L.words.length;
+    if(L.group!==g0){g0=L.group;h+='<p class="label"'+(h?' style="margin-top:8px"':'')+'>'+esc(L.group)+'</p>'}
+    h+='<button class="lv" data-a="level" data-id="'+L.id+'"><span class="name">'+esc(L.name)+'</span><span class="row" style="gap:8px">'+(fixDue(p)?'<span class="tag">定着テスト</span>':'')+'<span class="go" aria-hidden="true">›</span></span>'+
+      '<span class="desc note">'+esc(L.desc)+'。参考：'+esc(L.ref)+'</span>'+stack(c,n)+
+      '<span class="stat note"><span class="num">'+c.fixed+'</span> 定着 · <span class="num">'+(n-c["new"])+'/'+n+'</span> 出題済み'+(c.redo?' · <span style="color:var(--ng)">要再習得 <span class="num">'+c.redo+'</span></span>':'')+(s.rounds?' · 最高 <span class="num">'+s.best+'</span>点':'')+'</span></button>'});
   app.innerHTML=h;
 }
 function levelHome(){
-  var id=cur.id,L=LEVEL[id],p=lp(id),s=stats(L,p),due=fixDue(p),plan=planRound(L,p),nrev=plan.words.length-plan.fresh;
+  var id=cur.id,L=LEVEL[id],p=lp(id),s=stats(L,p),c=s.cnt,n=L.words.length,due=fixDue(p),plan=planRound(L,p),nrev=plan.words.length-plan.fresh;
   var rem=FIX_EVERY-(p.learned%FIX_EVERY);
-  var h='<div><button class="btn" data-a="levels">‹ レベル一覧</button></div><div class="head"><h2 style="font-size:22px">'+esc(L.name)+'</h2><p class="note">'+esc(L.desc)+'　参考：'+esc(L.ref)+'</p></div>';
-  if(due)h+='<div class="card now"><h2>定着テストの時間です</h2><p>'+p.learned+'語を覚えました。これまでに間違えた語（'+s.wrongCount+'語）から最大30語を、暗記なしで1分テストします。</p><button class="btn pri big" data-a="fix">定着テストを始める</button></div>';
-  h+='<div class="card"><h2>次の30語　'+(s.cnt["new"]?'新しい語 '+plan.fresh+'・':'')+'復習 '+nrev+'</h2><p class="note">1分で30語を覚える → 1分でテスト。語はランダムな順で選び、要再習得・未回答の語を最大'+REVIEW_MAX+'語まで復習として混ぜます。</p><button class="btn pri big" data-a="start"'+(due?' disabled':'')+'>30語を覚える（1分）</button>'+(due?'<p class="note">先に定着テストを済ませてください。</p>':'')+'</div>';
-  h+='<div class="card"><h2>記録</h2><div class="kpis">'+
+  var h='<div><button class="btn ghost" data-a="levels">‹ パック一覧</button></div>';
+  h+='<div class="top"><div><p class="label">'+esc(L.ref)+'</p><h2>'+esc(L.name)+'</h2><p class="note">'+esc(L.desc)+'</p></div></div>';
+  if(due)h+='<div class="card now"><h2>定着テストの時間です</h2><p>'+p.learned+'語を学びました。要再習得などの語（'+s.wrongCount+'語）から最大30語を、暗記なしで1分テストします。</p><button class="btn pri big" data-a="fix">定着テストを始める</button></div>';
+  h+='<div class="card'+(due?'':' now')+'"><p class="label">次の30語</p><div class="plan">'+(c["new"]?'<div><b>'+plan.fresh+'</b><span>新しい語</span></div>':'')+'<div><b>'+nrev+'</b><span>復習（要再習得・未回答）</span></div></div>'+
+    '<button class="btn pri big" data-a="start"'+(due?' disabled':'')+'>30語を覚える（1分）</button>'+(due?'<p class="note">先に定着テストを済ませてください。</p>':'<p class="note">1分で覚えて、1分でテスト。復習は最大'+REVIEW_MAX+'語まで混ざります。</p>')+'</div>';
+  h+=wordMap(L,p,c);
+  h+='<div class="card"><p class="label">スコア</p><div class="kpis">'+
     '<div class="kpi"><span>最高点</span><b>'+s.best+'</b></div><div class="kpi"><span>平均点</span><b>'+s.avg+'</b></div><div class="kpi"><span>回数</span><b>'+s.rounds+'</b></div>'+
-    '<div class="kpi"><span>正解の累計</span><b>'+s.totalCorrect+'<small class="unit">/'+s.total+'</small></b></div><div class="kpi"><span>間違えた語</span><b>'+s.wrongCount+'</b></div><div class="kpi"><span>定着テスト</span><b>'+s.fixes+(s.fixes?'<small class="unit"> 平均'+s.fixAvg+'</small>':'')+'</b></div></div>'+
-    '<p class="note">得点＝残り秒＋正解数（例：残り25秒・28問正解 → 53点）。次の定着テストまで あと'+(due?0:rem)+'語。</p>';
-  var recent=p.log.slice(-10).reverse();
-  if(recent.length){h+='<div class="list">';recent.forEach(function(l){h+='<div class="li"><span class="note">'+dl(l.at)+'　'+(l.kind==="fix"?"定着":"通常")+'</span><span>'+l.score+'点　正解'+l.correct+'/'+l.size+'　残り'+fmt1(l.left)+'秒</span></div>'});h+='</div>'}
+    '<div class="kpi"><span>正解の累計</span><b>'+s.totalCorrect+'<span class="unit">/'+s.total+'</span></b></div><div class="kpi"><span>要再習得</span><b>'+c.redo+'</b></div><div class="kpi"><span>定着テスト</span><b>'+s.fixes+(s.fixes?'<span class="unit"> 平均'+s.fixAvg+'</span>':'')+'</b></div></div>'+
+    '<p class="note">得点＝残り秒＋正解数（例：残り25秒・28問正解 → 53点）。次の定着テストまで あと<span class="num">'+(due?0:rem)+'</span>語。</p>';
+  var recent=p.log.slice(-8).reverse();
+  if(recent.length){h+='<div class="log">';recent.forEach(function(l){h+='<div><span class="note">'+dl(l.at)+'　'+(l.kind==="fix"?"定着テスト":"通常")+'</span><span class="num">'+l.score+'点　'+l.correct+'/'+l.size+'　残'+fmt1(l.left)+'s</span></div>'});h+='</div>'}
   h+='</div>';
-  h+=wordTable(L,p,s.cnt);
-  h+='<div id="reset"><button class="btn" data-a="askreset">このレベルの記録を消す</button></div>';
+  h+=wordTable(L,p,c);
+  h+='<div id="reset"><button class="btn ghost" data-a="askreset">このパックの記録を消す</button></div>';
   app.innerHTML=h;
+}
+function wordMap(L,p,c){  // 300語を1マスずつ（出題順）。色＝状態
+  var ord=p.ord&&p.ord.length===L.words.length?p.ord:L.words.map(function(_,i){return i}),n=L.words.length;
+  var h='<div class="card"><div class="row"><p class="label">語彙マップ · '+n+'語</p><span class="note"><span class="num">'+Math.round(c.fixed/n*100)+'%</span> 定着</span></div><div class="map" role="img" aria-label="定着'+c.fixed+'語・習得中'+c.mid+'語・要再習得'+c.redo+'語・未回答のみ'+c.na+'語・未出題'+c["new"]+'語">';
+  ord.forEach(function(i){h+='<i class="s-'+statusOf(p.hist[L.words[i].w])+'"></i>'});
+  h+='</div><div class="legend">';
+  MAP_ORDER.forEach(function(k){h+='<span class="note" style="display:inline-flex;align-items:center;gap:5px"><span class="s-'+k+'" style="width:10px;height:10px;border-radius:2px;display:inline-block"></span>'+ST[k][0]+' <span class="num">'+c[k]+'</span></span>'});
+  return h+'</div></div>';
 }
 function wordTable(L,p,c){
   var keys=["redo","na","mid","fixed"],f=cur.f;
   if(!f||(f!=="all"&&!c[f]))f=keys.filter(function(k){return c[k]})[0]||"all";
   var seen=L.words.length-c["new"];
-  var h='<div class="card" id="words"><h2>単語ごとの成績（直近5回）</h2><p class="note">左が古く右が新しい。◯正解・✖不正解・△時間切れで未回答。直近3回連続◯で「定着」、最新が✖（または✖が◯より多い）と「要再習得」で、次の30語に復習として入ります。</p>';
-  if(!seen)return h+'<p class="note">まだ出題していません。</p></div>';
-  h+='<div class="seg">';keys.forEach(function(k){h+='<button data-a="filter" data-f="'+k+'" class="'+(f===k?"on":"")+'"'+(c[k]?'':' disabled')+'>'+ST[k][0]+' '+c[k]+'</button>'});
-  h+='<button data-a="filter" data-f="all" class="'+(f==="all"?"on":"")+'">すべて '+seen+'</button></div><div class="list">';
+  var h='<div class="card" id="words"><p class="label">単語ごとの成績 · 直近5回</p><p class="note">左が古く右が新しい。◯正解 ✖不正解 △時間切れ。直近3回連続◯で定着、最新が✖（または✖が◯より多い）と要再習得になり、次の30語に復習として入ります。</p>';
+  if(!seen)return h+'<p class="note">まだ出題していません。最初の30語を覚えると、ここに単語ごとの成績が並びます。</p></div>';
+  h+='<div class="legend">';keys.forEach(function(k){h+='<button class="chip'+(f===k?" on":"")+'" data-a="filter" data-f="'+k+'"'+(c[k]?'':' disabled')+'><span class="sw s-'+k+'"></span>'+ST[k][0]+' <span class="num">'+c[k]+'</span></button>'});
+  h+='<button class="chip'+(f==="all"?" on":"")+'" data-a="filter" data-f="all">すべて <span class="num">'+seen+'</span></button></div><div class="entries">';
   L.words.map(function(w){return {w:w,h:p.hist[w.w],s:statusOf(p.hist[w.w])}}).filter(function(x){return x.s!=="new"&&(f==="all"||x.s===f)})
     .sort(function(a,b){return ST_RANK[a.s]-ST_RANK[b.s]||badness(b.h)-badness(a.h)})
-    .forEach(function(x){h+='<div class="wr"><span class="w">'+esc(x.w.w)+'</span><span class="r">'+stTag(x.s)+'</span><span class="m">'+esc(x.w.m)+'</span><span class="r">'+marks(x.h)+'</span></div>'});
+    .forEach(function(x){h+='<div class="en"><span class="w">'+esc(x.w.w)+'</span><span class="side">'+stTag(x.s)+'</span><span class="m">'+esc(x.w.m)+' <span class="pos">'+esc(x.w.p)+'</span></span><span class="side">'+marks(x.h)+'</span></div>'});
   return h+'</div></div>';
 }
+function clockBar(ctx,right,text,extra){return '<div class="clock"><div class="row"><div><p class="ctx">'+ctx+'</p><div class="timer" id="t">'+text+'</div></div>'+right+'</div><div class="tbar" id="tb"><i style="width:100%"></i></div>'+(extra||'')+'</div>'}
+function setClock(text,left,total){var t=document.getElementById("t"),b=document.getElementById("tb");if(t){t.innerHTML=text;t.className="timer"+(left<=10?" low":"")}if(b){b.className="tbar"+(left<=10?" low":"");b.firstChild.style.width=Math.max(0,Math.min(100,left/total*100))+"%"}}
 function memo(){
   var id=cur.id,L=LEVEL[id],p=lp(id),words=cur.words,start=Date.now(),done=false;
-  var h='<div class="row"><div><p class="note">'+esc(L.name)+'　覚える 30語</p><div class="timer" id="t">1:00</div></div><button class="btn pri" data-a="totest">テストへ進む</button></div><div class="card"><div class="list">';
-  words.forEach(function(w){var x=p.hist[w.w];h+='<div class="li"><span class="w">'+esc(w.w)+'</span><span class="m">'+esc(w.m)+'<span class="p">'+esc(w.p)+'</span></span>'+(recentOf(x)?marks(x):'')+'</div>'});
-  h+='</div></div><p class="note">時間になると自動でテストが始まります。</p>';
+  var h=clockBar(esc(L.name)+'　覚える <span class="num">'+words.length+'</span>語'+(cur.repeat?'（もう一度）':''),'<button class="btn pri" data-a="totest">テストへ ›</button>','1:00');
+  h+='<div class="card"><div class="entries">';
+  words.forEach(function(w){var x=p.hist[w.w],r=recentOf(x);h+='<div class="en"><span class="w">'+esc(w.w)+(r?'<span class="rv">復習</span>':'')+'</span><span class="side">'+(r?marks(x):'')+'</span><span class="m">'+esc(w.m)+' <span class="pos">'+esc(w.p)+'</span></span><span></span></div>'});
+  h+='</div></div><p class="note">時間になると自動でテストが始まります。「復習」は前に出た語で、右は直近の成績です。</p>';
   app.innerHTML=h;
   cur.finish=function(){if(done)return;done=true;go("test",{id:id,words:words,kind:"round",repeat:cur.repeat})};
-  timer=setInterval(function(){var l=MEMO_SEC-(Date.now()-start)/1000;var t=document.getElementById("t");if(t){t.textContent=fmt(Math.ceil(l));t.className="timer"+(l<=10?" low":"")}if(l<=0){stopTimer();cur.finish()}},250);
+  timer=setInterval(function(){var l=MEMO_SEC-(Date.now()-start)/1000;setClock(fmt(Math.ceil(l)),l,MEMO_SEC);if(l<=0){stopTimer();cur.finish()}},250);
 }
 function test(){
   var id=cur.id,L=LEVEL[id],words=cur.words,kind=cur.kind,qs=buildTest(words,L),i=0,bonus=0,start=Date.now(),done=false;
   var res=qs.map(function(q){return {w:q.w,ok:false,answered:false}});
   function leftNow(){return TEST_SEC+bonus-(Date.now()-start)/1000}
   function finish(l){if(done)return;done=true;stopTimer();var r=kind==="fix"?finishFix(id,res,l):finishRound(id,res,l,cur.repeat);go("result",{id:id,words:words,res:res,log:r.log,fixDue:r.fixDue})}
-  function draw(flash){
-    var q=qs[i],correct=res.filter(function(r){return r.ok}).length;
-    var h='<div class="row"><div><p class="note">'+(kind==="fix"?"定着テスト":esc(L.name))+'　'+(i+1)+'/'+qs.length+'問　正解 '+correct+'</p><div class="timer" id="t">'+fmt1(leftNow())+'<span class="unit"> 秒</span></div></div><div class="flash '+(flash||"")+'">'+(flash==="ok"?"正解 +0.5秒":flash==="ng"?"不正解":"&nbsp;")+'</div></div><div class="dots">';
-    res.forEach(function(r,k){h+='<span class="dot'+(r.answered?(r.ok?" ok":" ng"):"")+(k===i?" cur":"")+'"></span>'});
-    h+='</div><div class="card"><p class="note" style="font-weight:700">意味は？　'+esc(q.w.p)+'</p><div class="word">'+esc(q.w.w)+'</div><div style="display:flex;flex-direction:column;gap:8px">';
-    q.choices.forEach(function(c,k){h+='<button class="choice" data-a="ans" data-k="'+k+'">'+(k+1)+'．'+esc(c)+'</button>'});
-    h+='</div></div><p class="note">正解で0.5秒延びます。得点＝残り秒（切り捨て）＋正解数。</p>';
-    app.innerHTML=h;
+  function draw(fb){
+    var q=qs[i],correct=res.filter(function(r){return r.ok}).length,l=leftNow();
+    var h=clockBar((kind==="fix"?"定着テスト":esc(L.name))+'　<span class="num">'+(i+1)+'/'+qs.length+'</span>問　正解 <span class="num">'+correct+'</span>','<span></span>',fmt1(l)+'<span class="unit"> 秒</span>','<div class="dots" aria-hidden="true">'+res.map(function(r,k){return '<span class="dot'+(r.answered?(r.ok?" ok":" ng"):"")+(k===i?" cur":"")+'"></span>'}).join("")+'</div>');
+    h+='<div class="fb '+(fb?fb.c:"")+'" aria-live="polite">'+(fb?fb.t:"")+'</div>';
+    h+='<div class="q"><p class="note">意味は？ <span class="pos">'+esc(q.w.p)+'</span></p><div class="w">'+esc(q.w.w)+'</div></div><div class="choices">';
+    q.choices.forEach(function(c,k){h+='<button class="choice" data-a="ans" data-k="'+k+'"><span class="k">'+(k+1)+'</span><span>'+esc(c)+'</span></button>'});
+    h+='</div><p class="note">正解で0.5秒延びます。キーボードの 1〜4 でも答えられます。</p>';
+    app.innerHTML=h;setClock(fmt1(l)+'<span class="unit"> 秒</span>',l,TEST_SEC);
   }
-  cur.answer=function(k){if(done)return;var q=qs[i],ok=k===q.a;res[i]={w:q.w,ok:ok,answered:true};if(ok)bonus+=BONUS;if(i<qs.length-1){i++;draw(ok?"ok":"ng")}else finish(leftNow())};
+  cur.answer=function(k){if(done)return;var q=qs[i],ok=k===q.a;res[i]={w:q.w,ok:ok,answered:true};if(ok)bonus+=BONUS;
+    if(i<qs.length-1){i++;draw(ok?{c:"ok",t:"◯ 正解 +0.5秒"}:{c:"ng",t:"✖ "+esc(q.w.w)+" ＝ "+esc(q.w.m)})}else finish(leftNow())};
   draw();
-  timer=setInterval(function(){var l=leftNow();var t=document.getElementById("t");if(t){t.innerHTML=fmt1(l)+'<span class="unit"> 秒</span>';t.className="timer"+(l<=10?" low":"")}if(l<=0)finish(0)},100);
+  timer=setInterval(function(){var l=leftNow();setClock(fmt1(l)+'<span class="unit"> 秒</span>',l,TEST_SEC);if(l<=0)finish(0)},100);
 }
 function result(){
   var id=cur.id,L=LEVEL[id],p=lp(id),log=cur.log,res=cur.res,s=stats(L,p),wrong=res.filter(function(r){return !r.ok}),j=judge(log.score,log.correct,log.size);
+  var ng=res.filter(function(r){return r.answered&&!r.ok}).length,na=res.filter(function(r){return !r.answered}).length;
   var isBest=log.kind==="round"&&log.score>=s.best;
-  var h='<div class="card"><p class="note" style="font-weight:700">'+(log.kind==="fix"?"定着テスト":esc(L.name))+(isBest?'　<span class="tag">自己ベスト</span>':'')+'</p><div><span class="big">'+log.score+'</span><span class="unit"> 点</span></div>'+
-    '<p>残り '+fmt1(log.left)+'秒 ＋ 正解 '+log.correct+'問'+(log.asked<log.size?'（'+(log.size-log.asked)+'問は時間切れ）':'')+'</p><div><span class="judge '+j[1]+'">'+j[0]+'</span></div>'+
-    '<p class="note">このレベルの最高 '+s.best+'点・平均 '+s.avg+'点（'+s.rounds+'回）。覚えた語 '+p.learned+'。</p></div>';
-  if(cur.fixDue)h+='<div class="card now"><h2>'+p.learned+'語を覚えました</h2><p>これまでに間違えた語だけで、暗記なしの1分テストをして定着を測ります。</p><button class="btn pri big" data-a="fix">定着テストへ</button></div>';
-  if(wrong.length){h+='<div class="card"><h2>間違えた・未回答の語 '+wrong.length+'</h2><div class="list">';wrong.forEach(function(r){var x=p.hist[r.w.w];h+='<div class="wr"><span class="w">'+esc(r.w.w)+'</span><span class="r">'+stTag(statusOf(x))+'</span><span class="m">'+esc(r.w.m)+'　'+(r.answered?"✖ 不正解":"△ 時間切れ")+'</span><span class="r">'+marks(x)+'</span></div>'});h+='</div><p class="note">△（時間切れ）は不正解に数えず、次の30語で復習として出します。</p></div>'}
-  h+='<div class="btns">'+(!cur.fixDue&&log.kind==="round"?'<button class="btn pri" data-a="start">次の30語へ</button>':'')+(log.kind==="round"?'<button class="btn" data-a="again">同じ30語をもう一度</button>':'')+'<button class="btn" data-a="level">ホームへ</button></div>';
+  var h='<div class="card"><div class="row"><p class="label">'+(log.kind==="fix"?"定着テスト":esc(L.name))+'</p>'+(isBest?'<span class="tag">自己ベスト</span>':'')+'</div><div class="score"><b>'+log.score+'</b><span class="unit">点</span></div>'+
+    '<p class="note">残り <span class="num">'+fmt1(log.left)+'</span>秒 ＋ 正解 <span class="num">'+log.correct+'</span>問</p>'+
+    '<div class="tally"><span style="color:var(--ok)">◯ 正解 <b>'+log.correct+'</b></span><span style="color:var(--ng)">✖ 不正解 <b>'+ng+'</b></span><span style="color:var(--na)">△ 時間切れ <b>'+na+'</b></span></div>'+
+    '<span class="judge '+j[1]+'">'+j[0]+'</span>'+
+    '<p class="note">このパックの最高 '+s.best+'点・平均 '+s.avg+'点（'+s.rounds+'回）。定着 '+s.cnt.fixed+'語・要再習得 '+s.cnt.redo+'語。</p></div>';
+  if(cur.fixDue)h+='<div class="card now"><h2>'+p.learned+'語を学びました</h2><p>要再習得などの語だけで、暗記なしの1分テストをして定着を測ります。</p><button class="btn pri big" data-a="fix">定着テストへ</button></div>';
+  h+='<div class="btns">'+(!cur.fixDue&&log.kind==="round"?'<button class="btn pri" data-a="start">次の30語へ</button>':'')+(log.kind==="round"?'<button class="btn" data-a="again">同じ30語をもう一度</button>':'')+'<button class="btn" data-a="level">パックのホームへ</button></div>';
+  if(wrong.length){h+='<div class="card"><p class="label">間違えた・時間切れの語 · '+wrong.length+'</p><div class="entries">';
+    wrong.forEach(function(r){var x=p.hist[r.w.w];h+='<div class="en"><span class="w">'+esc(r.w.w)+'</span><span class="side">'+stTag(statusOf(x))+'</span><span class="m">'+esc(r.w.m)+' <span class="pos">'+esc(r.w.p)+'</span></span><span class="side">'+marks(x)+'</span></div>'});
+    h+='</div><p class="note">△（時間切れ）は不正解に数えず、次の30語で復習として出します。</p></div>'}
   app.innerHTML=h;
 }
-function startRound(id){go("memo",{id:id,words:nextWords(LEVEL[id],lp(id))})}
+function startRound(id){var p=lp(id),had=Array.isArray(p.ord)&&p.ord.length===LEVEL[id].words.length,ws=nextWords(LEVEL[id],p);if(!had)save();go("memo",{id:id,words:ws})}
 function startFix(id){var ws=fixWords(LEVEL[id],lp(id));if(!ws.length){lp(id).lastFix=lp(id).learned;save();go("level",{id:id});return}go("test",{id:id,words:ws,kind:"fix"})}
 app.addEventListener("click",function(e){
   var b=e.target.closest("[data-a]");if(!b)return;var a=b.getAttribute("data-a"),id=cur&&cur.id;
@@ -321,6 +384,7 @@ app.addEventListener("click",function(e){
   else if(a==="reset"){S.levels[id]=emptyLevel();save();go("level",{id:id})}
   else if(a==="noreset")go("level",{id:id});
 });
+document.addEventListener("keydown",function(e){if(view==="test"&&cur&&cur.answer&&/^[1-4]$/.test(e.key)&&!e.metaKey&&!e.ctrlKey){e.preventDefault();cur.answer(+e.key-1)}});
 app.addEventListener("keydown",function(e){if((e.key==="Enter"||e.key===" ")&&e.target.classList.contains("tap")){e.preventDefault();e.target.click()}});
 function start(h){loadLocal();if(h&&h.view&&h.view!=="memo"&&h.view!=="test"){view=h.view;cur=h.cur}render();connect()}
 try{if(window.claude&&window.claude.hot&&window.claude.hot.snapshot)window.claude.hot.snapshot(function(){return (view==="memo"||view==="test")?{}:{view:view,cur:cur}})}catch(e){}

@@ -3,8 +3,10 @@
 //       → 単語ごとに直近5回の◯✖△と状態（定着／習得中／要再習得）。要再習得の語は次の30語に復習として入る
 //       → 300語ごとに要再習得の語で定着テスト。一覧からは全パック横断の定着テスト（総合定着テスト）も
 // パックは無料（TOEIC 500）／買い切り。未購入でも最初の30語は試せる
+// 見た目は Web版（web/vocab/）と同じ：英単語は辞書の見出し語のようにセリフ体、数字は等幅、計時中は時計を上に固定、
+// パックごとに300語の「語彙マップ」。この画面は自分でスクロールを持つ（計時中は時計の下だけをスクロール）。
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Platform, Pressable, ScrollView, Text, View } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import type { Colors } from './theme';
 import type { Styles } from './styles';
@@ -27,11 +29,22 @@ type VScreen =
 
 // 課金（App.tsx が用意）：価格の表示・購入・復元・開発用の切り替え
 export type Shop = { msg: string | null; price: (sku: string) => string; buy: (sku: string) => void; restore: () => void; devToggle?: (id: string) => void };
-export type VCtx = { c: Colors; st: Styles; p: VocabProgress; update: (p: VocabProgress) => void; toTop: () => void; unlocked: Record<string, boolean>; shop: Shop };
+export type VCtx = { c: Colors; st: Styles; p: VocabProgress; update: (p: VocabProgress) => void; unlocked: Record<string, boolean>; shop: Shop };
+
+// 英単語はセリフ体（辞書の見出し語）、数字は等幅
+const F = {
+  word: Platform.select({ ios: 'Georgia', default: 'serif' }),
+  num: Platform.select({ ios: 'Menlo', default: 'monospace' }),
+};
+const MAP_ORDER: WordStatus[] = ['fixed', 'mid', 'na', 'redo', 'new'];
+const stColor = (c: Colors, s: WordStatus): [string, string] =>
+  s === 'fixed' ? [c.ok, c.okSoft] : s === 'mid' ? [c.ai, c.aiSoft] : s === 'redo' ? [c.ng, c.ngSoft] : s === 'na' ? [c.warn, c.warnSoft] : [c.muted, c.line];
 
 export function VocabApp({ ctx }: { ctx: VCtx }) {
+  const { c, st } = ctx;
   const [s, setS] = useState<VScreen>({ name: 'levels' });
-  const go = useCallback((n: VScreen) => { setS(n); ctx.toTop(); }, [ctx]);
+  const scroll = useRef<ScrollView>(null);
+  const go = useCallback((n: VScreen) => { setS(n); scroll.current?.scrollTo({ y: 0, animated: false }); }, []);
   const lp = 'id' in s ? levelOf(ctx.p, s.id) : emptyLevel();
   const setLp = (id: string, next: LevelProgress) => ctx.update({ ...ctx.p, levels: { ...ctx.p.levels, [id]: next } });
   const start = (id: string) => {
@@ -45,7 +58,6 @@ export function VocabApp({ ctx }: { ctx: VCtx }) {
     if (!ws.length) { setLp(id, skipFix(levelOf(ctx.p, id))); go({ name: 'level', id }); return; }
     go({ name: 'test', id, words: ws, kind: 'fix' });
   };
-
   const startMixed = () => {
     const usable = LEVELS.filter(L => isOwned(L, ctx.unlocked) || levelOf(ctx.p, L.id).learned > 0);
     const items = mixedFixItems(ctx.p, usable);
@@ -53,10 +65,12 @@ export function VocabApp({ ctx }: { ctx: VCtx }) {
     go({ name: 'mixtest', qs: buildMixedTest(items) });
   };
 
-  if (s.name === 'levels') return <Levels ctx={ctx} go={go} startMixed={startMixed} />;
-  if (s.name === 'level') return <LevelHome ctx={ctx} level={LEVEL[s.id]} lp={lp} go={go} start={() => start(s.id)} startFix={() => startFix(s.id)} reset={() => setLp(s.id, emptyLevel())} />;
-  if (s.name === 'mixtest') {
-    return (
+  let body: React.ReactNode;
+  const timed = s.name === 'memo' || s.name === 'test' || s.name === 'mixtest';   // 計時中は時計を上に固定
+  if (s.name === 'levels') body = <Levels ctx={ctx} go={go} startMixed={startMixed} />;
+  else if (s.name === 'level') body = <LevelHome key={s.id} ctx={ctx} level={LEVEL[s.id]} lp={lp} go={go} start={() => start(s.id)} startFix={() => startFix(s.id)} reset={() => setLp(s.id, emptyLevel())} />;
+  else if (s.name === 'mixtest') {
+    body = (
       <Test key={'mix' + s.qs[0].w.w} ctx={ctx} level={LEVEL[s.qs[0].lv!]} qs={s.qs} words={[]} kind="mix"
         onDone={(res, left) => {
           const r = finishMixedFix(ctx.p, s.qs, res, left);
@@ -64,11 +78,10 @@ export function VocabApp({ ctx }: { ctx: VCtx }) {
           go({ name: 'mixresult', qs: s.qs, res, logs: r.logs });
         }} />
     );
-  }
-  if (s.name === 'mixresult') return <MixResult ctx={ctx} s={s} home={() => go({ name: 'levels' })} again={startMixed} />;
-  if (s.name === 'memo') return <Memo key={s.words[0].w} ctx={ctx} level={LEVEL[s.id]} lp={lp} words={s.words} onDone={() => go({ name: 'test', id: s.id, words: s.words, kind: 'round', repeat: s.repeat })} />;
-  if (s.name === 'test') {
-    return (
+  } else if (s.name === 'mixresult') body = <MixResult ctx={ctx} s={s} home={() => go({ name: 'levels' })} again={startMixed} />;
+  else if (s.name === 'memo') body = <Memo key={s.words[0].w} ctx={ctx} level={LEVEL[s.id]} lp={lp} words={s.words} repeat={!!s.repeat} onDone={() => go({ name: 'test', id: s.id, words: s.words, kind: 'round', repeat: s.repeat })} />;
+  else if (s.name === 'test') {
+    body = (
       <Test key={s.kind + s.words[0].w} ctx={ctx} level={LEVEL[s.id]} words={s.words} kind={s.kind}
         onDone={(res, left) => {
           if (s.kind === 'fix') {
@@ -82,33 +95,49 @@ export function VocabApp({ ctx }: { ctx: VCtx }) {
           }
         }} />
     );
+  } else {
+    body = (
+      <ResultView ctx={ctx} s={s} lp={lp}
+        again={() => go({ name: 'memo', id: s.id, words: s.words, repeat: true })}
+        next={() => start(s.id)} fix={() => startFix(s.id)} home={() => go({ name: 'level', id: s.id })} />
+    );
   }
+  if (timed) return <View style={{ flex: 1, backgroundColor: c.bg }}>{body}</View>;   // 時計の下だけをスクロール（Timed）
   return (
-    <ResultView ctx={ctx} s={s} lp={lp}
-      again={() => go({ name: 'memo', id: s.id, words: s.words, repeat: true })}
-      next={() => start(s.id)} fix={() => startFix(s.id)} home={() => go({ name: 'level', id: s.id })} />
+    <ScrollView ref={scroll} style={{ flex: 1, backgroundColor: c.bg }} contentContainerStyle={st.wrap}>
+      {body}
+    </ScrollView>
   );
 }
 
 /* ---------- 小道具 ---------- */
-function Btn({ ctx, label, onPress, primary, disabled, big }: { ctx: VCtx; label: string; onPress: () => void; primary?: boolean; disabled?: boolean; big?: boolean }) {
-  const { st } = ctx;
+function Btn({ ctx, label, onPress, primary, disabled, big, ghost }: { ctx: VCtx; label: string; onPress: () => void; primary?: boolean; disabled?: boolean; big?: boolean; ghost?: boolean }) {
+  const { st, c } = ctx;
   return (
     <Pressable accessibilityRole="button" disabled={disabled} onPress={onPress}
-      style={({ pressed }) => [st.btn, primary && st.btnPri, disabled && st.btnDis, big && { minHeight: 56 }, pressed && st.pressed]}>
-      <Text style={[st.btnText, primary && st.btnPriText, big && { fontSize: 17 }]}>{label}</Text>
+      style={({ pressed }) => [st.btn, { borderRadius: 10, backgroundColor: c.paper }, primary && st.btnPri, ghost && { backgroundColor: 'transparent', borderColor: 'transparent', paddingHorizontal: 2 }, disabled && st.btnDis, big && { minHeight: 54 }, pressed && st.pressed]}>
+      <Text style={[st.btnText, primary && st.btnPriText, ghost && { color: c.ai }, big && { fontSize: 16 }]}>{label}</Text>
     </Pressable>
   );
 }
+function Label({ ctx, children }: { ctx: VCtx; children: React.ReactNode }) {
+  return <Text style={{ fontFamily: F.num, fontSize: 11, letterSpacing: 1.2, color: ctx.c.muted }}>{children}</Text>;
+}
+function Pos({ ctx, p }: { ctx: VCtx; p: string }) {
+  const { c } = ctx;
+  return <Text style={{ fontSize: 11, color: c.muted, borderWidth: 1, borderColor: c.line, borderRadius: 4, paddingHorizontal: 4, overflow: 'hidden' }}>{p}</Text>;
+}
 const fmt = (sec: number) => `${Math.floor(Math.max(0, sec) / 60)}:${String(Math.floor(Math.max(0, sec) % 60)).padStart(2, '0')}`;
 const fmt1 = (sec: number) => Math.max(0, sec).toFixed(1);
+const dateLabel = (at: number) => { const d = new Date(at); return `${d.getMonth() + 1}/${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2, '0')}`; };
+
 // 直近5回の成績（左が古い）。空きは「・」
 function Marks({ ctx, h }: { ctx: VCtx; h?: WordHist }) {
   const { c } = ctx;
   const r = recentOf(h);
   const cells = [...Array(Math.max(0, HIST_N - r.length)).fill('e'), ...r.split('')];
   return (
-    <Text accessibilityLabel={`直近${r.length}回の成績`} style={{ fontSize: 13, fontWeight: '700', letterSpacing: 1 }}>
+    <Text accessibilityLabel={`直近${r.length}回の成績`} style={{ fontFamily: F.num, fontSize: 13, fontWeight: '600', letterSpacing: 1 }}>
       {cells.map((ch, i) => (
         <Text key={i} style={{ color: ch === '1' ? c.ok : ch === '0' ? c.ng : ch === '2' ? c.warn : c.line }}>{ch === '1' ? '◯' : ch === '0' ? '✖' : ch === '2' ? '△' : '・'}</Text>
       ))}
@@ -116,47 +145,70 @@ function Marks({ ctx, h }: { ctx: VCtx; h?: WordHist }) {
   );
 }
 function StatusTag({ ctx, s }: { ctx: VCtx; s: WordStatus }) {
-  const { c } = ctx;
-  const [fg, bg] = s === 'fixed' ? [c.ok, c.okSoft] : s === 'redo' ? [c.ng, c.ngSoft] : s === 'new' ? [c.muted, 'transparent'] : [c.warn, c.warnSoft];
-  return <Text style={{ fontSize: 11, fontWeight: '700', color: fg, backgroundColor: bg, paddingHorizontal: 7, paddingVertical: 1, borderRadius: 9, overflow: 'hidden' }}>{STATUS_LABEL[s]}</Text>;
+  const [fg, bg] = stColor(ctx.c, s);
+  return <Text style={{ fontSize: 11, fontWeight: '700', color: fg, backgroundColor: s === 'new' ? 'transparent' : bg, paddingHorizontal: 8, paddingVertical: 2, borderRadius: 9, overflow: 'hidden' }}>{STATUS_LABEL[s]}</Text>;
 }
-// 単語ごとの成績（直近5回）。状態で絞り込み
-function WordTable({ ctx, level, lp }: { ctx: VCtx; level: Level; lp: LevelProgress }) {
-  const { c, st } = ctx;
-  const cnt = stats(level, lp).cnt;
-  const keys: WordStatus[] = ['redo', 'na', 'mid', 'fixed'];
-  const [f, setF] = useState<WordStatus | 'all' | null>(null);
-  const cur = f && (f === 'all' || cnt[f]) ? f : (keys.find(k => cnt[k]) ?? 'all');
-  const seen = level.words.length - cnt.new;
-  const rows = seen ? wordRows(level, lp, cur === 'all' ? undefined : cur) : [];
-  const chip = (k: WordStatus | 'all', label: string, n: number) => (
-    <Pressable key={k} accessibilityRole="button" disabled={!n} onPress={() => setF(k)}
-      style={({ pressed }) => [{ paddingHorizontal: 10, paddingVertical: 6, borderRadius: 16, borderWidth: 1, borderColor: cur === k ? c.ai : c.line, backgroundColor: cur === k ? c.ai : c.bg, minHeight: 36, justifyContent: 'center', opacity: n ? 1 : 0.45 }, pressed && st.pressed]}>
-      <Text style={{ fontSize: 13, fontWeight: '700', color: cur === k ? c.onAi : c.ink }}>{label} {n}</Text>
-    </Pressable>
-  );
+// 辞書の見出し語ふうの1行：語（セリフ）＋右上、意味＋品詞（＋補足）＋右下
+function Entry({ ctx, w, top, right, first, review, note }: { ctx: VCtx; w: Word; top?: React.ReactNode; right?: React.ReactNode; first?: boolean; review?: boolean; note?: string }) {
+  const { c } = ctx;
   return (
-    <View style={st.card}>
-      <Text style={st.h2}>単語ごとの成績（直近5回）</Text>
-      <Text style={st.note}>左が古く右が新しい。◯正解・✖不正解・△時間切れで未回答。直近3回連続◯で「定着」、最新が✖（または✖が◯より多い）と「要再習得」で、次の30語に復習として入ります。</Text>
-      {!seen ? <Text style={st.note}>まだ出題していません。</Text> : (
-        <>
-          <View style={[st.wrapRow, { gap: 6 }]}>
-            {keys.map(k => chip(k, STATUS_LABEL[k], cnt[k]))}
-            {chip('all', 'すべて', seen)}
-          </View>
-          {rows.map((x, i) => (
-            <View key={x.w.w} style={{ paddingVertical: 6, gap: 2, borderBottomWidth: i < rows.length - 1 ? 0.5 : 0, borderBottomColor: c.line }}>
-              <View style={st.rowBetween}><Text style={[st.stmt, st.bold, { flex: 1 }]}>{x.w.w}</Text><StatusTag ctx={ctx} s={x.s} /></View>
-              <View style={st.rowBetween}><Text style={[st.note, { flex: 1 }]}>{x.w.m}</Text><Marks ctx={ctx} h={x.h} /></View>
-            </View>
-          ))}
-        </>
-      )}
+    <View style={{ paddingVertical: 9, gap: 2, borderTopWidth: first ? 0 : 0.5, borderTopColor: c.line }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, flexShrink: 1 }}>
+          <Text style={{ fontFamily: F.word, fontSize: 19, fontWeight: '600', color: c.ink, flexShrink: 1 }}>{w.w}</Text>
+          {review && <Text style={{ fontSize: 11, fontWeight: '700', color: c.ai, borderWidth: 1, borderColor: c.ai, borderRadius: 4, paddingHorizontal: 5, overflow: 'hidden' }}>復習</Text>}
+        </View>
+        {top}
+      </View>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, flexShrink: 1, flexWrap: 'wrap' }}>
+          <Text style={{ fontSize: 14, color: c.ink, flexShrink: 1 }}>{w.m}</Text>
+          <Pos ctx={ctx} p={w.p} />
+          {!!note && <Text style={{ fontSize: 12, color: c.muted }}>{note}</Text>}
+        </View>
+        {right}
+      </View>
     </View>
   );
 }
-const dateLabel = (at: number) => { const d = new Date(at); return `${d.getMonth() + 1}/${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2, '0')}`; };
+// 状態の内訳を1本の帯で（定着→習得中→未回答→要再習得、残りは未出題）
+function Stack({ ctx, cnt, n }: { ctx: VCtx; cnt: Record<WordStatus, number>; n: number }) {
+  const { c } = ctx;
+  return (
+    <View style={{ flexDirection: 'row', height: 8, borderRadius: 4, overflow: 'hidden', backgroundColor: c.line }}>
+      {MAP_ORDER.filter(k => k !== 'new' && cnt[k]).map(k => <View key={k} style={{ width: `${cnt[k] / n * 100}%`, backgroundColor: stColor(c, k)[0] }} />)}
+    </View>
+  );
+}
+// 時計：文脈・残り時間・時間の帯・右側（ボタン）・下に追加（テストの進み具合）
+function Clock({ ctx, label, text, left, total, right, extra }: { ctx: VCtx; label: string; text: React.ReactNode; left: number; total: number; right?: React.ReactNode; extra?: React.ReactNode }) {
+  const { c } = ctx;
+  const low = left <= 10;
+  return (
+    <View style={{ backgroundColor: c.bg, paddingHorizontal: 16, paddingVertical: 10, gap: 8, borderBottomWidth: 0.5, borderBottomColor: c.line }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
+        <View style={{ flexShrink: 1 }}>
+          <Text style={{ fontSize: 12, color: c.muted }} numberOfLines={1}>{label}</Text>
+          <Text style={{ fontFamily: F.num, fontSize: 30, fontWeight: '600', color: low ? c.ng : c.ink, fontVariant: ['tabular-nums'] }}>{text}</Text>
+        </View>
+        {right}
+      </View>
+      <View style={{ height: 4, borderRadius: 2, backgroundColor: c.line, overflow: 'hidden' }}>
+        <View style={{ height: 4, width: `${Math.max(0, Math.min(100, left / total * 100))}%`, backgroundColor: low ? c.ng : c.ai }} />
+      </View>
+      {extra}
+    </View>
+  );
+}
+// 計時中の画面：時計を上に置き、その下だけをスクロールする
+function Timed({ ctx, clock, children }: { ctx: VCtx; clock: React.ReactNode; children: React.ReactNode }) {
+  return (
+    <>
+      {clock}
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={[ctx.st.wrap, { paddingTop: 12 }]}>{children}</ScrollView>
+    </>
+  );
+}
 
 /* ---------- パック一覧 ---------- */
 function Levels({ ctx, go, startMixed }: { ctx: VCtx; go: (s: VScreen) => void; startMixed: () => void }) {
@@ -167,14 +219,13 @@ function Levels({ ctx, go, startMixed }: { ctx: VCtx; go: (s: VScreen) => void; 
   return (
     <>
       <View style={{ gap: 4 }}>
-        <Text style={st.h1}>英単語フラッシュ</Text>
-        <Text style={st.note}>30語1分で覚えて、1分で答える</Text>
-        <Text style={st.sub}>30語を1分で覚えて、1分で意味を答えます。正解するたびに0.5秒延び、得点は「残り秒＋正解数」。30語はランダムな順で選び、要再習得の語を復習として混ぜます。300語ごとに定着テストがあります。</Text>
-        <Text style={st.note}>TOEIC 500 は無料。ほかのパックは最初の30語を試せます（買い切りで全300語）。</Text>
+        <Label ctx={ctx}>VOCABULARY FLASH · 30 WORDS / 60 SEC</Label>
+        <Text style={[st.h1, { fontFamily: undefined, fontSize: 24 }]}>英単語フラッシュ</Text>
+        <Text style={st.note}>30語を1分で覚え、1分で答える。単語ごとの直近5回で定着を測ります。TOEIC 500 は無料、ほかのパックは最初の30語を試せます。</Text>
       </View>
-      <View style={[st.card, mixN > 0 && st.cardNow]}>
+      <View style={[st.card, mixN > 0 && st.cardNow, { borderRadius: 12 }]}>
         <View style={st.rowBetween}>
-          <Text style={st.h2}>総合定着テスト</Text>
+          <Label ctx={ctx}>総合定着テスト</Label>
           {mixN > 0 && <Text style={st.tag}>{mixN}語</Text>}
         </View>
         <Text style={st.note}>使えるパック全体から、要再習得・未回答・最近間違えた語を各パック均等に最大30語集めて、暗記なしの1分テスト。各パックの成績に記録されます（300語ごとの定着テストの周期は進みません）。</Text>
@@ -182,25 +233,29 @@ function Levels({ ctx, go, startMixed }: { ctx: VCtx; go: (s: VScreen) => void; 
       </View>
       {GROUPS.map(g => (
         <View key={g} style={{ gap: 10 }}>
-          <Text style={st.h3}>{g}</Text>
+          <Label ctx={ctx}>{g}</Label>
           {LEVELS.filter(L => L.group === g).map(L => {
             const lp = levelOf(ctx.p, L.id);
             const s = stats(L, lp);
             const owned = isOwned(L, unlocked);
+            const n = L.words.length;
             return (
               <Pressable key={L.id} accessibilityRole="button" onPress={() => go({ name: 'level', id: L.id })}
-                style={({ pressed }) => [st.card, pressed && st.pressed]}>
+                style={({ pressed }) => [st.card, { borderRadius: 12, gap: 8 }, pressed && st.pressed]}>
                 <View style={st.rowBetween}>
-                  <Text style={st.h2}>{L.name}</Text>
-                  <View style={st.row}>
-                    {fixDue(lp) && <Text style={st.tag}>定着テスト</Text>}
-                    {L.free ? <Text style={st.tag}>無料</Text> : !owned && <Text style={st.tag}>{lp.learned < TRIAL_WORDS ? 'お試し30語' : shop.price(L.sku)}</Text>}
+                  <Text style={{ fontSize: 17, fontWeight: '700', color: c.ink, flexShrink: 1 }}>{L.name}</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                    {fixDue(lp) && owned && <Text style={st.tag}>定着テスト</Text>}
+                    {L.free ? <Text style={[st.tag, { color: c.ok, backgroundColor: c.okSoft }]}>無料</Text> : !owned && <Text style={st.tag}>{lp.learned < TRIAL_WORDS ? 'お試し30語' : shop.price(L.sku)}</Text>}
+                    <Text style={{ color: c.ai, fontSize: 20 }}>›</Text>
                   </View>
                 </View>
-                <Text style={st.note}>{L.desc}　<Text style={{ color: c.ai }}>参考：{L.ref}</Text></Text>
+                <Text style={st.note}>{L.desc}。参考：{L.ref}</Text>
+                <Stack ctx={ctx} cnt={s.cnt} n={n} />
                 <Text style={st.note}>
-                  定着 {s.cnt.fixed}語・出題済み {L.words.length - s.cnt.new}/{L.words.length}語{s.cnt.redo ? `・要再習得 ${s.cnt.redo}語` : ''}
-                  {s.rounds ? `\n最高 ${s.best}点・平均 ${s.avg}点・${s.rounds}回` : '\nまだ始めていません'}
+                  <Text style={{ fontFamily: F.num, color: c.ink }}>{s.cnt.fixed}</Text> 定着 · <Text style={{ fontFamily: F.num, color: c.ink }}>{n - s.cnt.new}/{n}</Text> 出題済み
+                  {s.cnt.redo ? <Text style={{ color: c.ng }}> · 要再習得 <Text style={{ fontFamily: F.num }}>{s.cnt.redo}</Text></Text> : null}
+                  {s.rounds ? <> · 最高 <Text style={{ fontFamily: F.num, color: c.ink }}>{s.best}</Text>点</> : null}
                 </Text>
               </Pressable>
             );
@@ -208,7 +263,7 @@ function Levels({ ctx, go, startMixed }: { ctx: VCtx; go: (s: VScreen) => void; 
         </View>
       ))}
       {!allOwned && (
-        <View style={st.card}>
+        <View style={[st.card, { borderRadius: 12 }]}>
           <Text style={st.h2}>すべてのパックを解放</Text>
           <Text style={st.note}>{LEVELS.length}パック・{LEVELS.reduce((a, L) => a + L.words.length, 0)}語をまとめて買い切り。今後追加されるパックも使えます。</Text>
           <View style={st.wrapRow}>
@@ -218,6 +273,7 @@ function Levels({ ctx, go, startMixed }: { ctx: VCtx; go: (s: VScreen) => void; 
           {shop.msg && <Text style={st.note}>{shop.msg}</Text>}
         </View>
       )}
+      <Text style={st.note}>テストは意味の4択。正解するたびに0.5秒延び、得点＝残り秒（切り捨て）＋正解数。30語はパックごとのランダムな順で選び、要再習得・未回答の語を最大{REVIEW_MAX}語まで復習として混ぜます。直近3回連続◯で定着、最新が✖なら要再習得。300語ごとに定着テストがあります。</Text>
     </>
   );
 }
@@ -227,7 +283,7 @@ function BuyCard({ ctx, level, lp }: { ctx: VCtx; level: Level; lp: LevelProgres
   const { st, shop } = ctx;
   const trial = lp.learned < TRIAL_WORDS;
   return (
-    <View style={[st.card, !trial && st.cardNow]}>
+    <View style={[st.card, !trial && st.cardNow, { borderRadius: 12 }]}>
       <Text style={st.h2}>{trial ? '最初の30語は無料で試せます' : 'このパックの続きは買い切りで'}</Text>
       <Text style={st.note}>{level.name}の全{level.words.length}語・定着テスト・単語ごとの成績が使えます。一度買えば同じ Apple ID でずっと使えます。</Text>
       <View style={st.wrapRow}>
@@ -241,7 +297,7 @@ function BuyCard({ ctx, level, lp }: { ctx: VCtx; level: Level; lp: LevelProgres
   );
 }
 
-/* ---------- レベルのホーム ---------- */
+/* ---------- パックのホーム ---------- */
 function LevelHome({ ctx, level, lp, go, start, startFix, reset }: {
   ctx: VCtx; level: Level; lp: LevelProgress; go: (s: VScreen) => void; start: () => void; startFix: () => void; reset: () => void;
 }) {
@@ -250,58 +306,61 @@ function LevelHome({ ctx, level, lp, go, start, startFix, reset }: {
   const s = stats(level, lp);
   const owned = isOwned(level, ctx.unlocked);
   const usable = canUse(level, ctx.unlocked, lp);
-  const due = fixDue(lp);
+  const due = fixDue(lp) && owned;
   const plan = planRound(level, ensureOrd(level, lp));
   const nrev = plan.words.length - plan.fresh;
-  const recent = lp.log.slice(-10).reverse();
+  const recent = lp.log.slice(-8).reverse();
+  const rem = FIX_EVERY - (lp.learned % FIX_EVERY);
+  const big = { fontFamily: F.num, fontSize: 22, fontWeight: '600' as const, color: c.ink };
   return (
     <>
-      <View style={{ alignSelf: 'flex-start' }}><Btn ctx={ctx} label="‹ パック一覧" onPress={() => go({ name: 'levels' })} /></View>
-      <View style={{ gap: 4 }}>
-        <Text style={st.h1}>{level.name}</Text>
-        <Text style={st.sub}>{level.desc}　参考：{level.ref}</Text>
+      <View style={{ alignSelf: 'flex-start' }}><Btn ctx={ctx} ghost label="‹ パック一覧" onPress={() => go({ name: 'levels' })} /></View>
+      <View style={{ gap: 2 }}>
+        <Label ctx={ctx}>{level.group} · 参考：{level.ref}</Label>
+        <Text style={{ fontSize: 24, fontWeight: '700', color: c.ink }}>{level.name}</Text>
+        <Text style={st.note}>{level.desc}</Text>
       </View>
       {!owned && <BuyCard ctx={ctx} level={level} lp={lp} />}
-      {due && owned && (
-        <View style={[st.card, st.cardNow]}>
+      {due && (
+        <View style={[st.card, st.cardNow, { borderRadius: 12 }]}>
           <Text style={st.h2}>定着テストの時間です</Text>
-          <Text style={st.body}>{lp.learned}語を覚えました。要再習得などの語（{s.wrongCount}語）から最大30語を、暗記なしで1分テストします。</Text>
+          <Text style={st.body}>{lp.learned}語を学びました。要再習得などの語（{s.wrongCount}語）から最大30語を、暗記なしで1分テストします。</Text>
           <Btn ctx={ctx} primary big label="定着テストを始める" onPress={startFix} />
         </View>
       )}
-      <View style={st.card}>
-        <Text style={st.h2}>次の30語　{s.cnt.new ? `新しい語 ${plan.fresh}・` : ''}復習 {nrev}</Text>
-        <Text style={st.note}>1分で30語を覚える → 1分でテスト。語はランダムな順で選び、要再習得・未回答の語を最大{REVIEW_MAX}語まで復習として混ぜます。</Text>
-        <Btn ctx={ctx} primary big label={!owned && usable ? '30語を試す（1分）' : '30語を覚える（1分）'} onPress={start} disabled={(due && owned) || !usable} />
-        {due && owned && <Text style={st.note}>先に定着テストを済ませてください。</Text>}
-        {!usable && <Text style={st.note}>お試しの30語は終わりました。続きは購入後に使えます。</Text>}
-      </View>
-      <View style={st.card}>
-        <Text style={st.h2}>記録</Text>
-        <View style={st.kpis}>
-          <View style={st.kpi}><Text style={st.meta}>最高点</Text><Text style={st.kpiVal}>{s.best}</Text></View>
-          <View style={st.kpi}><Text style={st.meta}>平均点</Text><Text style={st.kpiVal}>{s.avg}</Text></View>
-          <View style={st.kpi}><Text style={st.meta}>回数</Text><Text style={st.kpiVal}>{s.rounds}</Text></View>
-          <View style={st.kpi}><Text style={st.meta}>正解の累計</Text><Text style={st.kpiVal}>{s.totalCorrect}<Text style={st.bigUnit}>/{s.total}</Text></Text></View>
-          <View style={st.kpi}><Text style={st.meta}>要再習得</Text><Text style={st.kpiVal}>{s.cnt.redo}</Text></View>
-          <View style={st.kpi}><Text style={st.meta}>定着テスト</Text><Text style={st.kpiVal}>{s.fixes}<Text style={st.bigUnit}>{s.fixes ? ` 平均${s.fixAvg}` : ''}</Text></Text></View>
+      <View style={[st.card, !due && usable && st.cardNow, { borderRadius: 12 }]}>
+        <Label ctx={ctx}>次の30語</Label>
+        <View style={{ flexDirection: 'row', gap: 20 }}>
+          {s.cnt.new > 0 && <View><Text style={big}>{plan.fresh}</Text><Text style={st.note}>新しい語</Text></View>}
+          <View><Text style={big}>{nrev}</Text><Text style={st.note}>復習（要再習得・未回答）</Text></View>
         </View>
-        <Text style={st.note}>得点＝残り秒＋正解数（例：残り25秒・28問正解 → 53点）。次の定着テストまで あと{FIX_EVERY - (lp.learned % FIX_EVERY) === FIX_EVERY && !due ? FIX_EVERY : FIX_EVERY - (lp.learned % FIX_EVERY)}語。</Text>
+        <Btn ctx={ctx} primary big label={!owned && usable ? '30語を試す（1分）' : '30語を覚える（1分）'} onPress={start} disabled={due || !usable} />
+        <Text style={st.note}>{due ? '先に定着テストを済ませてください。' : !usable ? 'お試しの30語は終わりました。続きは購入後に使えます。' : `1分で覚えて、1分でテスト。復習は最大${REVIEW_MAX}語まで混ざります。`}</Text>
+      </View>
+      <WordMap ctx={ctx} level={level} lp={lp} cnt={s.cnt} />
+      <View style={[st.card, { borderRadius: 12 }]}>
+        <Label ctx={ctx}>スコア</Label>
+        <View style={st.kpis}>
+          {([['最高点', s.best], ['平均点', s.avg], ['回数', s.rounds], ['正解の累計', `${s.totalCorrect}/${s.total}`], ['要再習得', s.cnt.redo], ['定着テスト', s.fixes ? `${s.fixes}（平均${s.fixAvg}）` : 0]] as const).map(([k, v]) => (
+            <View key={k} style={st.kpi}><Text style={st.meta}>{k}</Text><Text style={[st.kpiVal, { fontFamily: F.num, fontWeight: '600' }]} adjustsFontSizeToFit numberOfLines={1}>{v}</Text></View>
+          ))}
+        </View>
+        <Text style={st.note}>得点＝残り秒＋正解数（例：残り25秒・28問正解 → 53点）。次の定着テストまで あと{due ? 0 : rem}語。</Text>
         {recent.length > 0 && (
           <View>
             {recent.map((l, i) => (
               <View key={l.at + '-' + i} style={st.histRow}>
-                <Text style={st.note}>{dateLabel(l.at)}　{l.kind === 'fix' ? '定着' : '通常'}</Text>
-                <Text style={[st.note, { color: c.ink }]}>{l.score}点　正解{l.correct}/{l.size}　残り{fmt1(l.left)}秒</Text>
+                <Text style={st.note}>{dateLabel(l.at)}　{l.kind === 'fix' ? '定着テスト' : '通常'}</Text>
+                <Text style={{ fontFamily: F.num, fontSize: 13, color: c.ink }}>{l.score}点　{l.correct}/{l.size}　残{fmt1(l.left)}s</Text>
               </View>
             ))}
           </View>
         )}
       </View>
-      <WordTable ctx={ctx} level={level} lp={lp} />
+      <WordTable ctx={ctx} level={level} lp={lp} cnt={s.cnt} />
       <View style={{ gap: 8 }}>
-        {!confirm ? <View style={{ alignSelf: 'flex-start' }}><Btn ctx={ctx} label="このレベルの記録を消す" onPress={() => setConfirm(true)} /></View> : (
-          <View style={st.confirm}>
+        {!confirm ? <View style={{ alignSelf: 'flex-start' }}><Btn ctx={ctx} ghost label="このパックの記録を消す" onPress={() => setConfirm(true)} /></View> : (
+          <View style={[st.confirm, { backgroundColor: c.ngSoft }]}>
             <Text style={st.body}>{level.name}の記録（{lp.log.length}回分）を消します。元に戻せません。</Text>
             <View style={st.wrapRow}>
               <Btn ctx={ctx} primary label="消す" onPress={() => { reset(); setConfirm(false); }} />
@@ -314,9 +373,75 @@ function LevelHome({ ctx, level, lp, go, start, startFix, reset }: {
   );
 }
 
-/* ---------- 暗記（1分） ---------- */
-function Memo({ ctx, level, lp, words, onDone }: { ctx: VCtx; level: Level; lp: LevelProgress; words: Word[]; onDone: () => void }) {
+// 語彙マップ：300語を1マスずつ（出題順）。色＝状態
+function WordMap({ ctx, level, lp, cnt }: { ctx: VCtx; level: Level; lp: LevelProgress; cnt: Record<WordStatus, number> }) {
   const { c, st } = ctx;
+  const n = level.words.length;
+  const ord = lp.ord && lp.ord.length === n ? lp.ord : level.words.map((_, i) => i);
+  const [w, setW] = useState(0);
+  const cell = w ? Math.floor((w - 2 * 19) / 20) : 0;
+  return (
+    <View style={[st.card, { borderRadius: 12 }]}>
+      <View style={st.rowBetween}>
+        <Label ctx={ctx}>語彙マップ · {n}語</Label>
+        <Text style={st.note}><Text style={{ fontFamily: F.num, color: c.ink }}>{Math.round(cnt.fixed / n * 100)}%</Text> 定着</Text>
+      </View>
+      <View onLayout={e => setW(e.nativeEvent.layout.width)} accessible accessibilityLabel={`定着${cnt.fixed}語・習得中${cnt.mid}語・要再習得${cnt.redo}語・未回答のみ${cnt.na}語・未出題${cnt.new}語`}
+        style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 2 }}>
+        {cell > 0 && ord.map(i => {
+          const s = statusOf(lp.hist[level.words[i].w]);
+          return <View key={i} style={{ width: cell, height: cell, borderRadius: 2, backgroundColor: s === 'new' ? c.line : stColor(c, s)[0] }} />;
+        })}
+      </View>
+      <View style={[st.wrapRow, { gap: 10 }]}>
+        {MAP_ORDER.map(k => (
+          <View key={k} style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
+            <View style={{ width: 10, height: 10, borderRadius: 2, backgroundColor: k === 'new' ? c.line : stColor(c, k)[0] }} />
+            <Text style={st.note}>{STATUS_LABEL[k]} <Text style={{ fontFamily: F.num }}>{cnt[k]}</Text></Text>
+          </View>
+        ))}
+      </View>
+    </View>
+  );
+}
+
+// 単語ごとの成績（直近5回）。状態で絞り込み
+function WordTable({ ctx, level, lp, cnt }: { ctx: VCtx; level: Level; lp: LevelProgress; cnt: Record<WordStatus, number> }) {
+  const { c, st } = ctx;
+  const keys: WordStatus[] = ['redo', 'na', 'mid', 'fixed'];
+  const [f, setF] = useState<WordStatus | 'all' | null>(null);
+  const cur = f && (f === 'all' || cnt[f]) ? f : (keys.find(k => cnt[k]) ?? 'all');
+  const seen = level.words.length - cnt.new;
+  const rows = seen ? wordRows(level, lp, cur === 'all' ? undefined : cur) : [];
+  const chip = (k: WordStatus | 'all', label: string, n: number) => (
+    <Pressable key={k} accessibilityRole="button" accessibilityState={{ selected: cur === k, disabled: !n }} disabled={!n} onPress={() => setF(k)}
+      style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 10, paddingVertical: 6, borderRadius: 16, borderWidth: cur === k ? 2 : 1, borderColor: cur === k ? c.ink : c.line, backgroundColor: c.paper, minHeight: 34, opacity: n ? 1 : 0.4 }, pressed && st.pressed]}>
+      {k !== 'all' && <View style={{ width: 10, height: 10, borderRadius: 2, backgroundColor: stColor(c, k)[0] }} />}
+      <Text style={{ fontSize: 13, fontWeight: '700', color: c.ink }}>{label} <Text style={{ fontFamily: F.num }}>{n}</Text></Text>
+    </Pressable>
+  );
+  return (
+    <View style={[st.card, { borderRadius: 12 }]}>
+      <Label ctx={ctx}>単語ごとの成績 · 直近5回</Label>
+      <Text style={st.note}>左が古く右が新しい。◯正解 ✖不正解 △時間切れ。直近3回連続◯で定着、最新が✖（または✖が◯より多い）と要再習得になり、次の30語に復習として入ります。</Text>
+      {!seen ? <Text style={st.note}>まだ出題していません。最初の30語を覚えると、ここに単語ごとの成績が並びます。</Text> : (
+        <>
+          <View style={[st.wrapRow, { gap: 6 }]}>
+            {keys.map(k => chip(k, STATUS_LABEL[k], cnt[k]))}
+            {chip('all', 'すべて', seen)}
+          </View>
+          <View>
+            {rows.map((x, i) => <Entry key={x.w.w} ctx={ctx} w={x.w} first={i === 0} top={<StatusTag ctx={ctx} s={x.s} />} right={<Marks ctx={ctx} h={x.h} />} />)}
+          </View>
+        </>
+      )}
+    </View>
+  );
+}
+
+/* ---------- 暗記（1分） ---------- */
+function Memo({ ctx, level, lp, words, repeat, onDone }: { ctx: VCtx; level: Level; lp: LevelProgress; words: Word[]; repeat: boolean; onDone: () => void }) {
+  const { st } = ctx;
   const [left, setLeft] = useState(MEMO_SEC);
   const start = useRef(Date.now());
   const done = useRef(false);
@@ -330,28 +455,17 @@ function Memo({ ctx, level, lp, words, onDone }: { ctx: VCtx; level: Level; lp: 
     return () => clearInterval(id);
   }, [finish]);
   return (
-    <>
-      <View style={st.rowBetween}>
-        <View>
-          <Text style={st.note}>{level.name}　覚える 30語</Text>
-          <Text style={[st.timer, left <= 10 && { color: c.ng }]}>{fmt(Math.ceil(left))}</Text>
-        </View>
-        <Btn ctx={ctx} primary label="テストへ進む" onPress={finish} />
-      </View>
-      <View style={st.card}>
+    <Timed ctx={ctx} clock={<Clock ctx={ctx} label={`${level.name}　覚える ${words.length}語${repeat ? '（もう一度）' : ''}`} text={fmt(Math.ceil(left))} left={left} total={MEMO_SEC}
+        right={<Btn ctx={ctx} primary label="テストへ ›" onPress={finish} />} />}>
+      <View style={[st.card, { borderRadius: 12, gap: 0, paddingVertical: 8 }]}>
         {words.map((w, i) => {
           const h = lp.hist[w.w];
-          return (
-            <View key={w.w} style={[st.rowBetween, { paddingVertical: 4, borderBottomWidth: i < words.length - 1 ? 0.5 : 0, borderBottomColor: c.line }]}>
-              <Text style={[st.stmt, { flex: 1 }]}><Text style={st.bold}>{w.w}</Text></Text>
-              <Text style={[st.body, { flex: 1.3 }]}>{w.m}<Text style={st.note}>　{w.p}</Text></Text>
-              {!!recentOf(h) && <Marks ctx={ctx} h={h} />}
-            </View>
-          );
+          const seen = !!recentOf(h);
+          return <Entry key={w.w} ctx={ctx} w={w} first={i === 0} review={seen} top={seen ? <Marks ctx={ctx} h={h} /> : undefined} />;
         })}
       </View>
-      <Text style={st.note}>時間になると自動でテストが始まります。</Text>
-    </>
+      <Text style={st.note}>時間になると自動でテストが始まります。「復習」は前に出た語で、右は直近の成績です。</Text>
+    </Timed>
   );
 }
 
@@ -361,7 +475,7 @@ function Test({ ctx, level, words, kind, onDone, qs: given }: { ctx: VCtx; level
   const [qs] = useState<Question[]>(() => given ?? buildTest(words, level));
   const [cur, setCur] = useState(0);
   const [left, setLeft] = useState(TEST_SEC);
-  const [flash, setFlash] = useState<'ok' | 'ng' | null>(null);
+  const [fb, setFb] = useState<{ ok: boolean; text: string } | null>(null);   // 直前の答えの結果（不正解なら正しい意味）
   const start = useRef(Date.now());
   const bonus = useRef(0);
   const res = useRef<Result[]>(qs.map(q => ({ w: q.w, ok: false, answered: false })));
@@ -384,46 +498,70 @@ function Test({ ctx, level, words, kind, onDone, qs: given }: { ctx: VCtx; level
     res.current[cur] = { w: q.w, ok, answered: true };
     if (ok) bonus.current += BONUS_SEC;
     Haptics.notificationAsync(ok ? Haptics.NotificationFeedbackType.Success : Haptics.NotificationFeedbackType.Error).catch(() => {});
-    setFlash(ok ? 'ok' : 'ng');
-    setTimeout(() => setFlash(null), 250);
+    setFb(ok ? { ok, text: '◯ 正解 +0.5秒' } : { ok, text: `✖ ${q.w.w} ＝ ${q.w.m}` });
     if (cur < qs.length - 1) setCur(cur + 1);
     else finish(leftNow());
   };
   const q = qs[cur];
   const correct = res.current.filter(r => r.ok).length;
   return (
-    <>
-      <View style={st.rowBetween}>
-        <View>
-          <Text style={st.note}>{kind === 'fix' ? '定着テスト' : kind === 'mix' ? '総合定着テスト' : level.name}　{cur + 1}/{qs.length}問　正解 {correct}</Text>
-          <Text style={[st.timer, left <= 10 && { color: c.ng }]}>{fmt1(left)}<Text style={st.bigUnit}> 秒</Text></Text>
+    <Timed ctx={ctx} clock={<Clock ctx={ctx} label={`${kind === 'fix' ? '定着テスト' : kind === 'mix' ? '総合定着テスト' : level.name}　${cur + 1}/${qs.length}問　正解 ${correct}`}
+        text={<>{fmt1(left)}<Text style={st.bigUnit}> 秒</Text></>} left={left} total={TEST_SEC}
+        extra={
+          <View style={{ flexDirection: 'row', gap: 2 }}>
+            {qs.map((_, k) => {
+              const r = res.current[k];
+              return <View key={k} style={{ flex: 1, height: 6, borderRadius: 2, backgroundColor: k === cur ? c.ink : r.answered ? (r.ok ? c.ok : c.ng) : c.line }} />;
+            })}
+          </View>
+        } />}>
+      <Text accessibilityLiveRegion="polite" style={{ minHeight: 22, fontSize: 14, fontWeight: '700', color: fb ? (fb.ok ? c.ok : c.ng) : c.muted }}>{fb?.text ?? ' '}</Text>
+      <View style={{ gap: 6 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+          <Text style={st.note}>意味は？</Text><Pos ctx={ctx} p={q.w.p} />
+          {q.lv && <Text style={st.note}>{LEVEL[q.lv].name}</Text>}
         </View>
-        <Text style={[st.judge, { color: flash === 'ok' ? c.ok : flash === 'ng' ? c.ng : c.muted, backgroundColor: flash === 'ok' ? c.okSoft : flash === 'ng' ? c.ngSoft : 'transparent' }]}>
-          {flash === 'ok' ? '正解 +0.5秒' : flash === 'ng' ? '不正解' : ' '}
-        </Text>
+        <Text style={{ fontFamily: F.word, fontSize: 40, fontWeight: '600', color: c.ink }} adjustsFontSizeToFit numberOfLines={1}>{q.w.w}</Text>
       </View>
-      <View style={st.dots}>
-        {qs.map((_, k) => {
-          const r = res.current[k];
-          return (
-            <View key={k} style={[st.dot, { width: 18, height: 18, borderRadius: 9 }, r.answered && (r.ok ? { backgroundColor: c.okSoft, borderColor: c.ok } : { backgroundColor: c.ngSoft, borderColor: c.ng }), k === cur && { borderColor: c.ink, borderWidth: 2 }]} />
-          );
-        })}
-      </View>
-      <View style={st.card}>
-        <Text style={st.meta}>意味は？　{q.w.p}{q.lv ? `　${LEVEL[q.lv].name}` : ''}</Text>
-        <Text style={[st.big, { fontFamily: undefined }]}>{q.w.w}</Text>
-        <View style={{ gap: 8 }}>
-          {q.choices.map((ch, i) => (
-            <Pressable key={i} accessibilityRole="button" onPress={() => choose(i)}
-              style={({ pressed }) => [st.btn, st.btnLeft, pressed && st.pressed]}>
-              <Text style={[st.btnText, st.btnLeftText]}>{i + 1}．{ch}</Text>
-            </Pressable>
-          ))}
-        </View>
+      <View style={{ gap: 8 }}>
+        {q.choices.map((ch, i) => (
+          <Pressable key={i} accessibilityRole="button" onPress={() => choose(i)}
+            style={({ pressed }) => [{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 12, paddingHorizontal: 14, borderRadius: 10, borderWidth: 1, borderColor: c.line, backgroundColor: c.paper, minHeight: 54 }, pressed && { backgroundColor: c.aiSoft }]}>
+            <Text style={{ fontFamily: F.num, fontSize: 12, color: c.muted, borderWidth: 1, borderColor: c.line, borderRadius: 4, minWidth: 22, textAlign: 'center', overflow: 'hidden' }}>{i + 1}</Text>
+            <Text style={{ fontSize: 16, color: c.ink, flexShrink: 1 }}>{ch}</Text>
+          </Pressable>
+        ))}
       </View>
       <Text style={st.note}>正解で0.5秒延びます。得点＝残り秒（切り捨て）＋正解数。</Text>
-    </>
+    </Timed>
+  );
+}
+
+/* ---------- 結果の共通部品 ---------- */
+function ScoreCard({ ctx, label, best, score, left, correct, ng, na, size, foot }: {
+  ctx: VCtx; label: string; best?: boolean; score: number; left: number; correct: number; ng: number; na: number; size: number; foot?: string;
+}) {
+  const { c, st } = ctx;
+  const j = judge(score, correct, size);
+  const tone = correct / size >= 0.8 ? 'ok' : correct / size >= 0.6 ? 'mid' : 'ng';
+  const map = { ok: [c.ok, c.okSoft], mid: [c.warn, c.warnSoft], ng: [c.ng, c.ngSoft] } as const;
+  const tally = (color: string, t: string, n: number) => <Text style={{ color, fontSize: 14 }}>{t} <Text style={{ fontFamily: F.num, fontWeight: '600' }}>{n}</Text></Text>;
+  return (
+    <View style={[st.card, { borderRadius: 12 }]}>
+      <View style={st.rowBetween}>
+        <Label ctx={ctx}>{label}</Label>
+        {best && <Text style={st.tag}>自己ベスト</Text>}
+      </View>
+      <Text><Text style={{ fontFamily: F.num, fontSize: 56, fontWeight: '600', color: c.ink }}>{score}</Text><Text style={st.bigUnit}> 点</Text></Text>
+      <Text style={st.note}>残り {fmt1(left)}秒 ＋ 正解 {correct}問</Text>
+      <View style={[st.wrapRow, { gap: 14 }]}>
+        {tally(c.ok, '◯ 正解', correct)}
+        {tally(c.ng, '✖ 不正解', ng)}
+        {tally(c.warn, '△ 時間切れ', na)}
+      </View>
+      <Text style={[st.judge, { color: map[tone][0], backgroundColor: map[tone][1], alignSelf: 'flex-start', fontSize: 13 }]}>{j}</Text>
+      {!!foot && <Text style={st.note}>{foot}</Text>}
+    </View>
   );
 }
 
@@ -431,48 +569,37 @@ function Test({ ctx, level, words, kind, onDone, qs: given }: { ctx: VCtx; level
 function ResultView({ ctx, s, lp, again, next, fix, home }: {
   ctx: VCtx; s: Extract<VScreen, { name: 'result' }>; lp: LevelProgress; again: () => void; next: () => void; fix: () => void; home: () => void;
 }) {
-  const { c, st } = ctx;
+  const { st } = ctx;
   const { log, res } = s;
   const level = LEVEL[s.id];
   const st2 = stats(level, lp);
   const wrong = res.filter(r => !r.ok);  // 不正解と時間切れ
-  const isBest = log.kind === 'round' && log.score >= st2.best;
-  const j = judge(log.score, log.correct, log.size);
-  const tone = log.correct / log.size >= 0.8 ? 'ok' : log.correct / log.size >= 0.6 ? 'mid' : 'ng';
-  const map = { ok: [c.ok, c.okSoft], mid: [c.warn, c.warnSoft], ng: [c.ng, c.ngSoft] } as const;
   return (
     <>
-      <View style={st.card}>
-        <Text style={st.meta}>{log.kind === 'fix' ? '定着テスト' : level.name}　{isBest ? '自己ベスト' : ''}</Text>
-        <Text><Text style={st.big}>{log.score}</Text><Text style={st.bigUnit}> 点</Text></Text>
-        <Text style={st.body}>残り {fmt1(log.left)}秒 ＋ 正解 {log.correct}問{log.asked < log.size ? `（${log.size - log.asked}問は時間切れ）` : ''}</Text>
-        <Text style={[st.judge, { color: map[tone][0], backgroundColor: map[tone][1], alignSelf: 'flex-start' }]}>{j}</Text>
-        <Text style={st.note}>この レベルの最高 {st2.best}点・平均 {st2.avg}点（{st2.rounds}回）。覚えた語 {lp.learned}。</Text>
-      </View>
-      {s.fixDue && (
-        <View style={[st.card, st.cardNow]}>
-          <Text style={st.h2}>{lp.learned}語を覚えました</Text>
-          <Text style={st.body}>これまでに間違えた語だけで、暗記なしの1分テストをして定着を測ります。</Text>
+      <ScoreCard ctx={ctx} label={log.kind === 'fix' ? '定着テスト' : level.name} best={log.kind === 'round' && log.score >= st2.best}
+        score={log.score} left={log.left} correct={log.correct} ng={res.filter(r => r.answered && !r.ok).length} na={res.filter(r => !r.answered).length} size={log.size}
+        foot={`このパックの最高 ${st2.best}点・平均 ${st2.avg}点（${st2.rounds}回）。定着 ${st2.cnt.fixed}語・要再習得 ${st2.cnt.redo}語。`} />
+      {s.fixDue && isOwned(level, ctx.unlocked) && (
+        <View style={[st.card, st.cardNow, { borderRadius: 12 }]}>
+          <Text style={st.h2}>{lp.learned}語を学びました</Text>
+          <Text style={st.body}>要再習得などの語だけで、暗記なしの1分テストをして定着を測ります。</Text>
           <Btn ctx={ctx} primary big label="定着テストへ" onPress={fix} />
-        </View>
-      )}
-      {wrong.length > 0 && (
-        <View style={st.card}>
-          <Text style={st.h2}>間違えた・未回答の語 {wrong.length}</Text>
-          {wrong.map((r, i) => (
-            <View key={r.w.w} style={{ paddingVertical: 6, gap: 2, borderBottomWidth: i < wrong.length - 1 ? 0.5 : 0, borderBottomColor: c.line }}>
-              <View style={st.rowBetween}><Text style={[st.stmt, st.bold, { flex: 1 }]}>{r.w.w}</Text><StatusTag ctx={ctx} s={statusOf(lp.hist[r.w.w])} /></View>
-              <View style={st.rowBetween}><Text style={[st.note, { flex: 1 }]}>{r.w.m}　{r.answered ? '✖ 不正解' : '△ 時間切れ'}</Text><Marks ctx={ctx} h={lp.hist[r.w.w]} /></View>
-            </View>
-          ))}
-          <Text style={st.note}>△（時間切れ）は不正解に数えず、次の30語で復習として出します。</Text>
         </View>
       )}
       <View style={st.wrapRow}>
         {!s.fixDue && log.kind === 'round' && canUse(level, ctx.unlocked, lp) && <Btn ctx={ctx} primary label="次の30語へ" onPress={next} />}
         {log.kind === 'round' && <Btn ctx={ctx} label="同じ30語をもう一度" onPress={again} />}
-        <Btn ctx={ctx} label="ホームへ" onPress={home} />
+        <Btn ctx={ctx} label="パックのホームへ" onPress={home} />
       </View>
+      {wrong.length > 0 && (
+        <View style={[st.card, { borderRadius: 12 }]}>
+          <Label ctx={ctx}>間違えた・時間切れの語 · {wrong.length}</Label>
+          <View>
+            {wrong.map((r, i) => <Entry key={r.w.w} ctx={ctx} w={r.w} first={i === 0} note={r.answered ? '✖ 不正解' : '△ 時間切れ'} top={<StatusTag ctx={ctx} s={statusOf(lp.hist[r.w.w])} />} right={<Marks ctx={ctx} h={lp.hist[r.w.w]} />} />)}
+          </View>
+          <Text style={st.note}>△（時間切れ）は不正解に数えず、次の30語で復習として出します。</Text>
+        </View>
+      )}
     </>
   );
 }
@@ -482,49 +609,38 @@ function MixResult({ ctx, s, home, again }: { ctx: VCtx; s: Extract<VScreen, { n
   const { c, st } = ctx;
   const { qs, res, logs } = s;
   const correct = res.filter(r => r.ok).length;
-  const asked = res.filter(r => r.answered).length;
   const left = Object.values(logs)[0]?.left ?? 0;
   const score = Math.max(0, Math.floor(left + 1e-9)) + correct;
-  const j = judge(score, correct, res.length);
-  const tone = correct / res.length >= 0.8 ? 'ok' : correct / res.length >= 0.6 ? 'mid' : 'ng';
-  const map = { ok: [c.ok, c.okSoft], mid: [c.warn, c.warnSoft], ng: [c.ng, c.ngSoft] } as const;
   const wrong = res.map((r, i) => ({ r, lv: qs[i].lv! })).filter(x => !x.r.ok);
   const byLv = Object.entries(logs);
   return (
     <>
-      <View style={st.card}>
-        <Text style={st.meta}>総合定着テスト</Text>
-        <Text><Text style={st.big}>{score}</Text><Text style={st.bigUnit}> 点</Text></Text>
-        <Text style={st.body}>残り {fmt1(left)}秒 ＋ 正解 {correct}/{res.length}問{asked < res.length ? `（${res.length - asked}問は時間切れ）` : ''}</Text>
-        <Text style={[st.judge, { color: map[tone][0], backgroundColor: map[tone][1], alignSelf: 'flex-start' }]}>{j}</Text>
-      </View>
-      <View style={st.card}>
-        <Text style={st.h2}>パックごとの内訳</Text>
-        {byLv.map(([lv, l], i) => (
-          <View key={lv} style={st.histRow}>
-            <Text style={st.note}>{LEVEL[lv].name}</Text>
-            <Text style={[st.note, { color: c.ink }]}>正解 {l.correct}/{l.size}</Text>
-          </View>
-        ))}
-      </View>
-      {wrong.length > 0 && (
-        <View style={st.card}>
-          <Text style={st.h2}>間違えた・未回答の語 {wrong.length}</Text>
-          {wrong.map(({ r, lv }, i) => {
-            const h = levelOf(ctx.p, lv).hist[r.w.w];
-            return (
-              <View key={lv + r.w.w} style={{ paddingVertical: 6, gap: 2, borderBottomWidth: i < wrong.length - 1 ? 0.5 : 0, borderBottomColor: c.line }}>
-                <View style={st.rowBetween}><Text style={[st.stmt, st.bold, { flex: 1 }]}>{r.w.w}</Text><StatusTag ctx={ctx} s={statusOf(h)} /></View>
-                <View style={st.rowBetween}><Text style={[st.note, { flex: 1 }]}>{r.w.m}　{LEVEL[lv].name}　{r.answered ? '✖ 不正解' : '△ 時間切れ'}</Text><Marks ctx={ctx} h={h} /></View>
-              </View>
-            );
-          })}
-        </View>
-      )}
+      <ScoreCard ctx={ctx} label="総合定着テスト" score={score} left={left} correct={correct}
+        ng={res.filter(r => r.answered && !r.ok).length} na={res.filter(r => !r.answered).length} size={res.length} />
       <View style={st.wrapRow}>
         <Btn ctx={ctx} primary label="もう一度（対象を集め直す）" onPress={again} />
         <Btn ctx={ctx} label="パック一覧へ" onPress={home} />
       </View>
+      <View style={[st.card, { borderRadius: 12 }]}>
+        <Label ctx={ctx}>パックごとの内訳</Label>
+        {byLv.map(([lv, l]) => (
+          <View key={lv} style={st.histRow}>
+            <Text style={st.note}>{LEVEL[lv].name}</Text>
+            <Text style={{ fontFamily: F.num, fontSize: 13, color: c.ink }}>{l.correct}/{l.size}</Text>
+          </View>
+        ))}
+      </View>
+      {wrong.length > 0 && (
+        <View style={[st.card, { borderRadius: 12 }]}>
+          <Label ctx={ctx}>間違えた・時間切れの語 · {wrong.length}</Label>
+          <View>
+            {wrong.map(({ r, lv }, i) => {
+              const h = levelOf(ctx.p, lv).hist[r.w.w];
+              return <Entry key={lv + r.w.w} ctx={ctx} w={r.w} first={i === 0} note={`${LEVEL[lv].name}　${r.answered ? '✖ 不正解' : '△ 時間切れ'}`} top={<StatusTag ctx={ctx} s={statusOf(h)} />} right={<Marks ctx={ctx} h={h} />} />;
+            })}
+          </View>
+        </View>
+      )}
     </>
   );
 }
