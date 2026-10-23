@@ -18,7 +18,7 @@
 | 単語の出どころ | 各パックは 2026-10-22 に Claude が頻度・難度の判断で作成（市販単語帳の転記ではない）。公式の頻出語リストとは未照合。基礎語（TOEIC 500/600 のリスト）とは重ならないように除外して作成。パック間の重なりは許容（413語） |
 | 無料・お試し | TOEIC 500 は無料。ほかは未購入でも最初の30語（1回）だけ試せる（`TRIAL_WORDS`、`canUse()`）。試したあとは購入カードだけ |
 | 課金 | 非消耗型。パックごと `jp.icurate.eitangoflash.<id（- は _）>`（`Level.sku`）と全部入り `jp.icurate.eitangoflash.all`（`ALL_SKU`）。価格はストア取得、取れないときの表示は App.tsx の `PRICE_LABEL`（600円／全部入り 3,000円。実際の価格は ASC で決める）。購入記録は端末内 `unlock-v1:<id>`（`storage.ts`）。復元は「購入を復元」。`__DEV__` では「[dev] 解放を切替」で確認できる |
-| App Store Connect | **未登録**。課金アイテムを上の商品IDで13＋1件作る必要あり。EAS projectId も未設定 |
+| App Store Connect | 未登録（1.5 の手順）。EAS projectId は設定済み |
 | 定着テスト | ①パックごと：300語覚えるごと（従来どおり、6.6 参照）。②**総合定着テスト**（一覧の最上部）：使えるパック（購入済み＋出題したことのあるパック）全体から 要再習得→未回答→✖を含む習得中 の語を各パック均等に最大30語（`mixedFixItems`）、選択肢は語のパックの意味（`buildMixedTest`）、結果はパックごとの履歴と log（kind `fix`）に記録、パックの300語周期（lastFix）は進めない（`finishMixedFix`）。画面は `mixtest`／`mixresult` |
 | Web版 | `web/vocab/` は全パックを無料で使える（課金なし）。配布するなら注意 |
 
@@ -27,6 +27,46 @@
 2. `scripts/vocab/build.py` の `PACKS` に1行足す → `npm run vocab`
 3. `scripts/test-vocab.ts` のパック数（13）を直す → `npm test`
 4. App Store Connect に商品ID `jp.icurate.eitangoflash.<id>` の非消耗型を登録
+
+## 1.5 App Store 申請の準備（2026-10-24）
+
+本人の判断（2026-10-24）：英単語アプリは**英単語フラッシュを本命**にする。似たアプリを2本出すと審査ガイドライン4.3で却下されやすいため、「英単語１分トライアル」（takken-mock-app の別アプリ、App ID 6824195226）は提出を見送る（「App Store販売準備」セッションに連絡済み）。
+パック名の「TOEIC 500〜900」は商標を避けて「スコア500〜900目安」に変更（id・商品IDは toeic500〜900 のまま）。一覧の下・説明文に TOEIC®・英検® の注記。
+
+| 項目 | 状態 |
+|---|---|
+| EAS | プロジェクト作成済み（@icurate2022/eitango-flash、projectId は app.json の extra.eas） |
+| アイコン | `assets/icon.png` を新規作成（紺の地に単語カード「Aa」と「1:00」）。`design/make_icon.py` で再生成（splash・Android・favicon も） |
+| 掲載情報 | `store.config.json`（名前・サブタイトル・説明・キーワード・審査メモ・年齢区分）。`npx eas-cli metadata:push` で送る（版のページの項目は App Store Connect で手入力になることが多い） |
+| プライバシー・サポート | `site/eitango-flash/`（privacy・support・icon）。Xserver の `public_html/apps/eitango-flash/` に本人がアップロード → https://apps.icurate.jp/eitango-flash/privacy/ ・ /support/ 。`site/style.css` は既存の apps のものと同じ（上書き不要）。apps のトップ（index.html）に載せるなら takken-mock-app 側の site/index.html に1件足す |
+| スクリーンショット | `design/store_shots/1〜6.png`（1179×2556、中型ディスプレイ枠）。見本の学習記録で撮影（`design/capture/`） |
+| App Store Connect | **本人が作業**：アプリ新規登録（名前 英単語フラッシュ、バンドルID jp.icurate.eitangoflash、SKU 例 eitangoflash、日本語）→ 作ったアプリの Apple ID を `eas.json` の `submit.production.ios.ascAppId` に入れる |
+| 課金アイテム | **本人が作業**：下の13件を「非消耗型」で登録（価格は本人が決める。アプリ内の仮表示は1パック600円・全部入り3,000円）。審査に出すときはアプリの版と一緒に選ぶ |
+
+| 参照名（例） | 商品ID | 説明（例） |
+|---|---|---|
+| スコア600目安パック | `jp.icurate.eitangoflash.toeic600` | スコア600目安の300語 |
+| スコア700目安パック | `jp.icurate.eitangoflash.toeic700` | スコア700目安の300語 |
+| スコア800目安パック | `jp.icurate.eitangoflash.toeic800` | スコア800目安の300語 |
+| スコア900目安パック | `jp.icurate.eitangoflash.toeic900` | スコア900目安の300語 |
+| 高校受験 最難関パック | `jp.icurate.eitangoflash.koko_nankan` | 高校受験 最難関の300語 |
+| 大学受験 難関パック | `jp.icurate.eitangoflash.daigaku_nankan` | 大学受験 難関の300語 |
+| 金融パック | `jp.icurate.eitangoflash.finance` | 金融の300語 |
+| 医療パック | `jp.icurate.eitangoflash.medical` | 医療の300語 |
+| 半導体パック | `jp.icurate.eitangoflash.semicon` | 半導体の300語 |
+| AIパック | `jp.icurate.eitangoflash.ai` | AIの300語 |
+| ITパック | `jp.icurate.eitangoflash.it` | ITの300語 |
+| コンサルパック | `jp.icurate.eitangoflash.consulting` | コンサルの300語 |
+| 全部入り | `jp.icurate.eitangoflash.all` | 全13パック・3,900語（今後追加のパックも） |
+
+※「スコア500目安」は無料なので商品なし。
+
+### 申請の手順
+1. 上の App Store Connect の登録（本人）と、site のアップロード（本人）
+2. `eas.json` に ascAppId を入れる
+3. `npx eas-cli build -p ios --profile production --auto-submit`（ビルド番号は自動で増える。提出は本人が「提出してください」と言ってから）
+4. TestFlight で実機確認：暗記・テストのテンポ、ハプティクス、Sandbox アカウントで購入・復元
+5. `npx eas-cli metadata:push`、スクリーンショット6枚、課金アイテムを版に追加 → 審査へ提出（本人）
 
 ## 2. 仕様（2026-10-19 作成時。名称は本人指定）
 

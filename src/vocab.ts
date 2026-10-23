@@ -5,9 +5,9 @@
 import vocabRaw from './data/vocab.json';
 
 export type Word = { w: string; m: string; p: string };           // 語・意味・品詞
-// パック（レベル）。ref＝参考レベル、group＝一覧での見出し（TOEIC／受験英語／専門分野）、free＝無料パック、sku＝買い切りの商品ID（無料なら空）
+// パック（レベル）。ref＝参考レベル、group＝一覧での見出し（スコア目安／受験英語／専門分野）、free＝無料パック、sku＝買い切りの商品ID（無料なら空）
 export type Level = { id: string; name: string; desc: string; ref: string; group: string; free: boolean; sku: string; words: Word[] };
-// TOEIC は 500〜900 の100点刻み。旧id（2026-10-19 以前の記録）→ 新id
+// スコア目安は 500〜900 の100点刻み（id は toeic500〜900 のまま。表示名に商標は使わない）。旧id（2026-10-19 以前の記録）→ 新id
 export const LEVEL_ALIAS: Record<string, string> = { jhs: 'toeic500', eiken: 'toeic600', toeic: 'toeic700', march: 'toeic800', sokei: 'toeic900' };
 export const LEVELS: Level[] = vocabRaw as Level[];
 export const LEVEL: Record<string, Level> = Object.fromEntries(LEVELS.map(l => [l.id, l]));

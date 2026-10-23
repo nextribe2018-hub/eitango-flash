@@ -2,7 +2,7 @@
 // 流れ：パックを選ぶ → 30語を1分で覚える → 1分テスト（正解で+0.5秒）→ 結果（得点＝残り秒＋正解数）
 //       → 単語ごとに直近5回の◯✖△と状態（定着／習得中／要再習得）。要再習得の語は次の30語に復習として入る
 //       → 300語ごとに要再習得の語で定着テスト。一覧からは全パック横断の定着テスト（総合定着テスト）も
-// パックは無料（TOEIC 500）／買い切り。未購入でも最初の30語は試せる
+// パックは無料（スコア500目安）／買い切り。未購入でも最初の30語は試せる
 // 見た目は Web版（web/vocab/）と同じ：英単語は辞書の見出し語のようにセリフ体、数字は等幅、計時中は時計を上に固定、
 // パックごとに300語の「語彙マップ」。この画面は自分でスクロールを持つ（計時中は時計の下だけをスクロール）。
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -221,7 +221,7 @@ function Levels({ ctx, go, startMixed }: { ctx: VCtx; go: (s: VScreen) => void; 
       <View style={{ gap: 4 }}>
         <Label ctx={ctx}>VOCABULARY FLASH · 30 WORDS / 60 SEC</Label>
         <Text style={[st.h1, { fontFamily: undefined, fontSize: 24 }]}>英単語フラッシュ</Text>
-        <Text style={st.note}>30語を1分で覚え、1分で答える。単語ごとの直近5回で定着を測ります。TOEIC 500 は無料、ほかのパックは最初の30語を試せます。</Text>
+        <Text style={st.note}>30語を1分で覚え、1分で答える。単語ごとの直近5回で定着を測ります。スコア500目安は無料、ほかのパックは最初の30語を試せます。</Text>
       </View>
       <View style={[st.card, mixN > 0 && st.cardNow, { borderRadius: 12 }]}>
         <View style={st.rowBetween}>
@@ -274,6 +274,7 @@ function Levels({ ctx, go, startMixed }: { ctx: VCtx; go: (s: VScreen) => void; 
         </View>
       )}
       <Text style={st.note}>テストは意味の4択。正解するたびに0.5秒延び、得点＝残り秒（切り捨て）＋正解数。30語はパックごとのランダムな順で選び、要再習得・未回答の語を最大{REVIEW_MAX}語まで復習として混ぜます。直近3回連続◯で定着、最新が✖なら要再習得。300語ごとに定着テストがあります。</Text>
+      <Text style={st.note}>「スコア目安」は TOEIC® Listening & Reading のスコアの目安です。TOEIC は ETS の登録商標です。このアプリは ETS の承認や推奨を受けたものではありません。英検® は公益財団法人 日本英語検定協会の登録商標です。参考レベルは目安で、公式の語彙表ではありません。</Text>
     </>
   );
 }
@@ -341,8 +342,11 @@ function LevelHome({ ctx, level, lp, go, start, startFix, reset }: {
       <View style={[st.card, { borderRadius: 12 }]}>
         <Label ctx={ctx}>スコア</Label>
         <View style={st.kpis}>
-          {([['最高点', s.best], ['平均点', s.avg], ['回数', s.rounds], ['正解の累計', `${s.totalCorrect}/${s.total}`], ['要再習得', s.cnt.redo], ['定着テスト', s.fixes ? `${s.fixes}（平均${s.fixAvg}）` : 0]] as const).map(([k, v]) => (
-            <View key={k} style={st.kpi}><Text style={st.meta}>{k}</Text><Text style={[st.kpiVal, { fontFamily: F.num, fontWeight: '600' }]} adjustsFontSizeToFit numberOfLines={1}>{v}</Text></View>
+          {([['最高点', s.best, ''], ['平均点', s.avg, ''], ['回数', s.rounds, ''], ['正解の累計', s.totalCorrect, `/${s.total}`], ['要再習得', s.cnt.redo, ''], ['定着テスト', s.fixes, s.fixes ? ` 平均${s.fixAvg}` : '']] as const).map(([k, v, unit]) => (
+            <View key={k} style={st.kpi}>
+              <Text style={st.meta}>{k}</Text>
+              <Text style={[st.kpiVal, { fontFamily: F.num, fontWeight: '600' }]}>{v}{!!unit && <Text style={{ fontSize: 12, fontWeight: '500', color: c.muted, fontFamily: undefined }}>{unit}</Text>}</Text>
+            </View>
           ))}
         </View>
         <Text style={st.note}>得点＝残り秒＋正解数（例：残り25秒・28問正解 → 53点）。次の定着テストまで あと{due ? 0 : rem}語。</Text>

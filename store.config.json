@@ -1,0 +1,69 @@
+{
+  "configVersion": 0,
+  "apple": {
+    "copyright": "2026 iCurate Co.,Ltd",
+    "categories": [
+      "EDUCATION",
+      "REFERENCE"
+    ],
+    "info": {
+      "ja": {
+        "title": "英単語フラッシュ",
+        "subtitle": "30語1分で覚える英単語カード",
+        "promoText": "1回1分、30語。語ごとに直近5回の成績を記録し、最近まちがえた語は次の30語に自動で復習として入ります。スコア500目安の300語は無料です。",
+        "keywords": [
+          "英単語",
+          "単語帳",
+          "英語",
+          "語彙",
+          "暗記",
+          "フラッシュカード",
+          "4択",
+          "1分",
+          "大学受験",
+          "高校受験",
+          "ビジネス英語",
+          "医療英語",
+          "金融",
+          "IT",
+          "スコアアップ"
+        ],
+        "description": "1回1分、30語。英単語を覚えて、すぐ確かめる単語カードです。\n\n■ 30語を1分で覚え、1分で答える\n・30語の一覧を1分で覚え、そのまま1分の4択テスト\n・正解するたびに0.5秒延び、得点＝残り秒＋正解数\n・間違えた語はその場で正しい意味を表示します\n\n■ 単語ごとに定着を記録\n・語ごとに直近5回の成績（◯正解・✖不正解・△時間切れ）を記録\n・直近3回続けて正解で「定着」、最近まちがえた語は「要再習得」\n・次の30語には、要再習得の語が復習として自動で混ざります\n・300語ごとの定着テストと、全パックをまたぐ総合定着テスト\n・パックの300語を1マスずつ色で示す「語彙マップ」で進み具合がひと目でわかります\n\n■ 13パック・3,900語\n・スコア目安：500／600／700／800／900\n・受験英語：高校受験 最難関／大学受験 難関\n・専門分野：金融／医療／半導体／AI／IT／コンサル\n\n■ 料金\n・「スコア500目安」の300語は無料\n・ほかのパックは最初の30語を無料で試せます\n・パックごと、またはすべてのパックをまとめた「全部入り」の買い切り（月額料金はかかりません）\n・広告はありません。アカウント登録も不要です\n\n■ プライバシー\n・学習記録はお使いの端末の中だけに保存します。個人情報は集めません\n\n■ ご注意\n・「スコア目安」は TOEIC® Listening & Reading のスコアの目安です。TOEIC は ETS の登録商標です。このアプリは ETS の承認や推奨を受けたものではありません\n・英検® は公益財団法人 日本英語検定協会の登録商標です。参考レベルは目安で、公式の語彙表ではありません\n・単語の選定と和訳は独自に作成しました",
+        "releaseNotes": "初めてのリリースです。",
+        "supportUrl": "https://apps.icurate.jp/eitango-flash/support/",
+        "privacyPolicyUrl": "https://apps.icurate.jp/eitango-flash/privacy/"
+      }
+    },
+    "advisory": {
+      "alcoholTobaccoOrDrugUseOrReferences": "NONE",
+      "contests": "NONE",
+      "gamblingSimulated": "NONE",
+      "horrorOrFearThemes": "NONE",
+      "matureOrSuggestiveThemes": "NONE",
+      "medicalOrTreatmentInformation": "NONE",
+      "profanityOrCrudeHumor": "NONE",
+      "sexualContentGraphicAndNudity": "NONE",
+      "sexualContentOrNudity": "NONE",
+      "violenceCartoonOrFantasy": "NONE",
+      "violenceRealistic": "NONE",
+      "violenceRealisticProlongedGraphicOrSadistic": "NONE",
+      "gambling": false,
+      "unrestrictedWebAccess": false,
+      "seventeenPlus": false,
+      "kidsAgeBand": null,
+      "ageRatingOverride": "NONE",
+      "koreaAgeRatingOverride": "NONE"
+    },
+    "release": {
+      "automaticRelease": false,
+      "phasedRelease": false
+    },
+    "review": {
+      "firstName": "Makoto",
+      "lastName": "Fujio",
+      "email": "info@icurate.jp",
+      "phone": "+81 80-4476-9377",
+      "notes": "No login is required. On the pack list, tap the free pack \"スコア500目安\" (Score 500), then \"30語を覚える（1分）\" to memorize 30 words for one minute; a 1-minute four-choice quiz follows.\n\nIn-app purchases (non-consumable): each of the 12 paid packs unlocks its 300 words, and \"全部入り\" (jp.icurate.eitangoflash.all) unlocks every pack. Without a purchase, \"スコア500目安\" is fully free and every other pack lets you try its first 30 words once. Purchase buttons and \"購入を復元\" (Restore Purchases) are on each paid pack's screen and at the bottom of the pack list.\n\nProduct IDs: jp.icurate.eitangoflash.toeic600, jp.icurate.eitangoflash.toeic700, jp.icurate.eitangoflash.toeic800, jp.icurate.eitangoflash.toeic900, jp.icurate.eitangoflash.koko_nankan, jp.icurate.eitangoflash.daigaku_nankan, jp.icurate.eitangoflash.finance, jp.icurate.eitangoflash.medical, jp.icurate.eitangoflash.semicon, jp.icurate.eitangoflash.ai, jp.icurate.eitangoflash.it, jp.icurate.eitangoflash.consulting, jp.icurate.eitangoflash.all\n\nAll learning records are stored only on the device. The app has no server, no analytics and no ads.\n\n\"Score\" packs are approximate levels for TOEIC Listening & Reading. The app is not affiliated with or endorsed by ETS or the Eiken Foundation of Japan."
+    }
+  }
+}

@@ -8,8 +8,8 @@ import {
 // 1) データ：13パック・各300語・語の重複なし・意味と品詞がある・グループ／無料／商品ID
 assert.equal(LEVELS.length, 13);
 assert.deepEqual(LEVELS.slice(0, 5).map(l => l.id), ['toeic500', 'toeic600', 'toeic700', 'toeic800', 'toeic900']);
-assert.deepEqual(GROUPS, ['TOEIC', '受験英語', '専門分野']);
-assert.deepEqual(LEVELS.filter(l => l.free).map(l => l.id), ['toeic500'], '無料は TOEIC 500 だけ');
+assert.deepEqual(GROUPS, ['スコア目安', '受験英語', '専門分野']);
+assert.deepEqual(LEVELS.filter(l => l.free).map(l => l.id), ['toeic500'], '無料はスコア500目安だけ');
 assert.equal(new Set(LEVELS.map(l => l.id)).size, LEVELS.length, 'パックid が重複');
 for (const L of LEVELS) {
   assert.equal(L.words.length, 300, `${L.id}: ${L.words.length}語`);
