@@ -38,3 +38,12 @@ export async function loadUnlocked(ids: string[]): Promise<Record<string, boolea
 export async function saveUnlocked(id: string, on: boolean): Promise<void> {
   try { on ? await AsyncStorage.setItem(UNLOCK + id, '1') : await AsyncStorage.removeItem(UNLOCK + id); } catch {}
 }
+
+// フラッシュの速さ（秒。端末ごとの設定）
+const FLASH_KEY = 'vocab-flash-sec';
+export async function loadFlashSec(allowed: number[], fallback: number): Promise<number> {
+  try { const v = parseFloat((await AsyncStorage.getItem(FLASH_KEY)) ?? ''); return allowed.includes(v) ? v : fallback; } catch { return fallback; }
+}
+export async function saveFlashSec(v: number): Promise<void> {
+  try { await AsyncStorage.setItem(FLASH_KEY, String(v)); } catch {}
+}

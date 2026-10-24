@@ -20,8 +20,10 @@ export const canUse = (L: Level, unlocked: Record<string, boolean>, lp: LevelPro
 export const isOwned = (L: Level, unlocked: Record<string, boolean>): boolean => L.free || !!unlocked[L.id] || !!unlocked[ALL_SKU];
 
 export const ROUND_SIZE = 30;      // 1回に覚える語数
-export const FLASH_SEC = 0.3;      // 暗記の最初に、1語ずつ英単語と意味をフラッシュ表示する秒数（2026-10-24 本人指定）
-export const MEMO_SEC = 60;        // フラッシュのあと一覧で覚える時間
+// 暗記の最初のフラッシュ：英単語を出して x 秒後に意味、さらに x 秒で次の語（x は 0.1〜1.0秒を0.1刻みで利用者が選ぶ。2026-10-24 本人指定）。
+// フラッシュのあとの一覧は時間制限なし（「テストへ」で進む）。フラッシュはテスト前に何回でもやり直せる
+export const FLASH_SPEEDS = Array.from({ length: 10 }, (_, i) => (i + 1) / 10);   // 0.1〜1.0秒（0.1刻み）
+export const FLASH_DEFAULT = 0.3;
 export const TEST_SEC = 60;        // テストの時間
 export const BONUS_SEC = 0.5;      // 正解1問ごとに延びる秒
 export const FIX_EVERY = 300;      // 定着テストの間隔（覚えた語数）
