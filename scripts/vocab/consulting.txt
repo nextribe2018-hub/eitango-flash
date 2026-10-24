@@ -298,3 +298,303 @@ lever|打ち手・梃子|名
 enabler|実現要因|名
 imperative|急務・必須事項|名
 north star|最重要指標・指針|名
+issue tree|イシューツリー・論点の分解図|名
+logic tree|ロジックツリー|名
+pyramid principle|ピラミッド原則|名
+so what|だから何か・示唆の問い|熟
+key question|主要論点|名
+hypothesis-driven|仮説思考の・仮説主導の|形
+value chain|バリューチェーン・価値連鎖|名
+five forces|ファイブフォース分析|名
+PESTLE|PESTLE分析・外部環境分析|名
+balanced scorecard|バランススコアカード|名
+BCG matrix|BCGマトリクス|名
+Ansoff matrix|アンゾフの成長マトリクス|名
+blue ocean|ブルーオーシャン・未開拓市場|名
+red ocean|レッドオーシャン・競争の激しい市場|名
+core competence|中核能力・コアコンピタンス|名
+competitive advantage|競争優位|名
+cost leadership|コストリーダーシップ|名
+differentiation|差別化|名
+economies of scale|規模の経済|名
+economies of scope|範囲の経済|名
+network effect|ネットワーク効果|名
+first-mover advantage|先行者利益|名
+switching cost|切り替えコスト|名
+lock-in|囲い込み|名
+value creation|価値創造|名
+value capture|価値の獲得・収益化|名
+business model|ビジネスモデル|名
+operating model|オペレーティングモデル・業務運営体制|名
+target operating model|目指すべき業務運営モデル|名
+as-is|現状の|形
+to-be|あるべき姿の|形
+gap analysis|ギャップ分析|名
+current state|現状|名
+future state|将来像|名
+quick win|短期的な成果・早期の成功|名
+low-hanging fruit|簡単に達成できる成果|熟
+big bet|大きな賭け・重点投資|名
+no-regret move|やって損のない施策|名
+strategic initiative|戦略的施策|名
+initiative|施策・取り組み|名
+workplan|作業計画|名
+work breakdown structure|作業分解構成図・WBS|名
+Gantt chart|ガントチャート|名
+critical path|クリティカルパス|名
+interdependency|相互依存関係|名
+slippage|遅延・ずれ込み|名
+slip|遅れる・ずれ込む|動
+on track|順調に進んで|熟
+off track|予定から外れて|熟
+RAG status|信号色による進捗状況|名
+status update|進捗報告|名
+steerco|運営委員会（略）|名
+sponsor|後援者・プロジェクトの責任者|名
+project charter|プロジェクト憲章|名
+RACI|責任分担表・RACI|名
+accountable|説明責任のある|形
+workshop|ワークショップ・検討会|名
+interview guide|インタビューガイド・質問票|名
+expert interview|専門家インタビュー|名
+desk research|文献調査・机上調査|名
+primary research|一次調査|名
+secondary research|二次調査|名
+survey|調査・アンケート|名
+sample size|サンプルサイズ・標本数|名
+focus group|フォーカスグループ|名
+voice of the customer|顧客の声|名
+customer journey|カスタマージャーニー|名
+net promoter score|顧客推奨度・NPS|名
+customer lifetime value|顧客生涯価値|名
+customer acquisition cost|顧客獲得コスト|名
+price elasticity|価格弾力性|名
+pricing power|価格決定力|名
+premiumization|高付加価値化|名
+value-based pricing|価値基準の価格設定|名
+markup|値入れ・上乗せ額|名
+gross margin|粗利益率|名
+operating margin|営業利益率|名
+contribution margin|限界利益|名
+fixed cost|固定費|名
+variable cost|変動費|名
+sunk cost|埋没費用|名
+opportunity cost|機会費用|名
+cost of capital|資本コスト|名
+WACC|加重平均資本コスト|名
+free cash flow|フリーキャッシュフロー|名
+discounted cash flow|割引キャッシュフロー|名
+terminal value|継続価値・ターミナルバリュー|名
+multiple|倍率・マルチプル|名
+P&L|損益計算書|名
+balance sheet|貸借対照表|名
+top line|売上高|名
+bottom line|純利益・最終的な結論|名
+run rate|年換算ベース・現状ペースの数値|名
+year-over-year|前年比の|形
+quarter-over-quarter|前四半期比の|形
+like-for-like|既存店ベースの・同条件比較の|形
+organic growth|自律的成長|名
+inorganic growth|買収による成長|名
+bolt-on|追加買収の・付加的な|形
+target company|買収対象企業|名
+acquirer|買収企業|名
+deal|取引・案件|名
+deal flow|案件の流入|名
+term sheet|条件概要書|名
+earn-out|業績連動支払い|名
+integration management office|統合推進事務局|名
+day one|統合初日|名
+hundred-day plan|100日計画|名
+cost synergy|コスト面の相乗効果|名
+revenue synergy|売上面の相乗効果|名
+cultural fit|企業文化の適合性|名
+change management|変革管理|名
+change agent|変革推進者|名
+burning platform|変革の切迫した理由|名
+resistance|抵抗|名
+adoption|定着・採用|名
+mindset|考え方・意識|名
+behavioral change|行動変容|名
+culture shift|企業文化の転換|名
+transformation|変革|名
+transform|変革する|動
+reinvent|再創造する・刷新する|動
+revamp|改良する・刷新する|動
+overhaul|全面的に見直す|動
+revitalize|再活性化する|動
+modernize|近代化する|動
+reengineer|抜本的に再設計する|動
+redesign|再設計する|動
+reallocate|再配分する|動
+redeploy|再配置する|動
+rationalize|合理化する・整理統合する|動
+simplify|簡素化する|動
+declutter|整理する・無駄を省く|動
+centralize|集中化する|動
+decentralize|分権化する|動
+shared services|シェアードサービス|名
+center of excellence|専門組織・COE|名
+nearshore|近隣国に委託する|動
+operational excellence|業務の卓越性|名
+continuous improvement|継続的改善|名
+kaizen|改善活動|名
+six sigma|シックスシグマ|名
+lean manufacturing|リーン生産方式|名
+just-in-time|ジャストインタイムの|形
+inventory turnover|在庫回転率|名
+yield|歩留まり・利回り|名
+defect rate|不良率|名
+process map|業務フロー図|名
+value stream|価値の流れ・バリューストリーム|名
+handoff|引き継ぎ|名
+rework|手戻り|名
+non-value-added|付加価値を生まない|形
+value-added|付加価値のある|形
+best practice|最良の手法・ベストプラクティス|名
+playbook|実行手順書・定石集|名
+blueprint|青写真・設計図|名
+maturity model|成熟度モデル|名
+capability|組織能力|名
+competency|業務遂行能力|名
+skill set|技能群|名
+talent pipeline|人材の供給源|名
+high performer|優秀な人材|名
+key person risk|属人化リスク|名
+knowledge transfer|知識移転|名
+handover|業務の引き渡し|名
+hypercare|移行直後の集中支援|名
+go-live|本番稼働|名
+cutover|切り替え|名
+phased approach|段階的な取り組み|名
+big bang|一斉導入|名
+sequencing|実施順序の決定|名
+phasing|段階分け|名
+prioritization|優先順位付け|名
+impact-effort matrix|効果と労力のマトリクス|名
+two-by-two|2×2マトリクス|名
+long list|候補の一覧|名
+shortlist|候補を絞り込む|動
+evaluation criteria|評価基準|名
+weighting|重み付け|名
+scoring|採点・評価|名
+decision tree|決定木|名
+decision rights|意思決定権限|名
+go/no-go|実施可否の判断|名
+stage-gate|段階的審査方式|名
+business case|事業性評価・投資対効果の説明|名
+investment thesis|投資の根拠|名
+value at stake|得られる価値の規模|名
+size of the prize|獲得可能な価値の大きさ|熟
+upside potential|上振れ余地|名
+downside risk|下振れリスク|名
+base case|基本シナリオ|名
+worst case|最悪のシナリオ|名
+best case|最良のシナリオ|名
+stress test|ストレステスト・耐性検証|名
+what-if analysis|もしもの分析・仮定分析|名
+sanity check|妥当性の確認|名
+reality check|現実の確認|名
+pressure-test|厳しく検証する|動
+challenge|異議を唱える・問いただす|動
+push back|反論する・押し返す|熟
+weigh in|意見を述べる|熟
+chime in|口を挟む・話に加わる|熟
+loop in|話に加える・情報共有する|熟
+touch base|連絡を取る|熟
+align on|認識を合わせる|熟
+level-set|前提をそろえる|動
+double-click|さらに掘り下げる|動
+unpack|詳しく説明する・分解する|動
+flesh out|肉付けする|熟
+iron out|解決する・調整する|熟
+hash out|議論して詰める|熟
+nail down|確定させる|熟
+firm up|固める・確実にする|熟
+parking lot|保留事項リスト|名
+action item|宿題・対応事項|名
+next steps|今後の進め方|名
+owner|担当者|名
+due date|期限|名
+agenda|議題|名
+pre-read|事前資料|名
+pre-wire|事前に根回しする|動
+groundwork|下準備・根回し|名
+sounding board|相談相手|名
+thought partner|議論の相手・壁打ち相手|名
+thought leadership|先見的な見識・知見の発信|名
+point of view|見解|名
+perspective|観点・視点|名
+lens|切り口・観点|名
+angle|角度・切り口|名
+dimension|側面・軸|名
+axis|軸|名
+driver|要因・推進力|名
+value driver|価値を生む要因|名
+driver tree|ドライバーツリー・要因分解図|名
+lagging indicator|遅行指標|名
+leading indicator|先行指標|名
+dashboard|ダッシュボード・経営指標の一覧|名
+scorecard|評価表|名
+target|目標値|名
+stretch goal|背伸びした目標|名
+aspiration|大志・目指す姿|名
+ambition|野心・意欲的な目標|名
+vision statement|ビジョンステートメント|名
+mission statement|使命の宣言|名
+core values|中核的価値観|名
+strategic intent|戦略的意図|名
+where to play|どこで戦うか|熟
+how to win|どう勝つか|熟
+right to win|勝つ資格・勝てる根拠|名
+strategic fit|戦略的適合性|名
+portfolio|事業ポートフォリオ|名
+portfolio review|事業構成の見直し|名
+cash cow|稼ぎ頭事業|名
+non-core|非中核の|形
+core business|中核事業|名
+adjacent market|隣接市場|名
+greenfield|新規立ち上げの|形
+brownfield|既存基盤を活用した|形
+joint venture|合弁事業|名
+strategic alliance|戦略的提携|名
+partnership|提携関係|名
+ecosystem|エコシステム・事業生態系|名
+platform|基盤・プラットフォーム|名
+marketplace|市場・取引の場|名
+intermediary|仲介者|名
+disintermediation|中抜き|名
+channel|販路・チャネル|名
+channel conflict|チャネル間の競合|名
+route to market|市場への販売経路|名
+direct-to-consumer|消費者直販の|形
+omnichannel|オムニチャネルの|形
+brand equity|ブランド資産価値|名
+customer centricity|顧客中心主義|名
+customer-centric|顧客中心の|形
+data-driven|データに基づく|形
+fact-based|事実に基づく|形
+evidence-based|根拠に基づく|形
+top-down|トップダウンの|形
+bottom-up|ボトムアップの|形
+outside-in|外部視点からの|形
+end-to-end|一気通貫の|形
+best-in-class|業界最高水準の|形
+fit-for-purpose|目的に適した|形
+mission-critical|事業継続に不可欠な|形
+value-accretive|価値を高める|形
+accretive|利益を押し上げる|形
+dilutive|希薄化を招く|形
+immaterial|重要でない|形
+directional|大まかな方向性を示す|形
+directionally correct|方向性としては正しい|熟
+high-level|大まかな・概要レベルの|形
+at a high level|大まかに言うと|熟
+in a nutshell|要するに|熟
+bottom-line up front|結論を先に述べること|熟
+net-net|結局のところ|副
+going forward|今後は|副
+moving forward|今後に向けて|副
+offline|会議の外で・別途|副
+upfront|前もって・最初に|副
+holistically|全体的に|副

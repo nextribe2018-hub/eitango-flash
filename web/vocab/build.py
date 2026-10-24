@@ -10,8 +10,8 @@ levels = json.loads((root / "src/data/vocab.json").read_text(encoding="utf-8"))
 errs = []
 for L in levels:
     ws = L["words"]
-    if len(ws) != 300 or len(ws) % 30:
-        errs.append(f"{L['id']}: {len(ws)}語（300語・30の倍数であること）")
+    if len(ws) != 600 or len(ws) % 30:
+        errs.append(f"{L['id']}: {len(ws)}語（600語・30の倍数であること）")
     if not L.get("ref") or not L.get("group"):
         errs.append(f"{L['id']}: ref（参考レベル）と group が必要")
     if len({w["w"] for w in ws}) != len(ws):

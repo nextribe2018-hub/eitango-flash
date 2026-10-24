@@ -298,3 +298,303 @@ sinking fund|減債基金|名
 bridge loan|つなぎ融資|名
 clawback|返還請求・払い戻し条項|名
 accretive|増益効果のある|形
+yield to maturity|最終利回り|名
+duration|デュレーション・金利感応度|名
+convexity|コンベキシティ・凸性|名
+par value|額面価格|名
+zero-coupon bond|ゼロクーポン債・割引債|名
+junk bond|ジャンク債|名
+investment grade|投資適格|名
+high-yield|高利回りの|形
+floating rate note|変動利付債|名
+fixed income|確定利付商品・債券運用|名
+credit spread|信用スプレッド|名
+inverted yield curve|逆イールド|名
+term premium|タームプレミアム|名
+risk premium|リスクプレミアム|名
+discount rate|割引率・公定歩合|名
+cost of capital|資本コスト|名
+cost of equity|株主資本コスト|名
+capital structure|資本構成|名
+debt-to-equity ratio|負債資本倍率|名
+leverage ratio|レバレッジ比率|名
+Tier 1 capital|中核的自己資本|名
+risk-weighted assets|リスク加重資産|名
+loan-to-value|担保掛目・LTV|名
+non-performing loan|不良債権|名
+loan loss reserve|貸倒引当金|名
+bad debt|貸倒れ|名
+foreclosure|抵当流れ・差し押さえ|名
+repossession|担保物件の回収|名
+prepayment|期限前返済・前払い|名
+balloon payment|満期一括返済額|名
+revolving credit|リボルビング融資|名
+credit line|与信枠|名
+trade finance|貿易金融|名
+factoring|ファクタリング・債権買取|名
+syndicated loan|シンジケートローン|名
+term loan|期限付き融資|名
+leveraged loan|レバレッジドローン|名
+mezzanine|メザニン・中間層資金|名
+unsecured|無担保の|形
+secured|担保付きの|形
+recourse|遡求権|名
+non-recourse|非遡求型の|形
+covenant-lite|コベナンツの緩い|形
+credit facility|信用供与枠・融資ファシリティ|名
+interbank|銀行間の|形
+overnight rate|翌日物金利|名
+policy rate|政策金利|名
+quantitative easing|量的緩和|名
+quantitative tightening|量的引き締め|名
+forward guidance|フォワードガイダンス|名
+open market operations|公開市場操作|名
+reserve requirement|預金準備率|名
+lender of last resort|最後の貸し手|名
+money supply|通貨供給量・マネーサプライ|名
+velocity of money|貨幣の流通速度|名
+consumer price index|消費者物価指数|名
+output gap|需給ギャップ|名
+current account|経常収支|名
+trade balance|貿易収支|名
+balance of payments|国際収支|名
+capital flight|資本逃避|名
+carry trade|キャリートレード|名
+safe haven|安全資産・逃避先|名
+purchasing power parity|購買力平価|名
+real interest rate|実質金利|名
+nominal|名目の|形
+disinflation|ディスインフレ|名
+hyperinflation|ハイパーインフレ|名
+public debt|公的債務|名
+debt ceiling|債務上限|名
+sovereign default|国家債務不履行|名
+contagion|危機の連鎖・伝染|名
+systemic risk|システミックリスク|名
+moral hazard|モラルハザード|名
+too big to fail|大きすぎて潰せない|熟
+deposit insurance|預金保険|名
+capital controls|資本規制|名
+shadow banking|シャドーバンキング|名
+operational risk|オペレーショナルリスク|名
+liquidity risk|流動性リスク|名
+interest rate risk|金利リスク|名
+value at risk|バリュー・アット・リスク|名
+Sharpe ratio|シャープレシオ|名
+standard deviation|標準偏差|名
+correlation|相関|名
+efficient frontier|効率的フロンティア|名
+CAPM|資本資産評価モデル|名
+asset class|資産クラス|名
+passive investing|パッシブ運用|名
+active management|アクティブ運用|名
+tracking error|トラッキングエラー|名
+expense ratio|経費率・信託報酬率|名
+management fee|運用報酬|名
+carried interest|キャリード・インタレスト|名
+hurdle rate|ハードルレート・最低要求収益率|名
+limited partner|有限責任組合員|名
+general partner|無限責任組合員|名
+capital call|出資要請・キャピタルコール|名
+dry powder|未投資の待機資金|名
+fund of funds|ファンド・オブ・ファンズ|名
+family office|ファミリーオフィス|名
+high net worth|富裕層の|形
+accredited investor|適格投資家|名
+retail investor|個人投資家|名
+institutional investor|機関投資家|名
+activist investor|物言う株主|名
+poison pill|ポイズンピル・買収防衛策|名
+white knight|白馬の騎士・友好的買収者|名
+golden parachute|ゴールデンパラシュート・高額退職金|名
+squeeze-out|少数株主の締め出し|名
+fairness opinion|フェアネス・オピニオン|名
+letter of intent|基本合意書|名
+non-disclosure agreement|秘密保持契約|名
+data room|データルーム|名
+purchase price allocation|取得価額配分|名
+enterprise value|企業価値|名
+equity value|株式価値|名
+discounted cash flow|割引キャッシュフロー法|名
+comparable companies|類似会社比較|名
+precedent transactions|類似取引比較|名
+control premium|支配権プレミアム|名
+dilutive|希薄化を招く|形
+earnings per share|1株当たり利益|名
+price-to-earnings ratio|株価収益率|名
+price-to-book ratio|株価純資産倍率|名
+operating income|営業利益|名
+net income|純利益|名
+gross margin|売上総利益率|名
+operating margin|営業利益率|名
+cost of goods sold|売上原価|名
+SG&A|販売費及び一般管理費|名
+inventory turnover|棚卸資産回転率|名
+current ratio|流動比率|名
+quick ratio|当座比率|名
+interest coverage ratio|インタレスト・カバレッジ・レシオ|名
+accrued expense|未払費用|名
+prepaid expense|前払費用|名
+contingent liability|偶発債務|名
+off-balance-sheet|簿外の・オフバランスの|形
+treasury stock|自己株式|名
+paid-in capital|払込資本|名
+preferred stock|優先株|名
+common stock|普通株|名
+stock split|株式分割|名
+ex-dividend|配当落ちの|形
+record date|権利確定日・基準日|名
+blue chip|優良株|名
+penny stock|低位株|名
+growth stock|成長株|名
+value stock|割安株|名
+small cap|小型株|名
+momentum|モメンタム・相場の勢い|名
+capitulation|投げ売り|名
+dead cat bounce|一時的な小反発|名
+bear market|弱気相場|名
+bull market|強気相場|名
+circuit breaker|サーキットブレーカー・取引停止措置|名
+high-frequency trading|高頻度取引|名
+algorithmic trading|アルゴリズム取引|名
+dark pool|ダークプール・私設取引市場|名
+best execution|最良執行|名
+slippage|スリッページ・約定価格のずれ|名
+stop-loss order|損切り注文|名
+front running|フロントランニング・先回り売買|名
+market manipulation|相場操縦|名
+Ponzi scheme|ポンジ・スキーム|名
+whistleblower|内部告発者|名
+information barrier|情報隔壁・チャイニーズウォール|名
+conflict of interest|利益相反|名
+fiduciary duty|受託者責任|名
+call option|コールオプション|名
+put option|プットオプション|名
+strike price|権利行使価格|名
+expiration date|満期日・権利行使期限|名
+implied volatility|インプライド・ボラティリティ|名
+in the money|イン・ザ・マネー|熟
+out of the money|アウト・オブ・ザ・マネー|熟
+notional amount|想定元本|名
+interest rate swap|金利スワップ|名
+currency swap|通貨スワップ|名
+total return swap|トータル・リターン・スワップ|名
+collateralized loan obligation|ローン担保証券|名
+mortgage-backed security|住宅ローン担保証券|名
+subprime|サブプライム・信用力の低い|形
+credit enhancement|信用補完|名
+rating agency|格付機関|名
+downgrade|格下げする|動
+green bond|グリーンボンド|名
+ESG|環境・社会・ガバナンス|名
+impact investing|インパクト投資|名
+stewardship|スチュワードシップ・責任ある運用|名
+annual report|年次報告書|名
+quarterly earnings|四半期決算|名
+guidance|業績見通し|名
+earnings surprise|業績サプライズ|名
+consensus estimate|市場予想・コンセンサス|名
+sell-side|セルサイドの・証券会社側の|形
+buy-side|バイサイドの・運用会社側の|形
+front office|フロントオフィス・営業部門|名
+cash management|資金管理|名
+capital budgeting|設備投資計画|名
+payback period|回収期間|名
+sunk cost|埋没費用|名
+opportunity cost|機会費用|名
+break-even point|損益分岐点|名
+loss ratio|損害率|名
+combined ratio|コンバインド・レシオ|名
+claims reserve|支払備金|名
+actuarial|保険数理の|形
+mortality table|生命表|名
+life insurance|生命保険|名
+property and casualty|損害保険|名
+whole life|終身保険|名
+cash surrender value|解約返戻金|名
+exclusion|免責事由|名
+peril|保険事故・危険|名
+catastrophe bond|大災害債券|名
+subrogation|代位求償|名
+adverse selection|逆選択|名
+bancassurance|銀行窓販保険|名
+retail banking|リテール銀行業務|名
+investment banking|投資銀行業務|名
+commercial bank|商業銀行|名
+private banking|プライベートバンキング|名
+SWIFT|国際銀行間通信協会|名
+net interest margin|純金利マージン|名
+fee income|手数料収入|名
+loan origination|融資の組成・実行|名
+credit scoring|信用スコアリング|名
+direct debit|口座振替|名
+decentralized finance|分散型金融|名
+smart contract|スマートコントラクト|名
+matching principle|費用収益対応の原則|名
+going concern|継続企業の前提|名
+materiality|重要性|名
+restatement|決算の修正再表示|名
+internal control|内部統制|名
+amortized cost|償却原価|名
+historical cost|取得原価|名
+lease liability|リース負債|名
+right-of-use asset|使用権資産|名
+revenue recognition|収益認識|名
+minority interest|非支配持分|名
+equity method|持分法|名
+transfer pricing|移転価格|名
+tax haven|租税回避地|名
+tax evasion|脱税|名
+value-added tax|付加価値税|名
+negative interest rate|マイナス金利|名
+soft landing|軟着陸|名
+hard landing|硬着陸|名
+leading indicator|先行指標|名
+nonfarm payrolls|非農業部門雇用者数|名
+purchasing managers index|購買担当者景気指数|名
+securitize|証券化する|動
+collateralize|担保を差し入れる|動
+underweight|比率を下げる・アンダーウェイトにする|動
+overweight|比率を上げる・オーバーウェイトにする|動
+divest|売却する・手放す|動
+allocate|配分する|動
+capitalize|資産計上する・資本化する|動
+expense|費用計上する|動
+outperform|市場を上回る成績を上げる|動
+underperform|市場を下回る成績になる|動
+depreciate|減価する・価値が下がる|動
+diversify|分散投資する|動
+delist|上場廃止にする|動
+tender|株式を応募する・入札する|動
+recapitalize|資本を増強する|動
+deleverage|負債を圧縮する|動
+reprice|価格改定する|動
+liquid|流動性の高い|形
+illiquid|流動性の低い|形
+fungible|代替可能な|形
+pro rata|比例配分の|形
+pari passu|同順位の|形
+bankable|融資適格な|形
+solvent|支払能力のある|形
+insolvent|支払不能の|形
+distressed|経営難の|形
+undervalued|割安な|形
+overvalued|割高な|形
+countercyclical|景気逆行的な|形
+procyclical|景気循環増幅的な|形
+cyclical|景気敏感の|形
+defensive|景気に左右されにくい・ディフェンシブな|形
+hawkish|タカ派の|形
+dovish|ハト派の|形
+accommodative|金融緩和的な|形
+year-on-year|前年比の|形
+quarter-on-quarter|前期比の|形
+annualized|年率換算の|形
+risk-averse|リスク回避的な|形
+tax-deductible|税控除可能な|形
+pro forma|見積りの・試算ベースの|形
+net of|〜を差し引いて|前
+ex ante|事前の|形
+ex post|事後の|形
+at par|額面で|熟
+in arrears|後払いで・延滞して|熟

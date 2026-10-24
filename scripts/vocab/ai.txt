@@ -298,3 +298,303 @@ bootstrapping|ブートストラップ法・自己拡張|名
 saliency|顕著性|名
 curriculum|カリキュラム（段階的学習計画）|名
 scaffold|足場・補助構造|名
+self-attention|自己注意機構|名
+positional encoding|位置符号化|名
+context window|コンテキスト長・入力可能な範囲|名
+large language model|大規模言語モデル（正式名称）|名
+retrieval-augmented generation|検索拡張生成（正式名称）|名
+vector database|ベクトルデータベース|名
+knowledge graph|知識グラフ|名
+knowledge distillation|知識蒸留|名
+transfer learning|転移学習|名
+meta-learning|メタ学習|名
+self-supervised|自己教師ありの|形
+semi-supervised|半教師ありの|形
+contrastive|対照的な（対照学習の）|形
+contrastive learning|対照学習|名
+active learning|能動学習|名
+online learning|オンライン学習・逐次学習|名
+federated learning|連合学習|名
+continual learning|継続学習|名
+catastrophic forgetting|破滅的忘却|名
+curriculum learning|カリキュラム学習|名
+multitask|マルチタスクの|形
+instruction tuning|指示チューニング|名
+preference|選好・好み|名
+preference data|選好データ|名
+reward model|報酬モデル|名
+reward hacking|報酬ハッキング（報酬の抜け穴利用）|名
+constitutional AI|憲法的AI（原則に基づく調整法）|名
+direct preference optimization|直接選好最適化（DPO）|名
+proximal policy optimization|近接方策最適化（PPO）|名
+value function|価値関数|名
+exploration|探索|名
+exploitation|活用（既知の最善手の利用）|名
+trajectory|軌跡・行動系列|名
+episode|エピソード（試行の1区切り）|名
+Markov|マルコフの|形
+gradient descent|勾配降下法|名
+stochastic gradient descent|確率的勾配降下法|名
+learning rate|学習率|名
+warmup|ウォームアップ（学習率の段階的上昇）|名
+scheduler|スケジューラ（学習率調整器）|名
+momentum|モメンタム・慣性項|名
+weight decay|重み減衰|名
+vanishing gradient|勾配消失|名
+exploding gradient|勾配爆発|名
+gradient clipping|勾配クリッピング|名
+initialization|初期化|名
+weights|重み（モデルの学習済みパラメータ一式）|名
+batch normalization|バッチ正規化|名
+layer normalization|層正規化|名
+activation function|活性化関数|名
+ReLU|ReLU（正規化線形関数）|名
+perceptron|パーセプトロン|名
+multilayer perceptron|多層パーセプトロン|名
+feedforward|順伝播型の|形
+forward pass|順伝播|名
+backward pass|逆伝播|名
+hidden layer|隠れ層|名
+hidden state|隠れ状態|名
+pooling|プーリング|名
+stride|ストライド（移動幅）|名
+padding|パディング（埋め草）|名
+receptive field|受容野|名
+LSTM|長短期記憶（RNNの一種）|名
+autoencoder|オートエンコーダ・自己符号化器|名
+variational|変分の|形
+variational autoencoder|変分オートエンコーダ|名
+denoising|ノイズ除去|名
+denoise|ノイズを除去する|動
+latent space|潜在空間|名
+latent variable|潜在変数|名
+upsampling|アップサンプリング|名
+downsampling|ダウンサンプリング|名
+text-to-image|テキストから画像を生成する|形
+image generation|画像生成|名
+vision-language model|視覚言語モデル|名
+vision transformer|ビジョントランスフォーマー|名
+segmentation|セグメンテーション・領域分割|名
+object detection|物体検出|名
+bounding box|バウンディングボックス・外接矩形|名
+speech recognition|音声認識（正式名称）|名
+speech synthesis|音声合成（正式名称）|名
+recommender system|推薦システム|名
+collaborative filtering|協調フィルタリング|名
+autoregressive|自己回帰の|形
+masked language model|マスク言語モデル|名
+next-token prediction|次トークン予測|名
+causal language model|因果言語モデル|名
+encoder-decoder|エンコーダ・デコーダ型の|形
+sequence-to-sequence|系列変換の|形
+beam search|ビームサーチ|名
+top-k sampling|上位k個からのサンプリング|名
+nucleus sampling|核サンプリング（top-p）|名
+system prompt|システムプロンプト|名
+prompt engineering|プロンプトエンジニアリング|名
+prompt injection|プロンプトインジェクション|名
+prompt template|プロンプトテンプレート|名
+context engineering|コンテキストエンジニアリング|名
+function calling|関数呼び出し機能|名
+tool use|ツール使用|名
+structured output|構造化出力|名
+multi-agent|マルチエージェントの|形
+subagent|サブエージェント|名
+long-term memory|長期記憶|名
+self-consistency|自己一貫性（多数決による推論法）|名
+tree of thoughts|思考の木|名
+test-time compute|推論時計算量|名
+extended thinking|拡張思考|名
+reasoning model|推論モデル|名
+emergent|創発的な|形
+emergence|創発|名
+scaling law|スケーリング則|名
+compute|計算資源|名
+FLOPs|浮動小数点演算数|名
+mixed precision|混合精度|名
+floating-point|浮動小数点の|形
+key-value cache|KVキャッシュ|名
+long-context|長文脈の|形
+data parallelism|データ並列|名
+model parallelism|モデル並列|名
+parameter-efficient|パラメータ効率の良い|形
+adapter|アダプタ（追加学習用の小さな層）|名
+low-rank|低ランクの|形
+pruning|枝刈り|名
+sparsity|スパース性・疎性|名
+on-device|端末上の|形
+open-weight|重み公開の|形
+frontier model|最先端モデル|名
+base model|ベースモデル|名
+chat model|対話モデル|名
+model card|モデルカード（モデルの説明文書）|名
+leaderboard|リーダーボード・順位表|名
+contamination|データ汚染（評価データの混入）|名
+held-out|学習に使わず取っておいた|形
+training set|訓練データ|名
+validation set|検証データ|名
+test set|テストデータ|名
+cross-validation|交差検証|名
+k-fold|k分割の|形
+holdout|ホールドアウト法|名
+ground truth|正解データ|名
+gold standard|基準データ・模範解答|名
+inter-annotator agreement|アノテーター間一致度|名
+human evaluation|人手評価|名
+LLM-as-a-judge|LLMによる自動評価|名
+pairwise|ペアごとの・一対比較の|形
+win rate|勝率|名
+F1 score|F1スコア|名
+confusion matrix|混同行列|名
+true positive|真陽性|名
+false positive|偽陽性|名
+false negative|偽陰性|名
+specificity|特異度|名
+sensitivity|感度|名
+ROC curve|ROC曲線|名
+AUC|曲線下面積|名
+mean squared error|平均二乗誤差|名
+cross-entropy|交差エントロピー|名
+log-likelihood|対数尤度|名
+KL divergence|KLダイバージェンス|名
+pass@k|k回中の正解率指標|名
+statistically significant|統計的に有意な|形
+p-value|p値|名
+null hypothesis|帰無仮説|名
+confidence interval|信頼区間|名
+standard deviation|標準偏差|名
+mean|平均|名
+median|中央値|名
+normal distribution|正規分布|名
+Gaussian|ガウスの・正規分布の|形
+expectation|期待値|名
+random variable|確率変数|名
+i.i.d.|独立同分布の|形
+conditional probability|条件付き確率|名
+marginal|周辺の|形
+maximum likelihood|最尤推定|名
+estimator|推定量|名
+unbiased|不偏の|形
+overfit|過学習する|動
+underfit|過少適合する|動
+bias-variance tradeoff|バイアス・バリアンスのトレードオフ|名
+early stopping|早期終了|名
+regularize|正則化する|動
+linear regression|線形回帰|名
+logistic regression|ロジスティック回帰|名
+decision tree|決定木|名
+random forest|ランダムフォレスト|名
+gradient boosting|勾配ブースティング|名
+ensemble|アンサンブル|名
+k-means|k平均法|名
+principal component analysis|主成分分析|名
+dimensionality reduction|次元削減|名
+feature engineering|特徴量エンジニアリング|名
+feature extraction|特徴抽出|名
+feature selection|特徴選択|名
+categorical|カテゴリカルな|形
+continuous|連続的な|形
+discrete|離散的な|形
+binary classification|二値分類|名
+multiclass|多クラスの|形
+class imbalance|クラス不均衡|名
+data labeling|データラベリング|名
+pseudo-label|疑似ラベル|名
+synthetic data|合成データ|名
+data poisoning|データポイズニング|名
+adversarial example|敵対的サンプル|名
+differential privacy|差分プライバシー|名
+unlearning|機械学習の忘却（学習済み情報の除去）|名
+mechanistic interpretability|機械論的解釈可能性|名
+probe|プローブ（内部表現を調べる分類器）|名
+probing|プロービング|名
+circuit|回路（モデル内部の計算経路）|名
+sparse autoencoder|スパースオートエンコーダ|名
+attribution|寄与度分析・帰属|名
+steering|ステアリング（内部表現による出力制御）|名
+sycophancy|迎合（ユーザーに合わせすぎる傾向）|名
+refusal|拒否応答|名
+misalignment|ミスアラインメント・意図とのずれ|名
+deceptive|欺瞞的な|形
+oversight|監督|名
+human-in-the-loop|人間が介在する|形
+responsible AI|責任あるAI|名
+AI safety|AIの安全性|名
+frontier|最先端・フロンティア|名
+capability|能力|名
+dual-use|軍民両用の・悪用可能な|形
+deepfake|ディープフェイク|名
+content moderation|コンテンツモデレーション|名
+classifier|分類器|名
+detector|検出器|名
+discriminative|識別的な|形
+predictive|予測の|形
+prediction|予測|名
+forecast|予測する|動
+time series|時系列|名
+A/B test|A/Bテスト|名
+causal inference|因果推論|名
+counterfactual|反実仮想の|形
+randomized|無作為化された|形
+data science|データサイエンス|名
+exploratory data analysis|探索的データ分析|名
+data cleaning|データクレンジング|名
+missing value|欠損値|名
+data pipeline|データパイプライン|名
+MLOps|機械学習の運用基盤・MLOps|名
+experiment tracking|実験管理|名
+inference server|推論サーバー|名
+batch inference|バッチ推論|名
+time to first token|最初のトークンまでの時間|名
+context caching|コンテキストキャッシュ|名
+rate limit|レート制限・利用回数制限|名
+embedding model|埋め込みモデル|名
+semantic search|意味検索|名
+hybrid search|ハイブリッド検索|名
+keyword search|キーワード検索|名
+approximate nearest neighbor|近似最近傍探索|名
+dot product|内積|名
+normalize|正規化する|動
+linear algebra|線形代数|名
+calculus|微積分|名
+derivative|導関数・微分|名
+chain rule|連鎖律|名
+convex|凸の|形
+non-convex|非凸の|形
+local minimum|局所最小値|名
+saddle point|鞍点|名
+loss landscape|損失地形|名
+hyperparameter tuning|ハイパーパラメータ調整|名
+neural architecture search|ニューラル構造探索|名
+inductive bias|帰納バイアス|名
+expressive|表現力の高い|形
+expressivity|表現力|名
+inductive|帰納的な|形
+deductive|演繹的な|形
+symbolic|記号的な|形
+neurosymbolic|ニューロシンボリックな|形
+world model|世界モデル|名
+embodied|身体性を持つ|形
+robotics|ロボティクス|名
+imitation learning|模倣学習|名
+sim-to-real|シミュレーションから実機への|形
+artificial general intelligence|汎用人工知能|名
+AGI|汎用人工知能（略）|名
+benchmark saturation|ベンチマーク飽和|名
+generalist|汎用型の|形
+annotate|注釈を付ける|動
+infer|推論する・推測する|動
+classify|分類する|動
+quantize|量子化する|動
+sample|サンプリングする・標本|動
+embed|埋め込む|動
+retrieve|検索して取り出す|動
+rerank|再ランキングする|動
+align|整合させる・アラインする|動
+benchmarking|ベンチマーク評価|名
+evaluate|評価する|動
+ablate|要素を除去して検証する|動
+interpolate|補間する|動
+extrapolate|外挿する|動
+parameterize|パラメータ化する|動
+backpropagate|誤差逆伝播させる|動

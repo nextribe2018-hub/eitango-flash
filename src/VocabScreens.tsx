@@ -4,7 +4,7 @@
 //       → 300語ごとに要再習得の語で定着テスト。一覧からは全パック横断の定着テスト（総合定着テスト）も
 // パックは無料（スコア500目安）／買い切り。未購入でも最初の30語は試せる
 // 見た目は Web版（web/vocab/）と同じ：英単語は辞書の見出し語のようにセリフ体、数字は等幅、計時中は時計を上に固定、
-// パックごとに300語の「語彙マップ」。この画面は自分でスクロールを持つ（計時中は時計の下だけをスクロール）。
+// パックの全語（600語）を1マスずつ示す「語彙マップ」。この画面は自分でスクロールを持つ（計時中は時計の下だけをスクロール）。
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Platform, Pressable, ScrollView, Text, View } from 'react-native';
 import * as Haptics from 'expo-haptics';
@@ -405,13 +405,14 @@ function LevelHome({ ctx, speed, level, lp, go, start, startFix, reset }: {
   );
 }
 
-// 語彙マップ：300語を1マスずつ（出題順）。色＝状態
+// 語彙マップ：パックの全語を1マスずつ（出題順）。色＝状態。300語までは20列、それより多いと30列
 function WordMap({ ctx, level, lp, cnt }: { ctx: VCtx; level: Level; lp: LevelProgress; cnt: Record<WordStatus, number> }) {
   const { c, st } = ctx;
   const n = level.words.length;
   const ord = lp.ord && lp.ord.length === n ? lp.ord : level.words.map((_, i) => i);
   const [w, setW] = useState(0);
-  const cell = w ? Math.floor((w - 2 * 19) / 20) : 0;
+  const cols = n > 300 ? 30 : 20;
+  const cell = w ? Math.floor((w - 2 * (cols - 1)) / cols) : 0;
   return (
     <View style={[st.card, { borderRadius: 12 }]}>
       <View style={st.rowBetween}>

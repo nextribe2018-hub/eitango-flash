@@ -298,3 +298,303 @@ respiratory|呼吸の|形
 vascular|血管の|形
 cerebral|脳の|形
 oncology|腫瘍学|名
+sternum|胸骨|名
+scapula|肩甲骨|名
+femur|大腿骨|名
+fibula|腓骨|名
+humerus|上腕骨|名
+patella|膝蓋骨|名
+follow-up|経過観察・フォローアップ|名
+renal failure|腎不全|名
+complication|合併症|名
+meniscus|半月板|名
+cornea|角膜|名
+optic nerve|視神経|名
+stethoscope|聴診器|名
+larynx|喉頭|名
+tonsil|扁桃|名
+medical record|診療記録・カルテ|名
+heart failure|心不全|名
+COPD|慢性閉塞性肺疾患|名
+prostate|前立腺|名
+uterus|子宮|名
+testis|精巣|名
+placenta|胎盤|名
+cervix|子宮頸部|名
+adrenal gland|副腎|名
+cerebellum|小脳|名
+brainstem|脳幹|名
+spinal cord|脊髄|名
+ventricle|心室|名
+sleep apnea|睡眠時無呼吸症候群|名
+coronary artery|冠動脈|名
+physiotherapy|理学療法|名
+myocardium|心筋|名
+pleura|胸膜|名
+peritoneum|腹膜|名
+epidermis|表皮|名
+dermis|真皮|名
+platelet|血小板|名
+red blood cell|赤血球|名
+plasma|血漿|名
+neuron|神経細胞・ニューロン|名
+synapse|シナプス|名
+axon|軸索|名
+hematuria|血尿|名
+retina|網膜|名
+appendix|虫垂|名
+dysuria|排尿痛|名
+ovary|卵巣|名
+incontinence|失禁|名
+tachycardia|頻脈|名
+cyanosis|チアノーゼ|名
+neurotransmitter|神経伝達物質|名
+hemoglobin|ヘモグロビン|名
+tinnitus|耳鳴り|名
+blurred vision|かすみ目・視界のぼやけ|名
+white blood cell|白血球|名
+paralysis|麻痺|名
+hemiplegia|片麻痺|名
+spasm|攣縮・スパズム|名
+convulsion|ひきつけ・痙攣|名
+hallucination|幻覚|名
+coma|昏睡|名
+aphasia|失語症|名
+dehydration|脱水|名
+sore throat|咽頭痛・のどの痛み|名
+chest pain|胸痛|名
+low back pain|腰痛|名
+myalgia|筋肉痛|名
+heartburn|胸やけ|名
+weight loss|体重減少|名
+night sweats|寝汗|名
+ascites|腹水|名
+pleural effusion|胸水|名
+pus|膿|名
+blister|水疱|名
+cyst|嚢胞|名
+nodule|結節|名
+calcification|石灰化|名
+angina|狭心症|名
+myocardial infarction|心筋梗塞|名
+atrial fibrillation|心房細動|名
+endocarditis|心内膜炎|名
+deep vein thrombosis|深部静脈血栓症|名
+emphysema|肺気腫|名
+pulmonary embolism|肺塞栓症|名
+gastroenteritis|胃腸炎|名
+pancreatitis|膵炎|名
+gallstone|胆石|名
+kidney stone|腎結石|名
+irritable bowel syndrome|過敏性腸症候群|名
+peptic ulcer|消化性潰瘍|名
+hemorrhoids|痔核|名
+urinary tract infection|尿路感染症|名
+cystitis|膀胱炎|名
+hyperthyroidism|甲状腺機能亢進症|名
+gout|痛風|名
+rheumatoid arthritis|関節リウマチ|名
+osteoarthritis|変形性関節症|名
+multiple sclerosis|多発性硬化症|名
+Parkinson's disease|パーキンソン病|名
+cerebral palsy|脳性麻痺|名
+concussion|脳震盪|名
+neuropathy|神経障害|名
+glaucoma|緑内障|名
+conjunctivitis|結膜炎|名
+otitis media|中耳炎|名
+measles|麻疹・はしか|名
+mumps|流行性耳下腺炎・おたふく風邪|名
+rubella|風疹|名
+shingles|帯状疱疹|名
+tetanus|破傷風|名
+Alzheimer's disease|アルツハイマー病|名
+sarcoma|肉腫|名
+cataract|白内障|名
+dermatitis|皮膚炎|名
+anaphylaxis|アナフィラキシー|名
+bipolar disorder|双極性障害|名
+PTSD|心的外傷後ストレス障害|名
+eating disorder|摂食障害|名
+miscarriage|流産|名
+infertility|不妊症|名
+hypoxia|低酸素症|名
+dyslipidemia|脂質異常症|名
+necrosis|壊死|名
+thrombus|血栓|名
+contusion|挫傷・打撲|名
+gene therapy|遺伝子治療|名
+heatstroke|熱中症|名
+CT scan|CT検査|名
+electroencephalogram|脳波|名
+colonoscopy|大腸内視鏡検査|名
+laparoscopy|腹腔鏡検査|名
+angiography|血管造影|名
+blood test|血液検査|名
+blood culture|血液培養|名
+spirometry|肺機能検査|名
+assay|測定法・アッセイ|名
+false negative|偽陰性|名
+PCR|ポリメラーゼ連鎖反応|名
+electrolyte|電解質|名
+medical history|病歴|名
+physical examination|身体診察|名
+chief complaint|主訴|名
+reflex|反射|名
+heart rate|心拍数|名
+pulse oximeter|パルスオキシメーター|名
+hypothyroidism|甲状腺機能低下症|名
+scalpel|メス|名
+tourniquet|止血帯|名
+gauze|ガーゼ|名
+stretcher|担架|名
+inhaler|吸入器|名
+appendectomy|虫垂切除術|名
+mastectomy|乳房切除術|名
+angioplasty|血管形成術|名
+ablation|焼灼術・アブレーション|名
+drainage|ドレナージ・排液|名
+tracheostomy|気管切開|名
+occupational therapy|作業療法|名
+immunotherapy|免疫療法|名
+first aid|応急処置|名
+contrast agent|造影剤|名
+invasive|侵襲的な|形
+noninvasive|非侵襲的な|形
+emergency department|救急外来|名
+operating room|手術室|名
+postoperative|術後の|形
+preoperative|術前の|形
+prophylaxis|予防・予防投与|名
+prophylactic|予防的な|形
+curative|根治的な|形
+regimen|投与計画・レジメン|名
+taper|漸減する|動
+administer|投与する|動
+prescribe|処方する|動
+sterilize|滅菌する|動
+disinfect|消毒する|動
+intubate|挿管する|動
+resuscitate|蘇生させる|動
+excise|切除する|動
+vaccinate|ワクチンを接種する|動
+metastasize|転移する|動
+exacerbate|悪化させる|動
+coagulate|凝固する|動
+dilate|拡張させる|動
+constrict|収縮させる|動
+aspirate|吸引する・誤嚥する|動
+sedate|鎮静させる|動
+anesthetize|麻酔をかける|動
+false positive|偽陽性|名
+creatinine|クレアチニン|名
+antipyretic|解熱薬|名
+antihypertensive|降圧薬|名
+antiemetic|制吐薬|名
+anticonvulsant|抗てんかん薬|名
+antipsychotic|抗精神病薬|名
+beta blocker|ベータ遮断薬|名
+statin|スタチン|名
+immunosuppressant|免疫抑制薬|名
+laxative|下剤|名
+vasodilator|血管拡張薬|名
+muscle relaxant|筋弛緩薬|名
+biosimilar|バイオシミラー|名
+active ingredient|有効成分|名
+transdermal|経皮の|形
+inclusion criteria|選択基準|名
+over-the-counter|市販の・一般用の|形
+drug interaction|薬物相互作用|名
+overdose|過剰摂取・過量投与|名
+hypersensitivity|過敏症|名
+pharmacodynamics|薬力学|名
+therapeutic window|治療域|名
+maintenance dose|維持量|名
+off-label|適応外の|形
+dispensing|調剤|名
+pharmacology|薬理学|名
+drug discovery|創薬|名
+preclinical|前臨床の・非臨床の|形
+primary endpoint|主要評価項目|名
+exclusion criteria|除外基準|名
+investigator|治験責任医師|名
+sponsor|治験依頼者|名
+open-label|非盲検の|形
+placebo-controlled|プラセボ対照の|形
+confidence interval|信頼区間|名
+hazard ratio|ハザード比|名
+case report|症例報告|名
+retrospective|後ろ向きの|形
+abdominal pain|腹痛|名
+package insert|添付文書|名
+pediatrician|小児科医|名
+obstetrician|産科医|名
+dermatologist|皮膚科医|名
+psychiatrist|精神科医|名
+anesthesiologist|麻酔科医|名
+oncologist|腫瘍内科医|名
+pathologist|病理医|名
+pediatrics|小児科|名
+dermatology|皮膚科|名
+cardiology|循環器内科|名
+radiology|放射線医学|名
+orthopedics|整形外科|名
+internal medicine|内科|名
+epidemiology|疫学|名
+immunology|免疫学|名
+nursing home|介護施設・老人ホーム|名
+hand hygiene|手指衛生|名
+nosocomial infection|院内感染|名
+electronic health record|電子カルテ|名
+rounds|回診|名
+advance directive|事前指示書|名
+autopsy|剖検・検死|名
+death certificate|死亡診断書|名
+telemedicine|遠隔医療|名
+adherence|服薬遵守・アドヒアランス|名
+near miss|ヒヤリハット|名
+sterilization|滅菌|名
+antiseptic|消毒薬|名
+PPE|個人防護具|名
+asymptomatic|無症状の|形
+symptomatic|症状のある・症候性の|形
+airborne|空気感染する|形
+herd immunity|集団免疫|名
+booster|追加接種・ブースター|名
+fungus|真菌|名
+systemic|全身性の|形
+localized|限局性の|形
+bilateral|両側の|形
+unilateral|片側の|形
+idiopathic|特発性の|形
+iatrogenic|医原性の|形
+degenerative|変性の|形
+autoimmune|自己免疫の|形
+inflammatory|炎症性の|形
+ischemic|虚血性の|形
+neonatal|新生児の|形
+pediatric|小児の|形
+geriatric|高齢者の|形
+prenatal|出生前の|形
+abdominal|腹部の|形
+thoracic|胸部の|形
+lumbar|腰部の・腰椎の|形
+endocrine|内分泌の|形
+metabolic|代謝の|形
+diagnostic|診断の|形
+therapeutic|治療の|形
+lethal|致死的な|形
+intermittent|間欠的な|形
+recurrent|再発性の|形
+refractory|難治性の|形
+incubation period|潜伏期間|名
+latent|潜在性の|形
+immunocompromised|免疫不全の|形
+intravenously|静脈内に|副
+orally|経口で|副
+topically|局所に|副
+antihistamine|抗ヒスタミン薬|名
+monoclonal antibody|モノクローナル抗体|名
+clinically|臨床的に|副
+meta-analysis|メタアナリシス|名
+NSAID|非ステロイド性抗炎症薬|名

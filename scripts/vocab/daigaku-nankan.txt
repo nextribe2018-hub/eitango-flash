@@ -298,3 +298,303 @@ in the long run|長い目で見れば|熟
 on the verge of|今にも〜しそうで|熟
 for the sake of|〜のために|熟
 at the expense of|〜を犠牲にして|熟
+paradigm|理論的枠組み・模範|名
+discourse|言説・談話|名
+hegemony|覇権|名
+consensus|合意|名
+fallacy|誤謬|名
+deduction|演繹・控除|名
+correlation|相関関係|名
+ambiguity|曖昧さ|名
+dilemma|板挟み・ジレンマ|名
+dogma|教義・独断的見解|名
+ethos|気風・精神|名
+rhetoric|修辞・美辞麗句|名
+analogy|類推・類似|名
+cognition|認知|名
+consciousness|意識|名
+empathy|共感|名
+individualism|個人主義|名
+determinism|決定論|名
+utilitarianism|功利主義|名
+nihilism|虚無主義|名
+globalization|グローバル化|名
+commodification|商品化|名
+diaspora|離散民・ディアスポラ|名
+legacy|後世に残すもの・遺産|名
+bias|偏り・先入観|名
+inequity|不公平|名
+sovereignty|主権|名
+constituent|構成要素・有権者|名
+ramification|派生的影響|名
+aftermath|余波・後遺症|名
+incentive|動機付け・誘因|名
+constraint|制約|名
+threshold|閾値・入口|名
+continuum|連続体|名
+epoch|時代・新紀元|名
+facet|側面|名
+semantics|意味論|名
+anthropology|人類学|名
+metaphysics|形而上学|名
+philanthropy|慈善活動|名
+vice|悪徳|名
+arrogance|傲慢|名
+apathy|無関心|名
+resilience|回復力|名
+affluence|豊かさ・裕福|名
+proliferation|急増・拡散|名
+transmission|伝達・伝染|名
+conformity|同調・順応|名
+reconciliation|和解|名
+solidarity|連帯|名
+reciprocity|相互関係・互恵|名
+mutation|突然変異|名
+heredity|遺伝|名
+depletion|枯渇|名
+sustainability|持続可能性|名
+discrepancy|食い違い|名
+inconsistency|不整合|名
+credibility|信頼性|名
+authenticity|本物であること|名
+rationality|合理性|名
+satire|風刺|名
+ritual|儀式|名
+utopia|理想郷|名
+advocate|提唱する|動
+assert|断言する|動
+refute|論駁する|動
+concede|認める・譲歩する|動
+validate|立証する・有効にする|動
+falsify|反証する・偽造する|動
+deduce|演繹する|動
+extrapolate|推定する・敷衍する|動
+conceptualize|概念化する|動
+attribute|帰する|動
+derive|引き出す・由来する|動
+construe|解釈する|動
+perceive|知覚する|動
+envision|構想する|動
+anticipate|予期する|動
+presuppose|前提とする|動
+exacerbate|悪化させる|動
+alleviate|軽減する|動
+ameliorate|好転させる|動
+amplify|増幅する|動
+curtail|切り詰める|動
+attenuate|弱める|動
+nullify|無効化する|動
+exclude|排除する|動
+impede|妨げる|動
+thwart|阻止する|動
+transcend|超越する|動
+integrate|統合する|動
+amalgamate|合併する|動
+consolidate|固める・強化する|動
+foster|育成する・促進する|動
+expedite|迅速に進める|動
+instigate|扇動する|動
+galvanize|奮起させる|動
+perpetuate|永続させる|動
+sustain|持続させる|動
+disseminate|広める|動
+transmit|伝える・送信する|動
+allude|ほのめかす|動
+connote|含意する|動
+exemplify|例示する|動
+scrutinize|精査する|動
+contemplate|じっくり考える・企図する|動
+surmise|推量する|動
+disparage|けなす|動
+condemn|非難する|動
+censure|譴責する|動
+exonerate|無罪を証明する|動
+tolerate|容認する|動
+acquiesce|黙認する|動
+defer|先送りする・敬意を表して従う|動
+relinquish|手放す|動
+abdicate|退位する・責任を放棄する|動
+allocate|配分する|動
+usurp|強奪する|動
+manipulate|操作する|動
+fabricate|でっち上げる・製造する|動
+disclose|開示する|動
+evoke|呼び起こす|動
+suppress|抑え込む・隠蔽する|動
+overthrow|打倒する|動
+initiate|開始する|動
+terminate|終わらせる|動
+cease|やめる・終わる|動
+supersede|取って代わる|動
+displace|追い出す・置き換える|動
+offset|相殺する|動
+neutralize|中和する|動
+bolster|支持する・強める|動
+legislate|法律を制定する|動
+ratify|批准する|動
+enforce|施行する・強制する|動
+exempt|免除する|動
+encapsulate|要約する・包み込む|動
+elaborate|詳しく述べる|動
+clarify|明確にする|動
+demarcate|境界を定める|動
+correlate|相関させる|動
+clash|衝突する|動
+dispute|異議を唱える|動
+coexist|共存する|動
+homogenize|均質化する|動
+stratify|階層化する|動
+fragment|分裂させる|動
+disintegrate|崩壊する|動
+degenerate|退化する|動
+stagnate|停滞する|動
+burgeon|急成長する|動
+intensify|強める・激化する|動
+oscillate|揺れ動く|動
+ubiquitous|至る所にある|形
+pervasive|広く浸透した|形
+inherent|固有の・本来備わった|形
+extrinsic|外在的な|形
+inevitable|避けられない|形
+imperative|必須の・命令的な|形
+integral|全体に不可欠な・構成要素の|形
+conspicuous|目立つ|形
+eminent|高名な|形
+infamous|不名誉な|形
+ostensible|表向きの|形
+ambivalent|相反する感情を持つ|形
+arbitrary|恣意的な|形
+plausible|もっともらしい|形
+cogent|説得力のある|形
+compelling|抗しがたい・強力な|形
+fallacious|誤謬に基づく|形
+dubious|疑わしい|形
+volatile|変わりやすい・揮発性の|形
+fragile|壊れやすい|形
+susceptible|影響を受けやすい|形
+liable|責任がある・〜しやすい|形
+benign|良性の・優しい|形
+antagonistic|敵対的な|形
+amicable|友好的な|形
+candid|率直な|形
+scrupulous|良心的な・几帳面な|形
+indolent|怠惰な|形
+arrogant|傲慢な|形
+condescending|見下した|形
+austere|簡素な・厳格な|形
+extravagant|浪費的な|形
+mundane|平凡な・世俗的な|形
+trivial|些細な|形
+obsolete|廃れた|形
+contemporary|現代の・同時代の|形
+radical|根本的な・急進的な|形
+superficial|表面的な|形
+tangible|有形の・具体的な|形
+elusive|捉えどころのない|形
+enigmatic|不可思議な|形
+compulsory|義務的な|形
+egalitarian|平等主義の|形
+hierarchical|階層的な|形
+totalitarian|全体主義の|形
+pragmatic|実利的な|形
+partisan|党派的な|形
+biased|偏った|形
+rational|合理的な|形
+ethical|倫理的な|形
+compassionate|思いやりのある|形
+ruthless|無慈悲な|形
+negligent|怠慢な|形
+marginal|わずかな・周辺の|形
+pivotal|極めて重要な|形
+unanimous|満場一致の|形
+provocative|挑発的な|形
+didactic|教訓的な|形
+eclectic|折衷的な|形
+reductive|還元的な・単純化しすぎた|形
+commensurate|釣り合った|形
+proportional|比例した|形
+exponential|指数関数的な|形
+sporadic|散発的な|形
+perpetual|永続的な|形
+fleeting|つかの間の|形
+imminent|差し迫った|形
+latent|潜在的な|形
+tentative|仮の・暫定的な|形
+definitive|決定的な|形
+inexorable|容赦ない・止められない|形
+relentless|絶え間ない|形
+unwarranted|不当な|形
+illicit|不法な|形
+covert|内密の|形
+ostensibly|表向きは|副
+inherently|本来的に|副
+arguably|ほぼ間違いなく・議論の余地はあるが|副
+conversely|逆に|副
+consequently|その結果|副
+nonetheless|それにもかかわらず|副
+notwithstanding|〜にもかかわらず|前
+albeit|〜ではあるが|接
+whereas|〜である一方|接
+hence|それゆえ|副
+thereby|それによって|副
+henceforth|今後は|副
+inadvertently|うっかり|副
+predominantly|主に・圧倒的に|副
+invariably|必ず・常に|副
+seemingly|一見したところ|副
+virtually|事実上|副
+explicitly|明示的に|副
+implicitly|暗黙のうちに|副
+paradoxically|逆説的に|副
+ironically|皮肉なことに|副
+inevitably|必然的に|副
+vice versa|逆もまた同様|副
+per se|それ自体|副
+a priori|先験的に|副
+whereby|それによって〜する|副
+insofar as|〜する限りにおいて|接
+inasmuch as|〜であるから|接
+lest|〜しないように|接
+in lieu of|〜の代わりに|前
+amid|〜の最中に|前
+boil down to|要するに〜となる|熟
+build on|〜を基盤とする|熟
+cash in on|〜につけ込む|熟
+crack down on|取り締まる|熟
+do without|なしで済ます|熟
+draw up|作成する|熟
+fall short of|〜に達しない|熟
+give in to|屈する|熟
+gloss over|取り繕う・ごまかす|熟
+hold back|抑える・ためらう|熟
+live up to|期待に応える|熟
+make sense of|理解する|熟
+pave the way for|〜への道を開く|熟
+put forward|提案する|熟
+put up with|我慢する|熟
+run counter to|〜に反する|熟
+spell out|詳しく説明する|熟
+stand out|目立つ・際立つ|熟
+take for granted|当然と思う|熟
+touch on|簡単に触れる|熟
+water down|骨抜きにする|熟
+by no means|決して〜ない|熟
+in terms of|〜の観点から|熟
+with regard to|〜に関して|熟
+by virtue of|〜のおかげで|熟
+in the wake of|〜の後で・結果として|熟
+to the contrary|それと反対に|熟
+at odds with|〜と対立して|熟
+in tandem with|〜と連携して|熟
+for want of|〜がないので|熟
+in the face of|〜に直面して|熟
+in conjunction with|〜と併せて|熟
+as opposed to|〜とは対照的に|熟
+be bound to|きっと〜する|熟
+take issue with|〜に反論する|熟
+come into play|作用し始める|熟
+call into question|疑問を投げかける|熟
+make way for|道を譲る|熟
+get across|理解させる|熟
+think through|徹底的に考える|熟
+carry over|持ち越す|熟

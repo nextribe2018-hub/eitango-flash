@@ -308,9 +308,9 @@ function levelHome(){
   h+='<div id="reset"><button class="btn ghost" data-a="askreset">このパックの記録を消す</button></div>';
   app.innerHTML=h;
 }
-function wordMap(L,p,c){  // 300語を1マスずつ（出題順）。色＝状態
+function wordMap(L,p,c){  // パックの全語を1マスずつ（出題順）。色＝状態。300語までは20列、それより多いと30列
   var ord=p.ord&&p.ord.length===L.words.length?p.ord:L.words.map(function(_,i){return i}),n=L.words.length;
-  var h='<div class="card"><div class="row"><p class="label">語彙マップ · '+n+'語</p><span class="note"><span class="num">'+Math.round(c.fixed/n*100)+'%</span> 定着</span></div><div class="map" role="img" aria-label="定着'+c.fixed+'語・習得中'+c.mid+'語・要再習得'+c.redo+'語・未回答のみ'+c.na+'語・未出題'+c["new"]+'語">';
+  var h='<div class="card"><div class="row"><p class="label">語彙マップ · '+n+'語</p><span class="note"><span class="num">'+Math.round(c.fixed/n*100)+'%</span> 定着</span></div><div class="map" style="grid-template-columns:repeat('+(n>300?30:20)+',1fr);gap:'+(n>300?1.5:2)+'px" role="img" aria-label="定着'+c.fixed+'語・習得中'+c.mid+'語・要再習得'+c.redo+'語・未回答のみ'+c.na+'語・未出題'+c["new"]+'語">';
   ord.forEach(function(i){h+='<i class="s-'+statusOf(p.hist[L.words[i].w])+'"></i>'});
   h+='</div><div class="legend">';
   MAP_ORDER.forEach(function(k){h+='<span class="note" style="display:inline-flex;align-items:center;gap:5px"><span class="s-'+k+'" style="width:10px;height:10px;border-radius:2px;display:inline-block"></span>'+ST[k][0]+' <span class="num">'+c[k]+'</span></span>'});

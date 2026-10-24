@@ -298,3 +298,303 @@ shareholder|株主|名
 summary|要約|名
 utility|公共料金・設備|名
 voucher|引換券|名
+forward|転送する|動
+dispatch|派遣する・急送する|動
+endorse|支持する・裏書きする|動
+outsource|外部委託する|動
+streamline|合理化する|動
+prioritize|優先順位をつける|動
+delegate|委任する|動
+nominate|指名する|動
+appoint|任命する|動
+terminate|終了する・解雇する|動
+resign|辞職する|動
+inquire|問い合わせる|動
+remit|送金する|動
+deduct|差し引く|動
+compile|編集する・収集する|動
+draft|下書きする|動
+finalize|仕上げる|動
+reorganize|再編成する|動
+restructure|再構築する|動
+refurbish|一新する・磨き直す|動
+vacate|立ち退く・空ける|動
+unload|荷を降ろす|動
+load|積む|動
+stack|積み重ねる|動
+package|包装する|動
+label|ラベルを貼る|動
+sort|仕分けする|動
+browse|閲覧する|動
+update|最新にする|動
+replenish|補充する|動
+fulfill|果たす・注文に応じる|動
+process|処理する|動
+host|主催する|動
+convene|招集する|動
+depart|出発する|動
+board|乗り込む|動
+invest|投資する|動
+finance|資金を出す|動
+owe|借りがある|動
+bill|請求書を送る|動
+quote|見積もりを出す・引用する|動
+downsize|規模を縮小する|動
+boost|押し上げる|動
+surpass|しのぐ|動
+exhibit|展示する|動
+display|陳列する|動
+circulate|回覧する|動
+interview|面接する|動
+appraise|査定する|動
+reward|報いる|動
+commend|称賛する|動
+congratulate|祝う|動
+alert|注意を促す|動
+permit|許可する|動
+violate|違反する|動
+waive|権利を放棄する・免除する|動
+sign|署名する|動
+summarize|要約する|動
+calculate|計算する|動
+equip|備え付ける|動
+decorate|飾る|動
+polish|磨く|動
+lean|寄りかかる|動
+sign up|申し込む・登録する|熟
+fill out|記入する|熟
+hand in|差し出す・提出する|熟
+set up|設置する・設立する|熟
+carry out|実行する|熟
+look into|調べる|熟
+call off|中止する|熟
+put off|先延ばしにする|熟
+take over|引き継ぐ|熟
+turn down|断る・音量を下げる|熟
+figure out|理解する・解決策を見出す|熟
+run out of|使い果たす|熟
+in charge of|担当して|熟
+on behalf of|〜を代表して|熟
+in advance|前もって|熟
+out of stock|在庫切れで|熟
+due to|〜が原因で|熟
+in accordance with|〜に従って|熟
+be entitled to|〜の資格がある|熟
+get in touch with|連絡をとる|熟
+take place|行われる|熟
+pick up|受け取る・拾う|熟
+reception|受付・歓迎会|名
+receptionist|受付係|名
+personnel|人員・人事部|名
+workforce|労働力|名
+wage|賃金|名
+bonus|賞与|名
+allowance|手当|名
+reimbursement|経費精算|名
+expenditure|支出|名
+accounting|会計|名
+quotation|見積書|名
+fee|料金・謝礼|名
+deficit|赤字|名
+dividend|配当|名
+investor|投資家|名
+capital|資本|名
+payment|支払い|名
+consultant|顧問・コンサルタント|名
+client|顧客|名
+consumer|消費者|名
+distributor|販売代理店|名
+contractor|請負業者|名
+supervisor|監督者・上司|名
+director|取締役・監督|名
+board of directors|取締役会|名
+committee|委員会|名
+attendee|出席者|名
+participant|参加者|名
+presentation|発表|名
+handout|配布資料|名
+minutes|議事録|名
+correspondence|通信・文書のやり取り|名
+notification|通知|名
+announcement|告知・アナウンス|名
+newsletter|会報|名
+campaign|運動・宣伝活動|名
+prototype|試作品|名
+specification|仕様|名
+device|装置|名
+machinery|機械類|名
+parcel|小包|名
+courier|宅配業者|名
+postage|郵便料金|名
+freight|貨物運送・運賃|名
+cargo|積み荷|名
+logistics|物流|名
+shortage|不足|名
+destination|目的地|名
+departure|出発|名
+arrival|到着|名
+boarding pass|搭乗券|名
+customs|税関|名
+aisle|通路|名
+accommodation|宿泊施設|名
+vacancy|空室・欠員|名
+excursion|小旅行|名
+sightseeing|観光|名
+souvenir|みやげ|名
+landmark|名所・目印|名
+attraction|呼び物|名
+admission|入場料・入学|名
+reservation|予約|名
+cancellation|取り消し|名
+apology|謝罪|名
+inconvenience|不便・迷惑|名
+compensation|補償|名
+satisfaction|満足|名
+loyalty|忠誠・愛顧|名
+commission|歩合・委託|名
+clause|条項|名
+provision|規定・供給|名
+signature|署名|名
+negotiation|交渉|名
+partnership|提携|名
+subsidiary|子会社|名
+firm|会社|名
+startup|新興企業|名
+assembly line|組立ライン|名
+labor|労働|名
+absence|欠席・不在|名
+reference|推薦状・参照|名
+expertise|専門知識|名
+orientation|新人研修・方向づけ|名
+probation|試用期間|名
+milestone|節目|名
+progress|進歩|名
+status|状況・地位|名
+outcome|結果|名
+efficiency|効率|名
+spreadsheet|表計算ソフト|名
+attachment|添付ファイル|名
+directory|名簿|名
+auditorium|講堂|名
+cafeteria|社員食堂|名
+catering|仕出し|名
+refreshments|軽食|名
+cuisine|料理|名
+parking lot|駐車場|名
+hallway|廊下|名
+blueprint|設計図|名
+architect|建築家|名
+renovation|改装|名
+technician|技術者|名
+mechanic|整備士|名
+inspector|検査官|名
+outage|停電・運転停止|名
+malfunction|故障|名
+defect|欠陥|名
+manual|説明書|名
+guideline|指針|名
+hazard|危険|名
+precaution|予防措置|名
+evacuation|避難|名
+insurance|保険|名
+coverage|補償範囲・報道|名
+real estate|不動産|名
+property|財産・所有物|名
+residence|住居|名
+resident|居住者|名
+neighborhood|近所|名
+suburb|郊外|名
+transportation|交通機関|名
+shuttle|定期往復便|名
+detour|迂回路|名
+congestion|混雑|名
+intersection|交差点|名
+timetable|時刻表|名
+economical|経済的な・節約になる|形
+lucrative|もうかる|形
+fiscal|財政の|形
+corporate|企業の|形
+commercial|商業の|形
+industrial|産業の|形
+administrative|管理の・行政の|形
+technical|技術的な|形
+professional|専門的な・プロの|形
+qualified|適任の|形
+experienced|経験豊かな|形
+skilled|熟練した|形
+knowledgeable|知識のある|形
+capable|有能な|形
+motivated|やる気のある|形
+enthusiastic|熱心な|形
+diligent|勤勉な|形
+courteous|礼儀正しい|形
+attentive|気配りのある|形
+cooperative|協力的な|形
+versatile|多才な・用途の広い|形
+reputable|評判の良い|形
+renowned|名高い|形
+leading|一流の・先頭の|形
+state-of-the-art|最先端の|形
+advanced|高度な|形
+automated|自動化された|形
+portable|持ち運びできる|形
+crowded|混雑した|形
+occupied|使用中の|形
+overdue|期限を過ぎた|形
+due|支払期日の・予定の|形
+pending|保留中の|形
+preliminary|予備の|形
+revised|改訂された|形
+detailed|詳細な|形
+brief|簡潔な|形
+concise|簡明な|形
+informative|有益な|形
+beneficial|ためになる|形
+productive|生産的な|形
+satisfactory|満足のいく|形
+delighted|大喜びの|形
+disappointed|がっかりした|形
+dissatisfied|不満な|形
+inconvenient|不便な|形
+faulty|故障した|形
+damaged|損傷した|形
+quarterly|四半期の|形
+overseas|海外の|形
+domestic|国内の・家庭の|形
+regional|地域の|形
+nationwide|全国的な|形
+forthcoming|来たる・近く出る|形
+consecutive|連続した|形
+respective|それぞれの|形
+applicable|適用できる|形
+legal|法律の・合法の|形
+authorized|認可された|形
+certified|認定された|形
+voluntary|自発的な|形
+spare|予備の・余分の|形
+consequently|その結果|副
+additionally|さらに|副
+furthermore|そのうえ|副
+meanwhile|その間に|副
+subsequently|その後|副
+previously|以前に|副
+beforehand|事前に|副
+considerably|かなり|副
+slightly|わずかに|副
+respectively|それぞれ|副
+separately|別々に|副
+unanimously|満場一致で|副
+annually|毎年|副
+periodically|周期的に|副
+occasionally|時々|副
+typically|通常・典型的に|副
+briefly|手短に|副
+provided that|〜という条件で|接
+as long as|〜する限り|接
+in case|〜の場合に備えて|接
+prior to|〜より前に|前
+throughout|〜の間ずっと|前
+concerning|〜について|前
+excluding|〜を除いて|前
+via|〜経由で|前
+per|〜につき|前

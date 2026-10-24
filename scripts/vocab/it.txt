@@ -298,3 +298,303 @@ REST|API設計様式|名
 DDoS|分散型サービス妨害攻撃|名
 RTO|目標復旧時間|名
 RPO|目標復旧時点|名
+load balancing|負荷分散|名
+reverse proxy|リバースプロキシ|名
+DNS record|DNSレコード|名
+TTL|有効期間・生存時間|名
+name server|ネームサーバー|名
+resolver|リゾルバ（名前解決を行う仕組み）|名
+IP address|IPアドレス|名
+CIDR|CIDR（IPアドレス範囲の表記法）|名
+NAT|アドレス変換|名
+DHCP|IPアドレス自動割当|名
+port|ポート（通信の窓口番号）|名
+port forwarding|ポート転送|名
+TCP|TCP（信頼性のある通信方式）|名
+UDP|UDP（軽量な通信方式）|名
+HTTP|HTTP（Web通信の規約）|名
+HTTPS|HTTPS（暗号化されたWeb通信）|名
+status code|ステータスコード|名
+header|ヘッダー|名
+cookie|クッキー|名
+CORS|オリジン間リソース共有|名
+same-origin policy|同一オリジンポリシー|名
+WebSocket|WebSocket（双方向通信規格）|名
+gRPC|gRPC（高速RPC方式）|名
+GraphQL|GraphQL（API問い合わせ言語）|名
+RPC|遠隔手続き呼び出し|名
+OAuth|OAuth（認可の委譲規格）|名
+JWT|JSON Webトークン|名
+identity provider|IDプロバイダ・認証基盤|名
+access token|アクセストークン|名
+API key|APIキー|名
+secret|機密情報・シークレット|名
+secrets management|機密情報管理|名
+key management|鍵管理|名
+public key|公開鍵|名
+private key|秘密鍵|名
+symmetric|対称の・共通鍵の|形
+asymmetric|非対称の・公開鍵方式の|形
+digital signature|デジタル署名|名
+certificate authority|認証局|名
+SSH|SSH（安全な遠隔ログイン）|名
+brute force|総当たり攻撃|名
+zero-day|ゼロデイの（未修正の脆弱性を突く）|形
+zero trust|ゼロトラスト|名
+SQL injection|SQLインジェクション|名
+cross-site scripting|クロスサイトスクリプティング|名
+CSRF|クロスサイトリクエストフォージェリ|名
+man-in-the-middle|中間者攻撃|名
+social engineering|ソーシャルエンジニアリング|名
+spoofing|なりすまし|名
+backdoor|バックドア・裏口|名
+antivirus|ウイルス対策ソフト|名
+intrusion detection|侵入検知|名
+WAF|Webアプリケーションファイアウォール|名
+SIEM|セキュリティ情報イベント管理|名
+CVE|共通脆弱性識別子|名
+vulnerability scan|脆弱性スキャン|名
+penetration test|侵入テスト|名
+threat model|脅威モデル|名
+attack surface|攻撃対象領域|名
+allowlist|許可リスト（推奨表記）|名
+denylist|拒否リスト（推奨表記）|名
+quarantine|隔離する|動
+encrypted|暗号化された|形
+plaintext|平文|名
+ciphertext|暗号文|名
+end-to-end encryption|エンドツーエンド暗号化|名
+encryption at rest|保存データの暗号化|名
+data masking|データマスキング|名
+PII|個人を特定できる情報|名
+GDPR|EU一般データ保護規則|名
+access control|アクセス制御|名
+permission|権限設定・パーミッション|名
+service account|サービスアカウント|名
+impersonate|なりすます|動
+audit log|監査ログ|名
+virtual machine|仮想マシン|名
+container image|コンテナイメージ|名
+registry|レジストリ（イメージ等の保管庫）|名
+Kubernetes|Kubernetes（コンテナ管理基盤）|名
+node|ノード（ネットワークやクラスタの構成要素）|名
+namespace|名前空間|名
+manifest|マニフェスト（構成定義ファイル）|名
+service mesh|サービスメッシュ|名
+ingress|イングレス（外部からの入口）|名
+daemon|デーモン・常駐プロセス|名
+process|プロセス|名
+kill|強制終了する|動
+spawn|生成する・起動する|動
+cron|cron（定期実行の仕組み）|名
+batch job|バッチジョブ|名
+worker|ワーカー（処理担当プロセス）|名
+message queue|メッセージキュー|名
+pub/sub|出版購読型メッセージング|名
+event-driven|イベント駆動の|形
+broker|ブローカー（仲介役）|名
+producer|生産者・送信側|名
+consumer|消費者・受信側|名
+retry|再試行・リトライ|名
+exponential backoff|指数バックオフ|名
+timeout|タイムアウト|名
+circuit breaker|サーキットブレーカー（障害連鎖防止）|名
+rate limiting|流量制限|名
+throttle|絞る・流量を制限する|動
+throttling|スロットリング|名
+health check|ヘルスチェック・死活監視|名
+graceful degradation|段階的縮退|名
+blue-green deployment|ブルーグリーンデプロイ|名
+canary release|カナリアリリース|名
+zero-downtime|無停止の|形
+immutable infrastructure|イミュータブルインフラ|名
+infrastructure as code|コードとしてのインフラ（正式名称）|名
+configuration management|構成管理|名
+environment variable|環境変数|名
+config file|設定ファイル|名
+YAML|YAML（設定ファイル形式）|名
+encoding|文字コード・符号化|名
+Unicode|ユニコード|名
+regular expression|正規表現|名
+wildcard|ワイルドカード|名
+delimiter|区切り文字|名
+string|文字列|名
+integer|整数|名
+boolean|真偽値|名
+null|null・値なし|名
+array|配列|名
+list|リスト|名
+dictionary|辞書型・連想配列|名
+hash map|ハッシュマップ|名
+graph|グラフ（データ構造）|名
+data structure|データ構造|名
+big O notation|O記法・計算量表記|名
+time complexity|時間計算量|名
+memory leak|メモリリーク|名
+garbage collection|ガベージコレクション|名
+allocate|割り当てる・確保する|動
+deallocate|解放する|動
+stack trace|スタックトレース|名
+breakpoint|ブレークポイント|名
+debugger|デバッガ|名
+log level|ログレベル|名
+pipe|パイプ（出力を次の入力に渡す）|名
+shell|シェル|名
+script|スクリプト|名
+terminal|ターミナル・端末|名
+command line|コマンドライン|名
+flag|フラグ・オプション引数|名
+argument|引数|名
+return value|戻り値|名
+variable|変数|名
+constant|定数|名
+type|型|名
+type inference|型推論|名
+static typing|静的型付け|名
+dynamic typing|動的型付け|名
+generics|ジェネリクス|名
+compiler|コンパイラ|名
+interpreter|インタプリタ|名
+transpile|トランスパイルする|動
+bytecode|バイトコード|名
+binary|バイナリ・実行形式|名
+executable|実行可能な|形
+bundler|バンドラ（ファイル結合ツール）|名
+minify|圧縮する・ミニファイする|動
+package manager|パッケージマネージャ|名
+lockfile|ロックファイル（依存の固定記録）|名
+semantic versioning|セマンティックバージョニング|名
+breaking change|破壊的変更|名
+upgrade|アップグレードする|動
+downgrade|ダウングレードする|動
+pin|固定する（バージョンを）|動
+monorepo|モノレポ|名
+version control|バージョン管理システム|名
+Git|Git（分散型バージョン管理）|名
+clone|複製する・クローンする|動
+checkout|チェックアウトする（ブランチを切り替える）|動
+rebase|リベースする|動
+diff|差分|名
+merge conflict|マージ競合|名
+main branch|メインブランチ|名
+trunk-based development|トランクベース開発|名
+continuous integration|継続的インテグレーション|名
+continuous delivery|継続的デリバリー|名
+build pipeline|ビルドパイプライン|名
+test suite|テストスイート|名
+end-to-end test|E2Eテスト|名
+smoke test|スモークテスト（簡易動作確認）|名
+load test|負荷テスト|名
+test-driven development|テスト駆動開発|名
+static analysis|静的解析|名
+code smell|コードの不吉な臭い|名
+technical debt|技術的負債|名
+spaghetti code|スパゲッティコード|名
+design pattern|デザインパターン|名
+dependency injection|依存性の注入|名
+object-oriented|オブジェクト指向の|形
+functional programming|関数型プログラミング|名
+pure function|純粋関数|名
+side effect|副作用|名
+object|オブジェクト|名
+open source|オープンソース|名
+API reference|APIリファレンス|名
+documentation|ドキュメント・技術文書|名
+pair programming|ペアプログラミング|名
+code freeze|コードフリーズ（変更凍結）|名
+release candidate|リリース候補版|名
+beta|ベータ版|名
+general availability|一般提供|名
+end of life|サポート終了|名
+long-term support|長期サポート|名
+relational database|リレーショナルデータベース|名
+NoSQL|NoSQL（非リレーショナルDB）|名
+primary key|主キー|名
+foreign key|外部キー|名
+join|結合（テーブルの）|名
+denormalization|非正規化|名
+stored procedure|ストアドプロシージャ|名
+trigger|トリガー（自動実行処理）|名
+ORM|オブジェクト関係マッピング|名
+ACID|ACID特性（トランザクションの保証）|名
+eventual consistency|結果整合性|名
+strong consistency|強い整合性|名
+consistency|整合性・一貫性|名
+isolation level|分離レベル|名
+lock|ロック・排他ロック|名
+connection pool|コネクションプール|名
+data warehouse|データウェアハウス|名
+data lake|データレイク|名
+ETL|抽出・変換・格納処理|名
+key-value store|キーバリューストア|名
+object storage|オブジェクトストレージ|名
+file system|ファイルシステム|名
+directory|ディレクトリ・フォルダ|名
+path|パス・経路|名
+mount|マウントする|動
+disk|ディスク|名
+SSD|SSD（半導体記憶装置）|名
+RAID|RAID（ディスクの冗長化技術）|名
+CPU|中央演算処理装置|名
+RAM|主記憶・メモリ|名
+operating system|オペレーティングシステム|名
+Linux|Linux（UNIX系OS）|名
+root|root（管理者権限）|名
+sudo|管理者権限で実行する|動
+bastion|踏み台サーバー|名
+VPC|仮想プライベートクラウド|名
+security group|セキュリティグループ|名
+availability zone|可用性ゾーン|名
+multi-cloud|マルチクラウドの|形
+public cloud|パブリッククラウド|名
+private cloud|プライベートクラウド|名
+cloud-native|クラウドネイティブな|形
+managed service|マネージドサービス|名
+cost optimization|コスト最適化|名
+vertical scaling|垂直スケーリング|名
+horizontal scaling|水平スケーリング|名
+scale out|スケールアウトする|動
+scale up|スケールアップする|動
+capacity planning|容量計画|名
+SRE|サイト信頼性エンジニアリング|名
+DevOps|DevOps（開発と運用の連携）|名
+on-call|オンコール・待機当番|名
+error budget|エラーバジェット|名
+root cause|根本原因|名
+root cause analysis|根本原因分析|名
+blameless|非難しない（文化）|形
+MTTR|平均復旧時間|名
+log aggregation|ログ集約|名
+distributed tracing|分散トレーシング|名
+span|スパン（トレースの区間）|名
+APM|アプリケーション性能監視|名
+status page|障害情報ページ|名
+change management|変更管理|名
+service desk|サービスデスク・問い合わせ窓口|名
+ticket|チケット（作業依頼の記録）|名
+maintenance window|保守時間帯|名
+cutover|本番切り替え|名
+lift and shift|そのままの移行（リフト＆シフト）|名
+replatform|基盤を移し替える|動
+containerize|コンテナ化する|動
+virtualize|仮想化する|動
+provision|用意する・プロビジョニングする|動
+automate|自動化する|動
+migrate|移行する|動
+roll back|元に戻す・ロールバックする|動
+roll out|段階的に展開する|動
+patching|パッチ適用|名
+upstream|上流の|形
+downstream|下流の|形
+inbound|受信の・入ってくる|形
+outbound|送信の・出ていく|形
+real-time|リアルタイムの|形
+offline|オフラインの|形
+cross-platform|クロスプラットフォームの|形
+headless|画面表示なしの|形
+lightweight|軽量な|形
+fault-tolerant|耐障害性のある|形
+highly available|高可用な|形
+mission-critical|業務上不可欠な|形
+backward-incompatible|後方互換性のない|形
+read-only|読み取り専用の|形

@@ -5,31 +5,33 @@ import {
   canUse, isOwned, mixedFixItems, buildMixedTest, finishMixedFix, levelOf,
 } from '../src/vocab';
 
-// 1) データ：13パック・各300語・語の重複なし・意味と品詞がある・グループ／無料／商品ID
+const PACK_WORDS = 600;   // 1パックの語数（2026-10-24 本人指定で300→600。30の倍数）
+
+// 1) データ：13パック・各600語（PACK_WORDS）・語の重複なし・意味と品詞がある・グループ／無料／商品ID
 assert.equal(LEVELS.length, 13);
 assert.deepEqual(LEVELS.slice(0, 5).map(l => l.id), ['toeic500', 'toeic600', 'toeic700', 'toeic800', 'toeic900']);
 assert.deepEqual(GROUPS, ['スコア目安', '受験英語', '専門分野']);
 assert.deepEqual(LEVELS.filter(l => l.free).map(l => l.id), ['toeic500'], '無料はスコア500目安だけ');
 assert.equal(new Set(LEVELS.map(l => l.id)).size, LEVELS.length, 'パックid が重複');
 for (const L of LEVELS) {
-  assert.equal(L.words.length, 300, `${L.id}: ${L.words.length}語`);
-  assert.equal(new Set(L.words.map(w => w.w.toLowerCase())).size, 300, `${L.id}: 語が重複`);
+  assert.equal(L.words.length, PACK_WORDS, `${L.id}: ${L.words.length}語`);
+  assert.equal(new Set(L.words.map(w => w.w.toLowerCase())).size, PACK_WORDS, `${L.id}: 語が重複`);
   L.words.forEach(w => assert.ok(w.w && w.m && w.p, `${L.id}: ${w.w} の意味・品詞が空`));
   L.words.forEach(w => assert.ok(['名', '動', '形', '副', '接', '前', '熟'].includes(w.p), `${L.id}: ${w.w} の品詞 ${w.p}`));
   assert.ok(L.ref && L.group && L.desc, `${L.id}: ref・group・desc が必要`);
   assert.equal(!!L.sku, !L.free, `${L.id}: 有料なら sku、無料なら空`);
   if (L.sku) assert.ok(/^jp\.icurate\.eitangoflash\.[a-z0-9_]+$/.test(L.sku), `${L.id}: sku の形 ${L.sku}`);
-  assert.equal(300 % ROUND_SIZE, 0);
+  assert.equal(PACK_WORDS % ROUND_SIZE, 0);
 }
 assert.ok(LEVELS.every(l => l.sku !== ALL_SKU));
 
-// 2) 1周目：ランダムな出題順（固定）で、復習がなければまだ出ていない語から30語ずつ。300語で全部出る
+// 2) 1周目：ランダムな出題順（固定）で、復習がなければまだ出ていない語から30語ずつ。パックの全語で全部出る
 const L = LEVELS[0];
 let lp = ensureOrd(L, emptyLevel(), rng(3));
 assert.equal(ensureOrd(L, lp), lp, 'ord があれば作り直さない');
 assert.notDeepEqual(nextWords(L, lp).map(w => w.w), L.words.slice(0, 30).map(w => w.w), 'ABC順（元の並び）ではない');
 const seen: string[] = [];
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < PACK_WORDS / ROUND_SIZE; i++) {
   const ws = nextWords(L, lp);
   assert.equal(ws.length, ROUND_SIZE);
   assert.ok(ws.every(w => statusOf(lp.hist[w.w]) === 'new'), '全問正解なら復習は入らない');
@@ -37,10 +39,10 @@ for (let i = 0; i < 10; i++) {
   const out = finishRound(lp, L, ws.map(w => ({ w, ok: true, answered: true })), 20);
   lp = out.next;
   assert.equal(out.log.score, 20 + 30);
-  assert.equal(out.fixDue, i === 9, `定着テストは300語目だけ (i=${i})`);
+  assert.equal(out.fixDue, (i + 1) * ROUND_SIZE >= FIX_EVERY, `定着テストは300語目から（済ませるまで続く） (i=${i})`);
 }
-assert.equal(new Set(seen).size, 300);
-assert.equal(lp.learned, 300);
+assert.equal(new Set(seen).size, PACK_WORDS);
+assert.equal(lp.learned, PACK_WORDS);
 assert.ok(fixDue(lp));
 
 // 3) 直近5回の成績と判定（◯=1 ✖=0 △=2、古い→新しい）
@@ -143,10 +145,10 @@ assert.equal(TEST_SEC + ROUND_SIZE * BONUS_SEC, 75); // 全問正解で最大75�
 
 // 10) 記録のまとめ
 const s = stats(L, lp);
-assert.equal(s.rounds, 10);
+assert.equal(s.rounds, PACK_WORDS / ROUND_SIZE);
 assert.equal(s.best, 50);
-assert.equal(s.total, 300);
-assert.equal(s.cnt.mid, 300);
+assert.equal(s.total, PACK_WORDS);
+assert.equal(s.cnt.mid, PACK_WORDS);
 assert.equal(s.wrongCount, 0);
 assert.ok(judge(80, 30, 30).startsWith('完璧'));
 

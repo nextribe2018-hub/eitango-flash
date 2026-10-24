@@ -21,6 +21,7 @@ PACKS = [
   ('it',             'it',             'IT',              '開発・インフラ・クラウド・セキュリティの用語',      'IT の実務・ドキュメント',              '専門分野', False),
   ('consulting',     'consulting',     'コンサル',        '戦略・分析・提案・会議で使う用語とフレームワーク',  '経営コンサル・事業企画',               '専門分野', False),
 ]
+PACK_WORDS = 600   # 1パックの語数（2026-10-24 本人指定で300→600。語は末尾に足し、順番は変えない）
 POS = {'名', '動', '形', '副', '接', '前', '熟'}
 out = []
 ok = True
@@ -43,7 +44,7 @@ for key, lid, name, desc, ref, group, free in PACKS:
         allw.setdefault(w.lower(), []).append(key)
         words.append({'w': w, 'm': m, 'p': pos})
     print(f'{key}: {len(words)}')
-    if len(words) != 300: ok = False
+    if len(words) != PACK_WORDS: ok = False
     out.append({'id': lid, 'name': name, 'desc': desc, 'ref': ref, 'group': group, 'free': free, 'sku': '' if free else SKU + lid.replace('-', '_'), 'words': words})
 cross = {w: ks for w, ks in allw.items() if len(ks) > 1}
 print(f'パック間で重なる語: {len(cross)}（別パック同士の重なりは許容）')

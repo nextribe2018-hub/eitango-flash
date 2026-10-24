@@ -25,7 +25,7 @@ npm run vocab         # scripts/vocab/*.txt → src/data/vocab.json → web/voca
 
 ## 構成
 - `App.tsx` ラッパー（読み込み・保存・スクロール） ／ `src/VocabScreens.tsx` 画面 ／ `src/vocab.ts` ロジック ／ `src/storage.ts` 保存 ／ `src/styles.ts` 共通スタイル ／ `src/theme.ts` 色
-- `src/data/vocab.json` 13パック×300語（スコア500〜900目安（id は toeic500〜900）／高校受験 最難関・大学受験 難関／金融・医療・半導体・AI・IT・コンサル）。元データ `scripts/vocab/<id>.txt`（`語|意味|品詞` 1行1語）、一覧は `scripts/vocab/build.py` の `PACKS`
+- `src/data/vocab.json` 13パック×600語（スコア500〜900目安（id は toeic500〜900）／高校受験 最難関・大学受験 難関／金融・医療・半導体・AI・IT・コンサル）。元データ `scripts/vocab/<id>.txt`（`語|意味|品詞` 1行1語）、一覧は `scripts/vocab/build.py` の `PACKS`
 - 課金：`src/purchase.ts`（expo-iap・非消耗型）、商品IDは `Level.sku` と `ALL_SKU`。スコア500目安は無料、ほかは最初の30語お試し。詳細は HANDOFF 1.・申請の準備は HANDOFF 1.5
 - `web/vocab/` Claudeアーティファクト用のWeb版（template.html → build.py → vocab.html）
 - パックを増やすときは `scripts/vocab/` に txt を足して `build.py` の `PACKS` に1行追加し、`scripts/test-vocab.ts` のパック数も更新する（HANDOFF「パックを増やすとき」）

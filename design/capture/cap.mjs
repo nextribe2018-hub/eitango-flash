@@ -28,7 +28,11 @@ await shot('4_home');
 await scrollTo('語彙マップ'); await shot('5_map');
 await scrollTo('単語ごとの成績'); await shot('6_words');
 await p.evaluate(() => document.querySelectorAll('div').forEach(d => { if (d.scrollTop) d.scrollTop = 0; }));
-await click("t.startsWith('30語を覚える')"); await wait(2500); await shot('2_memo');
+// フラッシュは撮りやすいよう1.0秒に（英単語 → 1秒後に意味）。意味が出ている間に撮る
+for (let k = 0; k < 7; k++) await p.$$eval('[role=button]', es => { const e = es.find(e => e.getAttribute('aria-label') === '遅くする'); e && e.click(); });
+await wait(300);
+await click("t.startsWith('30語をフラッシュで')"); await wait(2400); await p.screenshot({ path: `${OUT}/2_flash.png` }); console.log('shot 2_flash');
+await click("t.startsWith('一覧へ')"); await wait(800); await shot('2b_list');
 await click("t.startsWith('テストへ')");
 let n = 0;
 for (let k = 0; k < 30; k++) {

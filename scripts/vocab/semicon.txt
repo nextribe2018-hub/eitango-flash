@@ -298,3 +298,303 @@ ESD|静電気放電|名
 PMIC|電源管理IC|名
 HBM|広帯域メモリ|名
 SEM|走査型電子顕微鏡|名
+spin coating|スピンコート・回転塗布|名
+post-exposure bake|露光後ベーク（PEB）|名
+hard bake|ハードベーク|名
+positive resist|ポジ型レジスト|名
+chemically amplified resist|化学増幅型レジスト|名
+anti-reflective coating|反射防止膜|名
+critical dimension|クリティカルディメンション（CD）・寸法|名
+CD-SEM|測長SEM|名
+depth of focus|焦点深度|名
+optical proximity correction|光近接効果補正（OPC）|名
+phase-shift mask|位相シフトマスク|名
+self-aligned double patterning|自己整合ダブルパターニング|名
+high-NA EUV|高NA EUV露光|名
+excimer laser|エキシマレーザー|名
+mask blank|マスクブランクス|名
+electron beam lithography|電子ビーム描画|名
+directed self-assembly|誘導自己組織化|名
+stochastic defect|確率的欠陥|名
+anisotropic|異方性の|形
+isotropic|等方性の|形
+etch rate|エッチングレート|名
+endpoint detection|終点検出|名
+overetch|オーバーエッチング|名
+microloading|マイクロローディング効果|名
+aspect ratio|アスペクト比|名
+deep reactive ion etching|深掘り反応性イオンエッチング|名
+Bosch process|ボッシュプロセス|名
+capacitively coupled plasma|容量結合プラズマ|名
+etchant|エッチャント・エッチング液|名
+hydrofluoric acid|フッ酸|名
+silicon nitride|窒化シリコン|名
+ultrapure water|超純水|名
+native oxide|自然酸化膜|名
+residue|残渣|名
+thin film|薄膜|名
+film thickness|膜厚|名
+conformality|コンフォーマリティ・被覆の均一性|名
+uniformity|均一性|名
+PECVD|プラズマCVD|名
+MOCVD|有機金属気相成長|名
+MBE|分子線エピタキシー|名
+electroless plating|無電解めっき|名
+sputter|スパッタする|動
+thermal oxidation|熱酸化|名
+gate oxide|ゲート酸化膜|名
+TEM|透過型電子顕微鏡|名
+shallow trench isolation|シャロートレンチ分離（STI）|名
+hardmask|ハードマスク|名
+interlayer dielectric|層間絶縁膜|名
+etch stop layer|エッチストップ層|名
+adhesion layer|密着層|名
+diffusion barrier|拡散防止膜|名
+silicon dioxide|二酸化シリコン|名
+amorphous silicon|アモルファスシリコン|名
+monocrystalline|単結晶の|形
+polycrystalline|多結晶の|形
+amorphous|非晶質の|形
+lattice|結晶格子|名
+lattice mismatch|格子不整合|名
+strained silicon|ひずみシリコン|名
+SOI|シリコンオンインシュレータ|名
+Czochralski method|チョクラルスキー法（CZ法）|名
+notch|ノッチ（ウェハーの切り欠き）|名
+selectivity|選択比|名
+bare wafer|ベアウェハー|名
+step coverage|段差被覆性|名
+electroplating|電解めっき|名
+lapping|ラッピング・粗研磨|名
+crystal orientation|結晶方位|名
+ion implanter|イオン注入装置|名
+implant dose|注入ドーズ量|名
+SiGe|シリコンゲルマニウム|名
+activation|活性化|名
+rapid thermal processing|急速熱処理（RTP）|名
+laser annealing|レーザーアニール|名
+boron|ホウ素|名
+phosphorus|リン|名
+n-type|n型の|形
+p-type|p型の|形
+intrinsic|真性の|形
+donor|ドナー|名
+acceptor|アクセプタ|名
+work function|仕事関数|名
+LDD|低濃度ドレイン（LDD）|名
+sheet resistance|シート抵抗|名
+contact resistance|接触抵抗|名
+resistivity|抵抗率|名
+depletion region|空乏層|名
+inversion layer|反転層|名
+Fermi level|フェルミ準位|名
+conduction band|伝導帯|名
+valence band|価電子帯|名
+tunneling|トンネル効果|名
+hot carrier|ホットキャリア|名
+DIBL|ドレイン誘起障壁低下|名
+drive current|駆動電流|名
+subthreshold swing|サブスレッショルド係数|名
+transconductance|相互コンダクタンス|名
+gate-all-around|ゲートオールアラウンド（GAA）|名
+short-channel effect|短チャネル効果|名
+CFET|相補型FET（積層型）|名
+replacement gate|リプレースメントゲート|名
+fin|フィン|名
+metal gate|メタルゲート|名
+metal pitch|メタルピッチ|名
+back end of line|配線工程（BEOL）|名
+gate length|ゲート長|名
+back-end process|後工程|名
+bipolar transistor|バイポーラトランジスタ|名
+IGBT|絶縁ゲートバイポーラトランジスタ|名
+thyristor|サイリスタ|名
+front end of line|トランジスタ形成工程（FEOL）|名
+light-emitting diode|発光ダイオード|名
+image sensor|イメージセンサー|名
+silicon photonics|シリコンフォトニクス|名
+wide bandgap|ワイドバンドギャップの|形
+compound semiconductor|化合物半導体|名
+bit line|ビット線|名
+memory cell|メモリセル|名
+word line|ワード線|名
+sense amplifier|センスアンプ|名
+retention|データ保持特性|名
+endurance|書き換え耐性|名
+floating gate|フローティングゲート|名
+3D NAND|3次元NAND|名
+MRAM|磁気抵抗メモリ|名
+phase-change memory|相変化メモリ|名
+ferroelectric|強誘電体の|形
+refresh|リフレッシュ（記憶保持動作）|名
+cache|キャッシュメモリ|名
+DDR|ダブルデータレート|名
+SSD|ソリッドステートドライブ|名
+setup time|セットアップ時間|名
+static timing analysis|静的タイミング解析|名
+hold time|ホールド時間|名
+critical path|クリティカルパス|名
+slack|スラック（タイミング余裕）|名
+clock tree synthesis|クロックツリー合成|名
+clock domain crossing|クロックドメイン交差|名
+clock gating|クロックゲーティング|名
+dynamic power|動的消費電力|名
+power integrity|電源品質|名
+signal integrity|信号品質|名
+IR drop|IRドロップ・電圧降下|名
+noise margin|ノイズマージン|名
+design for manufacturability|製造容易化設計（DFM）|名
+LVS|レイアウト対回路図検証|名
+parasitic extraction|寄生成分抽出|名
+place and route|配置配線|名
+emulation|エミュレーション|名
+coverage|カバレッジ・網羅率|名
+ATPG|自動テストパターン生成|名
+BIST|組み込み自己テスト|名
+fault coverage|故障検出率|名
+stuck-at fault|縮退故障|名
+test pattern|テストパターン|名
+PPA|性能・電力・面積|名
+die size|ダイサイズ|名
+multi-project wafer|マルチプロジェクトウェハー|名
+respin|リスピン・再設計|名
+first silicon|ファーストシリコン（初回試作チップ）|名
+SerDes|シリアライザ・デシリアライザ|名
+PHY|物理層回路|名
+ADC|AD変換器|名
+DAC|DA変換器|名
+bandgap reference|バンドギャップ基準電圧回路|名
+charge pump|チャージポンプ|名
+timing closure|タイミング収束|名
+power domain|電源ドメイン|名
+NPU|ニューラル処理装置|名
+instruction set architecture|命令セットアーキテクチャ|名
+coater developer|コータデベロッパ（塗布現像装置）|名
+automatic test equipment|自動試験装置（ATE）|名
+handler|ハンドラ（テスト搬送装置）|名
+power gating|パワーゲーティング|名
+dicing saw|ダイシングソー|名
+stealth dicing|ステルスダイシング|名
+wire bonder|ワイヤボンダ|名
+epoxy molding compound|エポキシ封止樹脂|名
+reflow|リフロー|名
+flux|フラックス|名
+package substrate|パッケージ基板|名
+fan-out|ファンアウト|名
+2.5D integration|2.5次元実装|名
+hybrid bonding|ハイブリッド接合|名
+micro bump|マイクロバンプ|名
+copper pillar|銅ピラー|名
+temporary bonding|仮接合|名
+DRC|デザインルールチェック|名
+glass substrate|ガラス基板|名
+panel-level packaging|パネルレベルパッケージング|名
+system in package|システムインパッケージ|名
+intermetallic compound|金属間化合物|名
+thermal interface material|熱伝導材料（TIM）|名
+hermetic|気密の|形
+scan chain|スキャンチェーン|名
+PLL|位相同期回路|名
+AMHS|自動搬送システム|名
+operational amplifier|演算増幅器|名
+FOUP|FOUP（前面開口式搬送容器）|名
+lot|ロット|名
+recipe|レシピ（処理条件）|名
+SPC|統計的工程管理|名
+control chart|管理図|名
+Cpk|工程能力指数|名
+excursion|エクスカーション・異常逸脱|名
+scrap|スクラップ・廃棄|名
+downtime|ダウンタイム・停止時間|名
+preventive maintenance|予防保全|名
+OEE|総合設備効率|名
+tool matching|装置間マッチング|名
+solder ball|はんだボール|名
+killer defect|致命欠陥|名
+defect density|欠陥密度|名
+brightfield inspection|明視野検査|名
+darkfield inspection|暗視野検査|名
+e-beam inspection|電子ビーム検査|名
+scatterometry|スキャトロメトリ|名
+AFM|原子間力顕微鏡|名
+FIB|集束イオンビーム|名
+cross section|断面|名
+EDX|エネルギー分散型X線分析|名
+root cause analysis|根本原因分析|名
+yield learning|歩留まり改善|名
+known good die|KGD・良品保証ダイ|名
+final test|最終試験|名
+redistribution layer|再配線層|名
+3D IC|三次元集積回路|名
+RMA|返品承認|名
+MES|製造実行システム|名
+field failure|市場不良|名
+temperature cycling|温度サイクル試験|名
+HAST|高加速ストレス試験|名
+NBTI|負バイアス温度不安定性|名
+latch-up|ラッチアップ|名
+soft error|ソフトエラー|名
+bathtub curve|バスタブ曲線|名
+infant mortality|初期故障|名
+automotive-grade|車載グレードの|形
+functional safety|機能安全|名
+silane|シラン|名
+process window|プロセスウィンドウ|名
+specialty gas|特殊ガス|名
+high-purity|高純度の|形
+purity|純度|名
+metal contamination|金属汚染|名
+wafer map|ウェハーマップ|名
+sapphire substrate|サファイア基板|名
+polyimide|ポリイミド|名
+design win|デザインウィン（採用獲得）|名
+Moore's law|ムーアの法則|名
+mature node|成熟ノード|名
+leading-edge|最先端の|形
+ASP|平均販売価格|名
+book-to-bill ratio|BBレシオ（受注出荷比率）|名
+export control|輸出規制|名
+second source|セカンドソース|名
+allocation|供給割当|名
+hyperscaler|ハイパースケーラー|名
+dope|ドープする|動
+implant|イオン注入する|動
+oxidize|酸化させる|動
+planarize|平坦化する|動
+passivate|パッシベーションする|動
+encapsulate|封止する|動
+tape out|テープアウトする|動
+characterize|特性評価する|動
+fabricate|製造する|動
+degas|脱ガスする|動
+purge|パージする|動
+vent|大気開放する|動
+pump down|真空引きする|動
+ramp up|量産を立ち上げる|動
+roadmap|ロードマップ|名
+debug|デバッグする|動
+monolithically|モノリシックに|副
+epitaxially|エピタキシャルに|副
+anisotropically|異方的に|副
+conformally|均一に被覆して|副
+in situ|その場で|副
+multiple patterning|マルチパターニング|名
+monolithic|モノリシックの|形
+heterogeneous|異種の|形
+crystalline|結晶質の|形
+radiation-hardened|耐放射線の|形
+low-power|低消費電力の|形
+high-voltage|高耐圧の|形
+backside|裏面の|形
+surface-mount|表面実装の|形
+synchronous|同期の|形
+asynchronous|非同期の|形
+programmable|プログラム可能な|形
+reconfigurable|再構成可能な|形
+embedded|組み込みの|形
+discrete|ディスクリートの・個別の|形
+piezoelectric|圧電の|形
+photosensitive|感光性の|形
+electrostatic|静電の|形
+hydrophobic|疎水性の|形
+hydrophilic|親水性の|形
