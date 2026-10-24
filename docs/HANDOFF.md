@@ -61,6 +61,11 @@
 
 ※「スコア500目安」は無料なので商品なし。
 
+### 2026-10-24 初回ビルド
+- EAS で iOS 1.0.0（ビルド 2）をビルドし、App Store Connect に送信済み（`eas build -p ios --profile production --auto-submit`、Build ID 73e132af-657c-4747-bcc6-94b400b0deb8）。署名は会社の配布用証明書（2027-10-17まで）を再利用し、プロファイルは新規。送信用の App Store Connect API Key（6S5FWGT7TY）を再利用
+- TestFlight の内部グループ「Team (Expo)」：futo1212@yahoo.co.jp・icurate2022@icloud.com
+- 課金アイテムの審査用スクリーンショット13枚：`design/iap_review/<パックid>.png`（全部入りは all.png）。掲載用6枚：`design/store_shots/`（フラッシュ追加前の撮影。1枚目は一覧に「1:00」の時計が写っていて現仕様と合わない → 撮り直し予定）
+
 ### 申請の手順
 1. 上の App Store Connect の登録（本人）と、site のアップロード（本人）
 2. ~~`eas.json` に ascAppId を入れる~~（済み）
