@@ -17,7 +17,7 @@
 | パック | 13パック×300語＝3,900語。`scripts/vocab/build.py` の `PACKS` が一覧（ファイル・id・表示名・説明・参考・グループ・無料）。グループは TOEIC（500〜900）／受験英語（高校受験 最難関・大学受験 難関）／専門分野（金融・医療・半導体・AI・IT・コンサル）。※ 中学入試（開成・灘）は英語の出題がないので「高校受験」とした |
 | 単語の出どころ | 各パックは 2026-10-22 に Claude が頻度・難度の判断で作成（市販単語帳の転記ではない）。公式の頻出語リストとは未照合。基礎語（TOEIC 500/600 のリスト）とは重ならないように除外して作成。パック間の重なりは許容（413語） |
 | 無料・お試し | TOEIC 500 は無料。ほかは未購入でも最初の30語（1回）だけ試せる（`TRIAL_WORDS`、`canUse()`）。試したあとは購入カードだけ |
-| 課金 | 非消耗型。パックごと `jp.icurate.eitangoflash.<id（- は _）>`（`Level.sku`）と全部入り `jp.icurate.eitangoflash.all`（`ALL_SKU`）。価格はストア取得、取れないときの表示は App.tsx の `PRICE_LABEL`（600円／全部入り 3,000円。実際の価格は ASC で決める）。購入記録は端末内 `unlock-v1:<id>`（`storage.ts`）。復元は「購入を復元」。`__DEV__` では「[dev] 解放を切替」で確認できる |
+| 課金 | 非消耗型。パックごと `jp.icurate.eitangoflash.<id（- は _）>`（`Level.sku`）と全部入り `jp.icurate.eitangoflash.all`（`ALL_SKU`）。価格はストア取得、取れないときの表示は App.tsx の `PRICE_LABEL`（2026-10-24 本人決定：1パック300円・全部入り1,500円。App Store Connect の価格も同じにする）。購入記録は端末内 `unlock-v1:<id>`（`storage.ts`）。復元は「購入を復元」。`__DEV__` では「[dev] 解放を切替」で確認できる |
 | App Store Connect | 未登録（1.5 の手順）。EAS projectId は設定済み |
 | 定着テスト | ①パックごと：300語覚えるごと（従来どおり、6.6 参照）。②**総合定着テスト**（一覧の最上部）：使えるパック（購入済み＋出題したことのあるパック）全体から 要再習得→未回答→✖を含む習得中 の語を各パック均等に最大30語（`mixedFixItems`）、選択肢は語のパックの意味（`buildMixedTest`）、結果はパックごとの履歴と log（kind `fix`）に記録、パックの300語周期（lastFix）は進めない（`finishMixedFix`）。画面は `mixtest`／`mixresult` |
 | Web版 | `web/vocab/` は全パックを無料で使える（課金なし）。配布するなら注意 |
@@ -41,7 +41,7 @@
 | プライバシー・サポート | `site/eitango-flash/`（privacy・support・icon）。Xserver の `public_html/apps/eitango-flash/` に本人がアップロード → https://apps.icurate.jp/eitango-flash/privacy/ ・ /support/ 。`site/style.css` は既存の apps のものと同じ（上書き不要）。apps のトップ（index.html）に載せるなら takken-mock-app 側の site/index.html に1件足す |
 | スクリーンショット | `design/store_shots/1〜6.png`（1179×2556、中型ディスプレイ枠）。見本の学習記録で撮影（`design/capture/`） |
 | App Store Connect | 2026-10-24 本人が登録済み：英単語フラッシュ、Apple ID **6826432574**、SKU eitangoflash、バンドルID jp.icurate.eitangoflash（Identifier の説明 Eitango Flash）。`eas.json` の ascAppId に設定済み |
-| 課金アイテム | **本人が作業**：下の13件を「非消耗型」で登録（価格は本人が決める。アプリ内の仮表示は1パック600円・全部入り3,000円）。審査に出すときはアプリの版と一緒に選ぶ |
+| 課金アイテム | **本人が作業**：下の13件を「非消耗型」で登録（価格は 2026-10-24 本人決定：12パック各300円・全部入り1,500円）。審査に出すときはアプリの版と一緒に選ぶ |
 
 | 参照名（例） | 商品ID | 説明（例） |
 |---|---|---|

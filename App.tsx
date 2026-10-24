@@ -13,7 +13,7 @@ import { makeStyles } from './src/styles';
 import { useColors } from './src/theme';
 
 // 表示用の目安。実際の価格はストアから取得したものを優先
-const PRICE_LABEL: Record<string, string> = { default: '600円', [ALL_SKU]: '3,000円' };
+const PRICE_LABEL: Record<string, string> = { default: '300円', [ALL_SKU]: '1,500円' };   // 2026-10-24 本人決定：1パック300円・全部入り1,500円
 // 商品ID → パックid（全部入りは ALL_SKU のまま）
 const SKUS: Record<string, string> = Object.fromEntries([...LEVELS.filter(L => L.sku).map(L => [L.sku, L.id]), [ALL_SKU, ALL_SKU]]);
 const UNLOCK_IDS = [...LEVELS.map(L => L.id), ALL_SKU];
