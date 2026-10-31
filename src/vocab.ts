@@ -32,7 +32,8 @@ export const HIST_N = 5;           // 単語ごとに残す直近の成績の回
 export const REVIEW_MAX = 9;       // 次の30語に混ぜる復習の上限（3割）
 
 // 出題数・正解数・最後の正誤（いずれも答えた分だけ）、r＝直近5回 '1'◯正解／'0'✖不正解／'2'△時間切れで未回答（古い→新しい）、t＝最後に出した時刻
-export type WordHist = { n: number; c: number; last: 0 | 1; r?: string; t?: number };
+// okAt＝正解した時刻（定着チェックの起点）、stage＝済んだ定着チェック（1＝1週間、2＝1ヶ月）
+export type WordHist = { n: number; c: number; last: 0 | 1; r?: string; t?: number; okAt?: number; stage?: number };
 export type RoundLog = {
   at: number;                 // 実施時刻
   kind: 'round' | 'fix';      // 通常／定着テスト
@@ -49,6 +50,7 @@ export type LevelProgress = {
   learned: number;            // これまでに覚えた延べ語数（30ずつ増える。定着テストの判定に使う）
   lastFix: number;            // 定着テストを実施した時点の learned
   ord?: number[];             // レベルごとのランダムな出題順（語の番号。初回に決めて固定）
+  chk?: { w: [number, number]; m: [number, number] };   // 定着チェックの集計 [解答数, 正解数]（w＝1週間後、m＝1ヶ月後）
   hist: Record<string, WordHist>;
   log: RoundLog[];
 };
@@ -223,7 +225,11 @@ function applyResults(lp: LevelProgress, res: Result[]): LevelProgress {
     const h = hist[x.w.w] ?? { n: 0, c: 0, last: 0 as 0 | 1 };
     const r = (recentOf(h) + (x.answered ? (x.ok ? '1' : '0') : '2')).slice(-HIST_N);
     // 未回答は△として残し、正誤の回数には入れない
-    hist[x.w.w] = x.answered ? { n: h.n + 1, c: h.c + (x.ok ? 1 : 0), last: x.ok ? 1 : 0, r, t: now } : { n: h.n, c: h.c, last: h.last, r, t: now };
+    const okAt = h.okAt ?? (h.n > 0 && h.last === 1 ? h.t : undefined);
+    // 不正解なら定着チェックは数え直し（次に正解した時点から）
+    hist[x.w.w] = x.answered
+      ? { n: h.n + 1, c: h.c + (x.ok ? 1 : 0), last: x.ok ? 1 : 0, r, t: now, okAt: x.ok ? okAt ?? now : undefined, stage: x.ok ? h.stage : 0 }
+      : { ...h, r, t: now };
   });
   return { ...lp, hist };
 }
@@ -247,6 +253,96 @@ export function stats(level: Level, lp: LevelProgress): Stats {
     cnt: counts(level, lp), wrongCount: fixWords(level, lp).length,
     mastered: hs.filter(h => h.n >= 2 && h.c === h.n).length, fixes: fx.length, fixAvg: avg(fx),
   };
+}
+// 定着チェック：一度正解した語を、覚え直しなしで1週間後・1ヶ月後に出して定着率を測る（2026-10-31 本人指定）
+export const CHECK_WEEK = 7;
+export const CHECK_MONTH = 30;
+const DAY_MS = 86400000;
+export type CheckKind = 'w' | 'm';
+const okTime = (h?: WordHist): number | undefined => h?.okAt ?? (h && h.n > 0 && h.last === 1 ? h.t : undefined);
+export function checkDue(h: WordHist | undefined, now = Date.now()): CheckKind | null {
+  const ok = okTime(h);
+  const stage = h?.stage ?? 0;
+  if (!ok || stage >= 2) return null;
+  const days = (now - ok) / DAY_MS;
+  if (days >= CHECK_MONTH) return 'm';
+  return days >= CHECK_WEEK && stage === 0 ? 'w' : null;
+}
+export function checkItems(p: VocabProgress, levels: Level[], now = Date.now()): MixItem[] {
+  return levels.flatMap(L => { const lp = levelOf(p, L.id); return L.words.filter(w => checkDue(lp.hist[w.w], now)).map(w => ({ w, lv: L.id, at: okTime(lp.hist[w.w]) ?? 0 })); })
+    .sort((a, b) => a.at - b.at).slice(0, ROUND_SIZE).map(({ w, lv }) => ({ w, lv }));
+}
+// 定着チェックの記録：答えた語だけ集計する。正解なら次の段階へ、不正解は通常どおり覚え直し（正解した時点から数え直し）
+export function finishCheck(p: VocabProgress, qs: Question[], res: Result[], left: number, now = Date.now()): { next: VocabProgress; logs: Record<string, RoundLog> } {
+  const kinds = res.map((x, i) => checkDue(levelOf(p, qs[i].lv ?? '').hist[x.w.w], now));
+  const r = finishMixedFix(p, qs, res, left);
+  const levels = { ...r.next.levels };
+  res.forEach((x, i) => {
+    const kind = kinds[i], lv = qs[i].lv ?? '';
+    if (!kind || !x.answered) return;
+    const lp = levels[lv];
+    const chk = { w: [...(lp.chk?.w ?? [0, 0])] as [number, number], m: [...(lp.chk?.m ?? [0, 0])] as [number, number] };
+    chk[kind][0]++;
+    if (x.ok) chk[kind][1]++;
+    const h = lp.hist[x.w.w];
+    levels[lv] = { ...lp, chk, hist: x.ok ? { ...lp.hist, [x.w.w]: { ...h, stage: kind === 'm' ? 2 : 1 } } : lp.hist };
+  });
+  return { next: { ...r.next, levels }, logs: r.logs };
+}
+export function retention(p: VocabProgress): { w: [number, number]; m: [number, number] } {
+  const out = { w: [0, 0] as [number, number], m: [0, 0] as [number, number] };
+  Object.values(p.levels).forEach(l => { (['w', 'm'] as const).forEach(k => { out[k][0] += l.chk?.[k][0] ?? 0; out[k][1] += l.chk?.[k][1] ?? 0; }); });
+  return out;
+}
+
+// テストごとの計測：1問に使った秒数と正答率。記録は log に残っているので、古いテストの分もさかのぼって出せる
+export const secPerQ = (l: RoundLog): number => l.asked ? Math.max(0, TEST_SEC + l.correct * BONUS_SEC - l.left) / l.asked : 0;
+export const rateOf = (l: RoundLog): number => l.asked ? l.correct / l.asked : 0;
+export type Growth = { n: number; rates: number[]; secs: number[]; rateFrom: number; rateTo: number; secFrom: number; secTo: number } | null;
+// 伸び：はじめの5回と直近の5回の平均を比べる（6回から表示）。グラフは直近20回
+export function growth(p: VocabProgress): Growth {
+  const rs = Object.values(p.levels).flatMap(l => l.log).filter(l => l.kind === 'round' && l.asked > 0).sort((a, b) => a.at - b.at);
+  if (rs.length < 6) return null;
+  const avg = (a: number[]) => a.reduce((s, v) => s + v, 0) / a.length;
+  const head = rs.slice(0, 5), tail = rs.slice(-5), last = rs.slice(-20);
+  return { n: rs.length, rates: last.map(rateOf), secs: last.map(secPerQ), rateFrom: avg(head.map(rateOf)), rateTo: avg(tail.map(rateOf)), secFrom: avg(head.map(secPerQ)), secTo: avg(tail.map(secPerQ)) };
+}
+
+// 能力の評価（S〜C）。テスト結果の蓄積から全パックまとめて計算する。基準は仮の値で、利用者の分布が集まったら見直す
+//  瞬発力＝直近10回の通常テストで、1問に使った平均秒数
+//  短期記憶力＝直近10回の通常テストの正答率（覚えた直後にどれだけ答えられたか）
+//  記憶定着力＝定着チェック（1週間後・1ヶ月後）の正答率。20問たまるまでは、2回目以降に出た語の正答率（時間切れは除く）
+export type Grade = 'S' | 'A' | 'B' | 'C';
+export type Ability = { key: 'speed' | 'short' | 'retain'; label: string; grade: Grade | null; value: string; hint: string };
+export const ABILITY_MIN_ROUNDS = 3;     // これより少ない回数では「計測中」
+export const ABILITY_MIN_REPEATS = 30;   // 記憶定着力に必要な、再出題の解答数
+const gradeHigh = (v: number, s: number, a: number, b: number): Grade => v >= s ? 'S' : v >= a ? 'A' : v >= b ? 'B' : 'C';
+const gradeLow = (v: number, s: number, a: number, b: number): Grade => v <= s ? 'S' : v <= a ? 'A' : v <= b ? 'B' : 'C';
+export function abilities(p: VocabProgress): Ability[] {
+  const lps = Object.values(p.levels);
+  const rounds = lps.flatMap(l => l.log).filter(l => l.kind === 'round' && l.asked > 0).sort((a, b) => a.at - b.at).slice(-10);
+  const enough = rounds.length >= ABILITY_MIN_ROUNDS;
+  const asked = rounds.reduce((a, l) => a + l.asked, 0);
+  const secs = rounds.reduce((a, l) => a + Math.max(0, TEST_SEC + l.correct * BONUS_SEC - l.left), 0);
+  const correct = rounds.reduce((a, l) => a + l.correct, 0);
+  const perQ = asked ? secs / asked : 0;
+  const rate = asked ? correct / asked : 0;
+  let again = 0, againOk = 0;
+  lps.forEach(l => Object.values(l.hist).forEach(h => {
+    const s = (typeof h.r === 'string' ? h.r : '').replace(/2/g, '').slice(1);   // 最初の1回を除いた再出題の分
+    again += s.length;
+    againOk += (s.match(/1/g) || []).length;
+  }));
+  const keep = again ? againOk / again : 0;
+  const pct = (v: number) => `${Math.round(v * 100)}%`;
+  const rt = retention(p);
+  const checked = rt.w[0] + rt.m[0], kept = checked ? (rt.w[1] + rt.m[1]) / checked : 0;
+  const useCheck = checked >= 20;   // 定着チェックが20問たまったら、そちらで評価する
+  return [
+    { key: 'speed', label: '瞬発力', grade: enough ? gradeLow(perQ, 1.5, 2, 3) : null, value: enough ? `1問 ${perQ.toFixed(1)}秒` : '計測中', hint: '1問に使う時間の短さ' },
+    { key: 'short', label: '短期記憶力', grade: enough ? gradeHigh(rate, 0.9, 0.75, 0.6) : null, value: enough ? `正答率 ${pct(rate)}` : '計測中', hint: '覚えた直後のテストの正答率' },
+    { key: 'retain', label: '記憶定着力', grade: useCheck ? gradeHigh(kept, 0.9, 0.75, 0.6) : again >= ABILITY_MIN_REPEATS ? gradeHigh(keep, 0.9, 0.75, 0.6) : null, value: useCheck ? `定着チェックの正答率 ${pct(kept)}` : again >= ABILITY_MIN_REPEATS ? `再出題の正答率 ${pct(keep)}` : '計測中', hint: 'もう一度出たときの正答率' },
+  ];
 }
 // 判定の一言（30問・1分。満点は 60＋30＝90 に近い値）
 export function judge(score: number, correct: number, size: number): string {

@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import {
   LEVELS, LEVEL, GROUPS, ALL_SKU, TRIAL_WORDS, ROUND_SIZE, FIX_EVERY, CHOICES, TEST_SEC, BONUS_SEC, REVIEW_MAX, emptyLevel, emptyVocab, ensureOrd, nextWords, planRound, statusOf, counts, buildTest, scoreOf, finishRound, fixDue, fixWords, finishFix, skipFix, stats, rng, judge,
-  canUse, isOwned, mixedFixItems, buildMixedTest, finishMixedFix, levelOf,
+  canUse, isOwned, mixedFixItems, buildMixedTest, finishMixedFix, levelOf, abilities, checkDue, checkItems, finishCheck, retention, growth, secPerQ,
 } from '../src/vocab';
 
 const PACK_WORDS = 600;   // 1パックの語数（2026-10-24 本人指定で300→600。30の倍数）
@@ -213,3 +213,58 @@ console.log(`OK: 英単語 ${LEVELS.map(l => `${l.name} ${l.words.length}語`).j
   }
 }
 console.log(`OK: パック解放と総合定着テストのテストに合格（${LEVELS.length}パック・${LEVELS.reduce((a, l) => a + l.words.length, 0)}語）`);
+
+// 14) 能力の評価（S〜C）
+{
+  const none = abilities(emptyVocab());
+  assert.deepEqual(none.map(a => a.grade), [null, null, null], '記録がなければ計測中');
+  const W = L.words.slice(0, 40);
+  let q = emptyLevel();
+  for (let k = 0; k < 3; k++) q = finishRound(q, L, W.slice(0, 30).map(w => ({ w, ok: true, answered: true })), 45, true).next;
+  q = finishRound(q, L, W.slice(30).map((w, j) => ({ w, ok: j < 0, answered: true })), 0, true).next;
+  const v = emptyVocab(); v.levels[L.id] = q;
+  const [speed, short, retain] = abilities(v);
+  assert.ok(speed.grade && short.grade, '3回以上で判定');
+  assert.equal(retain.grade, 'S', '再出題60回すべて正解');
+  // 時間切れは定着の計算に入れない
+  const h = emptyVocab(); h.levels[L.id] = { ...emptyLevel(), hist: Object.fromEntries(L.words.slice(0, 40).map(w => [w.w, { n: 1, c: 1, last: 1 as const, r: '1222' }])) };
+  assert.equal(abilities(h)[2].grade, null);
+}
+
+// 15) 定着チェック：正解から7日で1週間、30日で1ヶ月。不正解は数え直し、時間切れは集計しない
+{
+  const DAY = 86400000, t0 = 1000 * DAY;
+  const h = { n: 1, c: 1, last: 1 as const, r: '1', t: t0, okAt: t0 };
+  assert.equal(checkDue(h, t0 + 6 * DAY), null);
+  assert.equal(checkDue(h, t0 + 7 * DAY), 'w');
+  assert.equal(checkDue({ ...h, stage: 1 }, t0 + 8 * DAY), null);
+  assert.equal(checkDue({ ...h, stage: 1 }, t0 + 30 * DAY), 'm');
+  assert.equal(checkDue({ ...h, stage: 2 }, t0 + 99 * DAY), null);
+  const [a, b, c] = L.words;
+  const p0 = emptyVocab();
+  p0.levels[L.id] = { ...emptyLevel(), hist: { [a.w]: h, [b.w]: h, [c.w]: h } };
+  const now = t0 + 8 * DAY;
+  const items = checkItems(p0, [L], now);
+  assert.equal(items.length, 3);
+  const qs = buildMixedTest(items, rng(2));
+  const byW = (w: string) => ({ ok: w === a.w, answered: w !== c.w });
+  const out = finishCheck(p0, qs, qs.map(q => ({ w: q.w, ...byW(q.w.w) })), 10, now);
+  assert.deepEqual(retention(out.next).w, [2, 1], '時間切れは集計しない');
+  const nl = out.next.levels[L.id];
+  assert.equal(nl.hist[a.w].stage, 1, '正解で次の段階へ');
+  assert.equal(nl.hist[b.w].okAt, undefined, '不正解は数え直し');
+  assert.equal(checkDue(nl.hist[c.w], now), 'w', '時間切れはまた出る');
+}
+
+// 16) 伸びの記録：はじめの5回と直近の5回を比べる
+{
+  assert.equal(growth(emptyVocab()), null);
+  const log = (at: number, correct: number, left: number) => ({ at, kind: 'round' as const, score: 0, correct, asked: 30, size: 30, left, wrong: [] });
+  const v = emptyVocab();
+  v.levels[L.id] = { ...emptyLevel(), log: [...Array(5).fill(0).map((_, i) => log(i, 15, 0)), ...Array(5).fill(0).map((_, i) => log(100 + i, 27, 30))] };
+  const g = growth(v)!;
+  assert.equal(g.n, 10);
+  assert.ok(g.rateTo > g.rateFrom, '正答率が上がる');
+  assert.ok(g.secTo < g.secFrom, '1問の秒数が縮む');
+  assert.equal(secPerQ(log(0, 0, 0)), 2);
+}
