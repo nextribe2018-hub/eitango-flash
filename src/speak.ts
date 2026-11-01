@@ -5,7 +5,7 @@ const LANG = 'en-US';
 
 export function speak(text: string, rate = 0.9) {
   Speech.stop();
-  Speech.speak(text, { language: LANG, rate });
+  Speech.speak(text, { language: LANG, rate, useApplicationAudioSession: false });   // 消音スイッチがオンでも聞こえるように、音声は OS 側のセッションで鳴らす
 }
 
 export function stopSpeaking() {
