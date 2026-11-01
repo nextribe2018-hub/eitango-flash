@@ -8,6 +8,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Platform, Pressable, ScrollView, Text, View } from 'react-native';
 import * as Haptics from 'expo-haptics';
+import { speak, stopSpeaking } from './speak';
 import type { Colors } from './theme';
 import type { Styles } from './styles';
 import {
@@ -16,7 +17,7 @@ import {
   finishRound, finishFix, fixDue, fixWords, skipFix, stats, judge, recentOf, statusOf, wordRows, STATUS_LABEL, WordHist, WordStatus,
   canUse, isOwned, mixedFixItems, buildMixedTest, finishMixedFix, abilities, Grade, checkItems, finishCheck, growth, retention, secPerQ,
 } from './vocab';
-import { loadFlashSec, saveFlashSec } from './storage';
+import { loadFlashSec, loadFlashSound, saveFlashSec, saveFlashSound } from './storage';
 
 type VScreen =
   | { name: 'levels' }
@@ -48,7 +49,10 @@ export function VocabApp({ ctx }: { ctx: VCtx }) {
   const [flashSec, setFlashSecState] = useState(FLASH_DEFAULT);   // フラッシュの速さ（端末に保存）
   useEffect(() => { loadFlashSec(FLASH_SPEEDS, FLASH_DEFAULT).then(setFlashSecState); }, []);
   const setFlashSec = (v: number) => { setFlashSecState(v); saveFlashSec(v); };
-  const speed = { value: flashSec, set: setFlashSec };
+  const [sound, setSoundState] = useState(true);                   // フラッシュの音声（端末に保存）
+  useEffect(() => { loadFlashSound().then(setSoundState); }, []);
+  const setSound = (on: boolean) => { setSoundState(on); saveFlashSound(on); };
+  const speed = { value: flashSec, set: setFlashSec, sound, setSound };
   const go = useCallback((n: VScreen) => { setS(n); scroll.current?.scrollTo({ y: 0, animated: false }); }, []);
   const lp = 'id' in s ? levelOf(ctx.p, s.id) : emptyLevel();
   const setLp = (id: string, next: LevelProgress) => ctx.update({ ...ctx.p, levels: { ...ctx.p.levels, [id]: next } });
@@ -137,6 +141,28 @@ function Pos({ ctx, p }: { ctx: VCtx; p: string }) {
   const { c } = ctx;
   return <Text style={{ fontSize: 11, color: c.muted, borderWidth: 1, borderColor: c.line, borderRadius: 4, paddingHorizontal: 4, overflow: 'hidden' }}>{p}</Text>;
 }
+function Speak({ ctx, text }: { ctx: VCtx; text: string }) {
+  return (
+    <Pressable accessibilityRole="button" accessibilityLabel={`${text} の発音を聞く`} hitSlop={10} onPress={() => speak(text)}>
+      {({ pressed }) => (
+        <View style={{ width: 34, height: 34, borderRadius: 17, backgroundColor: ctx.c.aiSoft, alignItems: 'center', justifyContent: 'center', opacity: pressed ? 0.5 : 1 }}>
+          <Text style={{ fontSize: 17 }}>🔊</Text>
+        </View>
+      )}
+    </Pressable>
+  );
+}
+// フラッシュの音声のオン・オフ
+function SoundToggle({ ctx, speed }: { ctx: VCtx; speed: Speed }) {
+  const { c, st } = ctx;
+  return (
+    <Pressable accessibilityRole="switch" accessibilityState={{ checked: speed.sound }} accessibilityLabel="フラッシュの音声" hitSlop={8} onPress={() => speed.setSound(!speed.sound)}
+      style={{ flexDirection: 'row', alignItems: 'center', gap: 8, alignSelf: 'flex-start' }}>
+      <Text style={st.note}>フラッシュの音声</Text>
+      <Text style={{ fontSize: 13, fontWeight: '700', color: speed.sound ? c.onAi : c.muted, backgroundColor: speed.sound ? c.ai : c.line, borderRadius: 12, paddingHorizontal: 12, paddingVertical: 5, overflow: 'hidden' }}>{speed.sound ? 'オン' : 'オフ'}</Text>
+    </Pressable>
+  );
+}
 const fmt = (sec: number) => `${Math.floor(Math.max(0, sec) / 60)}:${String(Math.floor(Math.max(0, sec) % 60)).padStart(2, '0')}`;
 const fmt1 = (sec: number) => Math.max(0, sec).toFixed(1);
 const dateLabel = (at: number) => { const d = new Date(at); return `${d.getMonth() + 1}/${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2, '0')}`; };
@@ -166,6 +192,7 @@ function Entry({ ctx, w, top, right, first, review, note }: { ctx: VCtx; w: Word
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, flexShrink: 1 }}>
           <Text style={{ fontFamily: F.word, fontSize: 19, fontWeight: '600', color: c.ink, flexShrink: 1 }}>{w.w}</Text>
+          <Speak ctx={ctx} text={w.w} />
           {review && <Text style={{ fontSize: 11, fontWeight: '700', color: c.ai, borderWidth: 1, borderColor: c.ai, borderRadius: 4, paddingHorizontal: 5, overflow: 'hidden' }}>復習</Text>}
         </View>
         {top}
@@ -221,7 +248,7 @@ function Timed({ ctx, clock, children }: { ctx: VCtx; clock: React.ReactNode; ch
 }
 
 // フラッシュの速さ：英単語を出してから意味を出すまで（意味から次の語までも同じ）
-type Speed = { value: number; set: (v: number) => void };
+type Speed = { value: number; set: (v: number) => void; sound: boolean; setSound: (on: boolean) => void };
 function SpeedChips({ ctx, speed }: { ctx: VCtx; speed: Speed }) {   // −／＋で0.1秒ずつ（0.1〜1.0秒）
   const { c, st } = ctx;
   const i = Math.max(0, FLASH_SPEEDS.indexOf(speed.value));
@@ -449,6 +476,7 @@ function LevelHome({ ctx, speed, level, lp, go, start, startFix, reset }: {
         </View>
         <Btn ctx={ctx} primary big label={!owned && usable ? '30語をフラッシュで試す' : '30語をフラッシュで覚える'} onPress={start} disabled={due || !usable} />
         <SpeedChips ctx={ctx} speed={speed} />
+        <SoundToggle ctx={ctx} speed={speed} />
         <Text style={st.note}>{due ? '先に定着テストを済ませてください。' : !usable ? 'お試しの30語は終わりました。続きは購入後に使えます。' : `フラッシュ（英単語 → ${speed.value.toFixed(1)}秒後に意味）→ 一覧で好きなだけ → 1分テスト。復習は最大${REVIEW_MAX}語まで混ざります。`}</Text>
       </View>
       <WordMap ctx={ctx} level={level} lp={lp} cnt={s.cnt} />
@@ -577,9 +605,14 @@ function Memo({ ctx, speed, level, lp, words, repeat, onDone }: { ctx: VCtx; spe
     }, Math.round(sec * 1000));
     return () => clearInterval(id);
   }, [phase, runs, n, sec]);
+  // フラッシュ中は語が出るたびに読み上げる。1語の持ち時間（秒×2）に合わせて速くし、次の語が出たら途中でも切り替える
+  const k = Math.floor(step / 2);
+  useEffect(() => {
+    if (phase === 'flash' && speed.sound) speak(words[k].w, Math.min(2, Math.max(1, 0.9 / (2 * sec)))); else stopSpeaking();
+  }, [phase, runs, k, words, sec, speed.sound]);
+  useEffect(() => stopSpeaking, []);
 
   if (phase === 'flash') {
-    const k = Math.floor(step / 2);
     const w = words[k];
     return (
       <Timed ctx={ctx} clock={<Clock ctx={ctx} warn={false} label={`${level.name}　フラッシュ ${runs}回目　${k + 1}/${n}`}
@@ -591,6 +624,7 @@ function Memo({ ctx, speed, level, lp, words, repeat, onDone }: { ctx: VCtx; spe
           <Text style={{ fontSize: 22, fontWeight: '700', color: c.ai, textAlign: 'center', opacity: step % 2 ? 1 : 0 }}>{w.m}</Text>
         </View>
         <Text style={st.note}>英単語を出して{sec.toFixed(1)}秒後に意味、さらに{sec.toFixed(1)}秒で次の語へ。終わると一覧になります。</Text>
+        <SoundToggle ctx={ctx} speed={speed} />
       </Timed>
     );
   }
@@ -606,6 +640,7 @@ function Memo({ ctx, speed, level, lp, words, repeat, onDone }: { ctx: VCtx; spe
       <View style={{ gap: 10 }}>
         <View style={{ alignSelf: 'flex-start' }}><Btn ctx={ctx} label={`もう一度フラッシュ（${runs + 1}回目）`} onPress={() => { setRuns(r => r + 1); setPhase('flash'); }} /></View>
         <SpeedChips ctx={ctx} speed={speed} />
+        <SoundToggle ctx={ctx} speed={speed} />
       </View>
       <View style={[st.card, { borderRadius: 12, gap: 0, paddingVertical: 8 }]}>
         {words.map((w, i) => {

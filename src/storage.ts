@@ -47,3 +47,11 @@ export async function loadFlashSec(allowed: number[], fallback: number): Promise
 export async function saveFlashSec(v: number): Promise<void> {
   try { await AsyncStorage.setItem(FLASH_KEY, String(v)); } catch {}
 }
+// フラッシュの音声（端末ごとの設定。既定はオン）
+const SOUND_KEY = 'flash-sound-v1';
+export async function loadFlashSound(): Promise<boolean> {
+  try { return (await AsyncStorage.getItem(SOUND_KEY)) !== '0'; } catch { return true; }
+}
+export async function saveFlashSound(on: boolean): Promise<void> {
+  try { await AsyncStorage.setItem(SOUND_KEY, on ? '1' : '0'); } catch {}
+}
